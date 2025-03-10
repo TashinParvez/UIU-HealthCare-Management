@@ -13,7 +13,10 @@
 │   │   ├── main.js           # Main JavaScript logic
 │   │   ├── validation.js     # Form validation scripts
 │   │   ├── ajax.js           # AJAX requests for dynamic content
+│   │
 │   ├── 📂 images/            # Project images (logos, icons, etc.)
+│   │   ├── Image1
+│   │   ├── Image2
 │
 │── 📂 includes/              # Reusable PHP components
 │   ├── header.php            # Site-wide header
