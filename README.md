@@ -1,1 +1,6 @@
 # UIU-HealthCare-Management
+
+### We are following this file structure : [LINK](https://github.com/TashinParvez/UIU-HealthCare-Management/blob/main/structure.md?plain=1)
+### Usefull Git Commands : [LINK](https://github.com/TashinParvez/UIU-HealthCare-Management/blob/main/gitCommand.md)
+
+
