@@ -1,8 +1,14 @@
 # 📂 UIU-HealthCare-Management
 
-
 📂 UIU-HealthCare-Management
-│── 📂 assets/                # Static assets like CSS, JS, images
+│
+│── 📂 includes/              # Reusable PHP components
+│   ├── header.php            # Site-wide header
+│   ├── footer.php            # Site-wide footer
+│   ├── navbar.php            # Navigation bar
+│   ├── db_connect.php        # Database connection file
+│   ├── config.php            # Configuration settings (e.g., site name, timezone)
+│   ├── session.php           # User session management
 │   │
 │   ├── 📂 css/               # Stylesheets
 │   │   ├── style.css         # Main stylesheet
@@ -18,20 +24,12 @@
 │   │   ├── Image1
 │   │   ├── Image2
 │
-│── 📂 includes/              # Reusable PHP components
-│   ├── header.php            # Site-wide header
-│   ├── footer.php            # Site-wide footer
-│   ├── navbar.php            # Navigation bar
-│   ├── db_connect.php        # Database connection file
-│   ├── config.php            # Configuration settings (e.g., site name, timezone)
-│   ├── session.php           # User session management
-│
 │── 📂 auth/                  # User Authentication System
-│   ├── login.php             # Login page
-│   ├── register.php          # Registration page
-│   ├── logout.php            # Logout functionality
-│   ├── forgot_password.php   # Password recovery
-│   ├── reset_password.php    # Reset password
+│   ├── 📂 login/            
+│   │   ├── login.php          
+│   │
+│   ├── 📂 signup/            
+│   │   ├── signup.js        
 │
 │── 📂 admin/                 # Admin Panel
 │   ├── index.php             # Admin dashboard
@@ -84,6 +82,5 @@
 │── 📜 about.php              # About the system
 │── 📜 contact.php            # Contact page
 │── 📜 README.md              # Project documentation
-│── 📜 .htaccess              # URL rewriting (for cleaner URLs)
 
 
