@@ -1,0 +1,64 @@
+------------------------------------------------------------------
+---------------------------- Path --------------------------------
+------------------------------------------------------------------
+
+include folder⏯ ../../../Includes/
+
+
+
+
+------------------------------------------------------------------
+------------------------- Bootstrap ------------------------------
+------------------------------------------------------------------
+
+1️⃣ Navigation Components
+✅ Navbar (.navbar)  
+✅ Sidebar
+
+
+2️⃣ Content Display Components
+✅ Carousel (Slider) (.carousel) 
+✅ Cards (.card)
+✅ Accordion (.accordion) – Useful for FAQs, medical services breakdowns, or patient guides.
+
+
+3️⃣ Forms & Input Components
+✅ Forms 
+✅ Modals (.modal) –  pop-up
+✅ Toast Notifications (.toast) – Used for success messages (e.g., "Appointment confirmed!") or error alerts.
+
+
+4️⃣ Feedback & Interaction Components
+✅ Progress Bars (.progress) 
+✅ Alerts (.alert) – For important updates, such as COVID-19 notices or emergency announcements.
+✅ Badges & Pills (.badge) – Displaying patient status, notifications, or medical categories.
+✅ Spinner – Displays loading animations, helpful for form submissions or data processing.
+
+
+5️⃣ Grid & Layout Components
+✅ Grid System (.container, .row, .col-xx) – Ensures a responsive design for different devices.
+✅ Tables (.table, .table-responsive) – Useful for displaying doctor schedules, test reports, or patient records.
+
+
+
+6️⃣ Interactive UI Elements
+✅ Tooltips & Popovers – Shows extra information on hover/click, useful for form hints or medical term explanations.
+✅ Collapse (.collapse) – Toggles content visibility, ideal for FAQ sections or step-by-step guides.
+✅ Offcanvas (.offcanvas) – Creates a hidden sidebar, perfect for mobile-friendly navigation or quick-access menus.
+✅ Scrollspy (data-bs-spy="scroll") – Automatically highlights active sections in one-page layouts.
+
+
+7️⃣ Responsive & Layout Enhancements
+✅ Responsive Images (.img-fluid) – Ensures images scale properly across devices, great for doctor profiles or medical illustrations.
+
+
+
+
+✅ Pagination - indicate a series of related content exists across multiple pages (Previous 1 2 3 Next)
+✅ Positioned - 
+✅ Tabs -  
+✅ Breadcrumb - 
+
+ 
+
+
