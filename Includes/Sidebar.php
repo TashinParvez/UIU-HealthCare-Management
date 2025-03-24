@@ -65,12 +65,11 @@
     <div class="sidebar w-16 hover:w-64 h-screen bg-white text-gray-800 flex flex-col fixed shadow-lg group z-20">
         <!-- Logo -->
         <div class="p-4 flex items-center justify-center sidebar-item">
-            <div class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
-                <img src="Images\logo\logo.png" class="w-6 h-6" />
+            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0">
+                <img src="Images/logo/Logo.png" class="w-6 h-6" />
             </div>
-            <span class="ml-4 sidebar-text font-bold">Logo</span>
+            <span class="ml-4 sidebar-text font-bold">UIU Health Care</span>
         </div>
-
         <!-- Navigation -->
         <nav class="flex-1">
             <!-- Search -->
