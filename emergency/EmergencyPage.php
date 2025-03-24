@@ -10,12 +10,13 @@
 </head>
 
 <body class="bg-gray-100">
-    <?php
-    include '../Includes/Sidebar.php';
-    ?>
+
     <div class="flex h-screen">
+        <?php
+        include '../Includes/Sidebar.php';
+        ?>
         <!-- Main Content -->
-        <div class="flex-1 p-4">
+        <div class="flex-1 p-6 ml-16">
             <div class="border border-gray-300 rounded-lg p-4 bg-white shadow-md">
                 <!-- Alert Details -->
                 <h1 class="text-2xl font-bold text-teal-800 mb-4">Alert Details</h1>
