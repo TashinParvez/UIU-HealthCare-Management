@@ -76,3 +76,4 @@ server.listen(PORT, () => {
 // cd one-to-one-chat/server
 // npm install express socket.io
 // node server.js
+// Go to http://localhost:4000 in your browser
