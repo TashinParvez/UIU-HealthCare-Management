@@ -311,8 +311,6 @@ z" />
             <span class="sidebar-text">Profile</span>
         </div>
     </div>
-
-
 </body>
 
 </html>

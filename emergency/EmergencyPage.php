@@ -47,9 +47,9 @@
     <script src="Includes/js/script.js"></script>
 
     <!-- GoMaps.pro API Script -->
-    <!-- <script
+    <script
         src="https://maps.gomaps.pro/maps/api/js?key=AlzaSydIdN9cUZvWJBKQPi6MifFqHs6WHHpsvOX&libraries=places&callback=initMap"
-        async defer></script> -->
+        async defer></script>
 </body>
 
 </html>
