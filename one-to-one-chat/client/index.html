@@ -241,6 +241,18 @@
             display: flex;
             /* Already present, but ensuring flex layout */
         }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        *:focus {
+            outline: none;
+            box-shadow: none;
+        }
     </style>
 </head>
 
@@ -272,11 +284,13 @@
                     <span class="w-2 h-2 bg-green-500 rounded-full"></span>
                 </div>
             </div>
+
             <div id="chat-messages" class="flex-1 p-5 overflow-y-auto">
-                <div class="text-center my-3">
-                    <span class="bg-white text-gray-600 text-xs px-3 py-1 rounded-full shadow">Today</span>
-                </div>
+                <p id="chat-placeholder" class="text-gray-600 text-lg text-center">
+                    There's nothing to show.<br>Please select a chat.
+                </p>
             </div>
+
             <div class="chat-input p-5 flex space-x-3">
                 <input id="message-input" type="text" placeholder="Type a message..." class="flex-1 p-3">
                 <button onclick="sendMessage()" class="text-white px-5 py-3">
@@ -296,8 +310,8 @@
             <h2 class="text-xl font-bold text-gray-800 mb-5">User Details</h2>
             <div class="space-y-4 text-center">
                 <div>
-                    <img src="https://www.svgrepo.com/show/408476/user-person-profile-block-account-circle.svg"
-                        alt="Profile" class="w-24 h-24 rounded-full mx-auto">
+                    <img src="https://cdn-icons-png.flaticon.com/512/5996/5996455.png" alt="Profile"
+                        class="w-24 h-24 rounded-full mx-auto">
                     <p id="user-detail-name" class="text-lg font-semibold text-gray-800 mt-3">Select a user</p>
                 </div>
                 <div>
@@ -340,12 +354,12 @@
                     contactDiv.classList.add('contact', 'flex', 'items-center', 'p-3', 'cursor-pointer');
                     contactDiv.onclick = () => openChat(user);
                     contactDiv.innerHTML = `
-                        <img src="https://www.svgrepo.com/show/408476/user-person-profile-block-account-circle.svg" alt="Profile">
+                        <img src="https://cdn-icons-png.flaticon.com/512/5996/5996455.png" alt="Profile">
                         <div class="flex-1 flex items-center">
                             ${unreadMessages[user] ? '<span class="w-2 h-2 bg-red-500 rounded-full mr-2"></span>' : ''}
                             <p class="font-semibold text-gray-800">${user}</p>
                         </div>
-                        <p class="text-sm text-gray-600">${latestMessages[user] || 'No messages yet'}</p>
+                        <p class="text-sm text-gray-600">${(latestMessages[user]?.length > 20 ? latestMessages[user].substring(0, 20) + '...' : latestMessages[user]) || 'No messages yet'}</p>
                     `;
                     contactList.appendChild(contactDiv);
                 }

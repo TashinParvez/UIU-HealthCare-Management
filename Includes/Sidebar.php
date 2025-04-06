@@ -31,19 +31,41 @@
         overflow: hidden;
     }
 
-    .sidebar-item {
-        position: relative;
-        transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
-        border-radius: 0.5rem;
+    .sidebar-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(120deg,
+                transparent,
+                rgba(147, 51, 234, 0.3),
+                transparent);
+        transition: all 0.5s ease;
+    }
+
+    .sidebar-item:hover::before {
+        left: 100%;
     }
 
     .sidebar-item:hover {
-        background-color: #42a5f5;
-        /* subtle purple tint */
-        color: #fff;
-        /* primary accent */
-        transform: translateY(-2px) scale(1.02);
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        background-color: #f3f4f6;
+        /* Light gray hover */
+        color: #9333ea;
+        /* Purple text on hover */
+        transform: scale(1.05);
+        transition: transform 0.2s ease;
+    }
+
+    input:focus,
+    textarea:focus,
+    button:focus {
+        outline: none;
+        /* Remove default browser outline */
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+        /* Equivalent to Tailwind's focus:ring-blue-500 */
+        border-color: transparent;
     }
     </style>
 </head>
@@ -299,6 +321,8 @@ z" />
             <span class="sidebar-text">Profile</span>
         </div>
     </div>
+
+
 </body>
 
 </html>
