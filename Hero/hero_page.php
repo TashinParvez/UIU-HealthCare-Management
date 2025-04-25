@@ -134,7 +134,7 @@
                     <li class="nav-item"><a class="nav-link" href="#">FAQ</a></li>
                 </ul>
                 <div class="d-flex">
-                    <a class="nav-link" href="#">Sign In</a>
+                    <button class="btn">Sign In</button>
                     <button class="btn btn-primary ms-2">Sign Up</button>
                 </div>
             </div>
@@ -421,11 +421,47 @@
             <h2 class="text-center mb-5">OUR PATIENTS FEEDBACK ABOUT US</h2>
             <div class="row">
                 <div class="col-md-6">
-                    <div class="feedback-card">
-                        <img src="patient-placeholder.png" alt="Patient" class="img-fluid mb-3">
-                        <p>"Healthcarely is an website and mobile app for you to feel better or get medical help. We offer you a 24/7 doctor service with no appointment needed"</p>
-                        <h5>Naufal Hidayat</h5>
-                        <p>Student at Telkom University</p>
+                    <div class="feedback-card" style="display: flex;">
+                        <img style="height: 206px;" src="/Includes/Images/happy-patient.jpg" alt="Patient" class="img-fluid mb-3">
+                        <div>
+
+                            <p>"Healthcarely is an website and mobile app for you to feel better or get medical help. We offer you a 24/7 doctor service with no appointment needed"</p>
+                            <h5>Naufal Hidayat</h5>
+                            <p>Student at Telkom University</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="feedback-card" style="display: flex;">
+                        <img style="height: 206px;" src="/Includes/Images/happy-patient.jpg" alt="Patient" class="img-fluid mb-3">
+                        <div>
+
+                            <p>"Healthcarely is an website and mobile app for you to feel better or get medical help. We offer you a 24/7 doctor service with no appointment needed"</p>
+                            <h5>Naufal Hidayat</h5>
+                            <p>Student at Telkom University</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="feedback-card" style="display: flex;">
+                        <img style="height: 206px;" src="/Includes/Images/happy-patient.jpg" alt="Patient" class="img-fluid mb-3">
+                        <div>
+
+                            <p>"Healthcarely is an website and mobile app for you to feel better or get medical help. We offer you a 24/7 doctor service with no appointment needed"</p>
+                            <h5>Naufal Hidayat</h5>
+                            <p>Student at Telkom University</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="feedback-card" style="display: flex;">
+                        <img style="height: 206px;" src="/Includes/Images/happy-patient.jpg" alt="Patient" class="img-fluid mb-3">
+                        <div>
+
+                            <p>"Healthcarely is an website and mobile app for you to feel better or get medical help. We offer you a 24/7 doctor service with no appointment needed"</p>
+                            <h5>Naufal Hidayat</h5>
+                            <p>Student at Telkom University</p>
+                        </div>
                     </div>
                 </div>
             </div>
