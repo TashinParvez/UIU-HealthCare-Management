@@ -9,103 +9,103 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-    /* Calendar styles */
-    .calendar-day {
-        position: relative;
-        height: 80px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid #e5e7eb;
-        /* gray-200 */
-        border-radius: 0.5rem;
-        /* Rounded corners for dates */
-    }
+        /* Calendar styles */
+        .calendar-day {
+            position: relative;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e5e7eb;
+            /* gray-200 */
+            border-radius: 0.5rem;
+            /* Rounded corners for dates */
+        }
 
-    .calendar-day button {
-        width: 100%;
-        height: 100%;
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 1rem;
-        color: #374151;
-    }
+        .calendar-day button {
+            width: 100%;
+            height: 100%;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #374151;
+        }
 
-    .calendar-day.today button {
-        background-color: #3b82f6;
-        /* blue-500 */
-        color: white;
-        border-radius: 0.5rem;
-    }
+        .calendar-day.today button {
+            background-color: #3b82f6;
+            /* blue-500 */
+            color: white;
+            border-radius: 0.5rem;
+        }
 
-    .calendar-day .appointment-dot {
-        position: absolute;
-        bottom: 5px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-    }
+        .calendar-day .appointment-dot {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
 
-    .calendar-day .appointment-count {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        background-color: #ef4444;
-        /* red-500 */
-        color: white;
-        font-size: 12px;
-        width: 20px;
-        height: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-    }
+        .calendar-day .appointment-count {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #ef4444;
+            /* red-500 */
+            color: white;
+            font-size: 12px;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
 
-    /* Appointment card styles */
-    .appointment-card {
-        border: 1px solid #e5e7eb;
-        /* gray-200 */
-        border-radius: 0.5rem;
-        padding: 1rem;
-        margin-bottom: 1rem;
-    }
+        /* Appointment card styles */
+        .appointment-card {
+            border: 1px solid #e5e7eb;
+            /* gray-200 */
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
 
-    /* Modal styles */
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 50;
-        justify-content: center;
-        align-items: center;
-    }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 50;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .modal-content {
-        background-color: white;
-        padding: 1.5rem;
-        border-radius: 0.5rem;
-        width: 100%;
-        max-width: 400px;
-        position: relative;
-    }
+        .modal-content {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+        }
 
-    .modal-content .close-btn {
-        position: absolute;
-        top: 0.5rem;
-        right: 0.5rem;
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        cursor: pointer;
-    }
+        .modal-content .close-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -384,31 +384,31 @@
     </div>
 
     <script>
-    const eventModal = document.getElementById('eventModal');
-    const modalDate = document.getElementById('modalDate');
-    const modalEvents = document.getElementById('modalEvents');
-    const closeBtn = document.querySelector('.close-btn');
+        const eventModal = document.getElementById('eventModal');
+        const modalDate = document.getElementById('modalDate');
+        const modalEvents = document.getElementById('modalEvents');
+        const closeBtn = document.querySelector('.close-btn');
 
-    // Open modal when a day button is clicked
-    document.querySelectorAll('.calendar-day button').forEach(button => {
-        button.addEventListener('click', () => {
-            const day = button.getAttribute('data-day');
-            const month = button.getAttribute('data-month');
-            const year = button.getAttribute('data-year');
-            const events = JSON.parse(button.getAttribute('data-events'));
+        // Open modal when a day button is clicked
+        document.querySelectorAll('.calendar-day button').forEach(button => {
+            button.addEventListener('click', () => {
+                const day = button.getAttribute('data-day');
+                const month = button.getAttribute('data-month');
+                const year = button.getAttribute('data-year');
+                const events = JSON.parse(button.getAttribute('data-events'));
 
-            // Set modal date
-            const date = new Date(year, month - 1, day);
-            modalDate.textContent = date.toLocaleDateString('en-US', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
+                // Set modal date
+                const date = new Date(year, month - 1, day);
+                modalDate.textContent = date.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
 
-            // Populate events
-            if (events.length > 0) {
-                modalEvents.innerHTML = events.map(event => `
+                // Populate events
+                if (events.length > 0) {
+                    modalEvents.innerHTML = events.map(event => `
                         <div class="border-l-4 border-blue-500 pl-4 mb-2">
                             <p class="text-sm font-semibold">${event.time} - ${event.doctor}</p>
                             <p class="text-sm text-gray-600">${event.specialty}</p>
@@ -420,25 +420,25 @@
                             </p>
                         </div>
                     `).join('');
-            } else {
-                modalEvents.innerHTML = '<p class="text-sm text-gray-600">No events for this day.</p>';
-            }
+                } else {
+                    modalEvents.innerHTML = '<p class="text-sm text-gray-600">No events for this day.</p>';
+                }
 
-            eventModal.style.display = 'flex';
+                eventModal.style.display = 'flex';
+            });
         });
-    });
 
-    // Close modal when close button is clicked
-    closeBtn.addEventListener('click', () => {
-        eventModal.style.display = 'none';
-    });
-
-    // Close modal when clicking outside of it
-    eventModal.addEventListener('click', (e) => {
-        if (e.target === eventModal) {
+        // Close modal when close button is clicked
+        closeBtn.addEventListener('click', () => {
             eventModal.style.display = 'none';
-        }
-    });
+        });
+
+        // Close modal when clicking outside of it
+        eventModal.addEventListener('click', (e) => {
+            if (e.target === eventModal) {
+                eventModal.style.display = 'none';
+            }
+        });
     </script>
 </body>
 
