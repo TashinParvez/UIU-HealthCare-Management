@@ -120,8 +120,8 @@
 
             <!-- Login Side -->
             <div class="col-md-6 login-side">
-                <img src="/Includes/Images/logo/logo-blue.png" alt="UIU Health Care Logo" class="mb-4">
-                <h2>Welcome Back...</h2>
+            <img src="/Includes/Images/logo/logo-blue.png" alt="UIU Health Care Logo" class="mb-4" style="width: 134px;">
+            <h2>Welcome Back...</h2>
                 <button class="btn btn-primary">Log in with Email</button>
                 <button class="btn btn-outline-secondary">
                     <!-- <img src="google-icon-placeholder.png" alt="Google Icon"> -->

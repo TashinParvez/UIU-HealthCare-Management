@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - UIU Health Care</title>
+    <title>Sign Up - UIU Health Care</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Custom CSS -->
@@ -13,14 +13,14 @@
             background-color: #f8f9fa;
         }
 
-        .login-container {
+        .signup-container {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .login-section {
+        .signup-section {
             background: white;
             border-radius: 15px;
             overflow: hidden;
@@ -48,26 +48,26 @@
             height: auto;
         }
 
-        .login-side {
+        .signup-side {
             padding: 50px;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
 
-        .login-side h2 {
+        .signup-side h2 {
             font-size: 1.5rem;
             font-weight: bold;
             color: #333;
             margin-bottom: 20px;
         }
 
-        .login-side .form-control {
+        .signup-side .form-control {
             border-radius: 25px;
             margin-bottom: 15px;
         }
 
-        .login-side .btn {
+        .signup-side .btn {
             width: 100%;
             padding: 10px;
             margin-top: 15px;
@@ -76,39 +76,35 @@
             border: none;
         }
 
-        .login-side .btn:hover {
+        .signup-side .btn:hover {
             background-color: #0056b3;
         }
 
-        .login-side .form-check-label {
+        .signup-side .form-check-label {
             color: #6c757d;
+            font-size: 0.9rem;
         }
 
-        .login-side .forgot-password {
-            text-align: right;
-            margin-bottom: 15px;
-        }
-
-        .login-side .forgot-password a {
+        .signup-side .form-check-label a {
             color: #007bff;
             text-decoration: none;
         }
 
-        .login-side .forgot-password a:hover {
+        .signup-side .form-check-label a:hover {
             text-decoration: underline;
         }
 
-        .login-side .signup-link {
+        .signup-side .signin-link {
             text-align: center;
             margin-top: 20px;
         }
 
-        .login-side .signup-link a {
+        .signup-side .signin-link a {
             color: #007bff;
             text-decoration: none;
         }
 
-        .login-side .signup-link a:hover {
+        .signup-side .signin-link a:hover {
             text-decoration: underline;
         }
 
@@ -122,44 +118,49 @@
 </head>
 
 <body>
-    <div class="login-container">
-        <div class="login-section row g-0">
+    <div class="signup-container">
+        <div class="signup-section row g-0">
             <!-- Illustration Side -->
             <div class="col-md-6 illustration-side">
                 <h1>Care. Heal. Thrive.</h1>
-                <img src="/Includes/Images/care1.jpg" alt="Doctor and Patient Illustration" style="width: 350px;">
-
+                <img src="/Includes/Images/care1.jpg" alt="Doctor, Nurse, and Patient Illustration" style="width: 50px;">
             </div>
-            <!-- Login Side -->
-            <div class="col-md-6 login-side">
+            <!-- Sign Up Side -->
+            <div class="col-md-6 signup-side">
                 <img src="/Includes/Images/logo/logo-blue.png" alt="UIU Health Care Logo" class="mb-4" style="width: 134px;">
-                <h2>Welcome Back...</h2>
+                <h2>Sign Up</h2>
                 <form>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <input type="text" class="form-control" placeholder="First Name" value="John" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <input type="text" class="form-control" placeholder="Last Name" value="Smith" required>
+                        </div>
+                    </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Username" value="JOHNDOE" required>
+                        <input type="email" class="form-control" placeholder="Email" value="johnsmith@gmail.com" required>
                     </div>
                     <div class="mb-3">
                         <input type="password" class="form-control" placeholder="Password" required>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="staySignedIn">
-                            <label class="form-check-label" for="staySignedIn">Stay Signed In</label>
-                        </div>
-                        <div class="forgot-password">
-                            <a href="#">Forgot Password?</a>
-                        </div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control" placeholder="Confirm Password" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Log In</button>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="privacyPolicy" required>
+                        <label class="form-check-label" for="privacyPolicy">
+                            I have read and agree to StaffMerge’s <a href="#">Privacy Policy, Terms of Use, and Cookies Policy</a>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Your Account</button>
                 </form>
-                <div class="signup-link">
-                    <p>Don't have an account? <a href="#">Sign Up</a></p>
+                <div class="signin-link">
+                    <p>Already have an account? <a href="#">Sign In</a></p>
+                    <p>© 2025 IgnoreUs.</p>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="footer-text">
-        <p>© 2025 IgnoreUs.</p>
     </div>
 
     <!-- Bootstrap JS -->
