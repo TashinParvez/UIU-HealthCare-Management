@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,77 +13,63 @@
         body {
             background-color: #f8f9fa;
         }
-
         .appointments-section {
             padding: 20px 0;
             width: 100%;
         }
-
         .appointments-section h1 {
             font-size: 2.5rem;
             font-weight: bold;
             color: #333;
             margin-bottom: 20px;
         }
-
         .appointments-section .table {
             background: white;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 100%;
         }
-
         .appointments-section .table th {
             color: #6c757d;
             font-weight: 500;
         }
-
         .appointments-section .table td {
             color: #333;
             vertical-align: middle;
         }
-
         .appointments-section .table td img {
             width: 40px;
             height: 40px;
             border-radius: 50%;
             margin-right: 10px;
         }
-
         .appointments-section .table tr {
             cursor: pointer;
         }
-
         .appointments-section .table tr:hover {
             background-color: #f1f1f1;
         }
-
         .appointments-section .table .action-icons a {
             color: #6c757d;
             margin-left: 10px;
             text-decoration: none;
         }
-
         .appointments-section .table .action-icons a:hover {
             color: #007bff;
         }
-
         .appointments-section .pagination {
             justify-content: center;
             margin-top: 20px;
         }
-
         .appointments-section .pagination .page-link {
             color: #007bff;
         }
-
         .appointments-section .pagination .page-item.active .page-link {
             background-color: #007bff;
             border-color: #007bff;
         }
     </style>
 </head>
-
 <body>
     <div class="d-flex min-vh-100">
         <!------------------------------ Include Sidebar ------------------------------>
@@ -110,8 +95,8 @@
                     </thead>
                     <tbody>
                         <tr onclick="window.location.href='patient-info.html?patient=leslie-alexander';">
-                            <td><img src="/Includes/Images/tashin.jpg" alt="Tashin Parvez">Tashin Parvez</td>
-                            <td>tashin.parvez@example.com</td>
+                            <td><img src="/Includes/Images/happy-patient.jpg" alt="Leslie Alexander"> Leslie Alexander</td>
+                            <td>leslie.alexander@example.com</td>
                             <td>10/10/2020</td>
                             <td>09:15-09:45am</td>
                             <td>Dr. Jacob Jones</td>
@@ -122,8 +107,8 @@
                             </td>
                         </tr>
                         <tr onclick="window.location.href='patient-info.html?patient=ronald-richards';">
-                            <td><img src="/Includes/Images/tashin.jpg" alt="Tashin Parvez">Tashin Parvez</td>
-                            <td>tashin.parvez@example.com</td>
+                            <td><img src="/Includes/Images/happy-patient.jpg" alt="Ronald Richards"> Ronald Richards</td>
+                            <td>ronald.richards@example.com</td>
                             <td>10/12/2020</td>
                             <td>12:00-12:45pm</td>
                             <td>Dr. Theresa Webb</td>
@@ -134,8 +119,8 @@
                             </td>
                         </tr>
                         <tr onclick="window.location.href='patient-info.html?patient=jane-cooper';">
-                            <td><img src="/Includes/Images/tashin.jpg" alt="Tashin Parvez">Tashin Parvez</td>
-                            <td>tashin.parvez@example.com</td>
+                            <td><img src="/Includes/Images/happy-patient.jpg" alt="Jane Cooper"> Jane Cooper</td>
+                            <td>jane.cooper@example.com</td>
                             <td>10/13/2020</td>
                             <td>01:15-01:45pm</td>
                             <td>Dr. Jacob Jones</td>
@@ -146,8 +131,8 @@
                             </td>
                         </tr>
                         <tr onclick="window.location.href='patient-info.html?patient=robert-fox';">
-                            <td><img src="/Includes/Images/tashin.jpg" alt="Tashin Parvez">Tashin Parvez</td>
-                            <td>tashin.parvez@example.com</td>
+                            <td><img src="/Includes/Images/happy-patient.jpg" alt="Robert Fox"> Robert Fox</td>
+                            <td>robert.fox@gmail.com</td>
                             <td>10/14/2020</td>
                             <td>02:00-02:45pm</td>
                             <td>Dr. Arlene McCoy</td>
@@ -158,8 +143,8 @@
                             </td>
                         </tr>
                         <tr onclick="window.location.href='patient-info.html?patient=jenny-wilson';">
-                            <td><img src="/Includes/Images/tashin.jpg" alt="Tashin Parvez">Tashin Parvez</td>
-                            <td>tashin.parvez@example.com</td>
+                            <td><img src="/Includes/Images/happy-patient.jpg" alt="Jenny Wilson"> Jenny Wilson</td>
+                            <td>jenny.wilson@example.com</td>
                             <td>10/15/2020</td>
                             <td>12:00-12:45pm</td>
                             <td>Dr. Esther Howard</td>
@@ -170,8 +155,8 @@
                             </td>
                         </tr>
                         <tr onclick="window.location.href='patient-info.html?patient=marshall-cook';">
-                            <td><img src="/Includes/Images/tashin.jpg" alt="Tashin Parvez">Tashin Parvez</td>
-                            <td>tashin.parvez@example.com</td>
+                            <td><img src="/Includes/Images/happy-patient.jpg" alt="Marshall Cook"> Marshall Cook</td>
+                            <td>marshall.cook@example.com</td>
                             <td>10/17/2020</td>
                             <td>01:15-01:45pm</td>
                             <td>Dr. Jacob Jones</td>
@@ -182,7 +167,7 @@
                             </td>
                         </tr>
                         <tr onclick="window.location.href='patient-info.html?patient=stephanie-cook';">
-                            <td><img src="/Includes/Images/tashin.jpg" alt="Tashin Parvez">Tashin Parvez</td>
+                            <td><img src="/Includes/Images/happy-patient.jpg" alt="Stephanie Cook"> Stephanie Cook</td>
                             <td>stephanie.cook@exzmple.com</td>
                             <td>10/17/2020</td>
                             <td>02:00-02:45pm</td>
@@ -194,8 +179,8 @@
                             </td>
                         </tr>
                         <tr onclick="window.location.href='patient-info.html?patient=marion-james';">
-                            <td><img src="/Includes/Images/tashin.jpg" alt="Tashin Parvez">Tashin Parvez</td>
-                            <td>tashin.parvez@example.com</td>
+                            <td><img src="/Includes/Images/happy-patient.jpg" alt="Marion James"> Marion James</td>
+                            <td>marion.james@example.com</td>
                             <td>10/18/2020</td>
                             <td>09:15-09:45am</td>
                             <td>Dr. Esther Howard</td>
@@ -206,8 +191,8 @@
                             </td>
                         </tr>
                         <tr onclick="window.location.href='patient-info.html?patient=teresa-holland';">
-                            <td><img src="/Includes/Images/tashin.jpg" alt="Tashin Parvez">Tashin Parvez</td>
-                            <td>tashin.parvez@example.com</td>
+                            <td><img src="/Includes/Images/happy-patient.jpg" alt="Teresa Holland"> Teresa Holland</td>
+                            <td>teresa.holland@example.com</td>
                             <td>10/19/2020</td>
                             <td>12:00-12:45pm</td>
                             <td>Dr. Arlene McCoy</td>
@@ -218,8 +203,8 @@
                             </td>
                         </tr>
                         <tr onclick="window.location.href='patient-info.html?patient=zachary-marshall';">
-                            <td><img src="/Includes/Images/tashin.jpg" alt="Tashin Parvez">Tashin Parvez</td>
-                            <td>tashin.parvez@example.com</td>
+                            <td><img src="/Includes/Images/happy-patient.jpg" alt="Zachary Marshall"> Zachary Marshall</td>
+                            <td>zachary.marshall@example.com</td>
                             <td>10/20/2020</td>
                             <td>09:15-09:45am</td>
                             <td>Dr. Arlene McCoy</td>
@@ -257,5 +242,4 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
-
 </html>

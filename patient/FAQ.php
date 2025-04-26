@@ -73,6 +73,60 @@
             font-size: 0.75rem;
             margin-right: 5px;
         }
+
+        /* Sidebar and layout adjustments */
+        .content {
+            margin-left: 64px;
+            /* Match the collapsed sidebar width */
+            padding: 20px;
+            transition: margin-left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .sidebar:hover+.content {
+            margin-left: 256px;
+            /* Match the expanded sidebar width */
+        }
+
+        .sidebar {
+            transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transform: translateZ(0);
+            will-change: width;
+        }
+
+        .sidebar:not(:hover) .sidebar-text {
+            display: none;
+        }
+
+        .sidebar:not(:hover) .search-input {
+            display: none;
+        }
+
+        .sidebar-item {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(147, 51, 234, 0.3), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .sidebar-item:hover::before {
+            left: 100%;
+        }
+
+        .sidebar-item:hover {
+            background-color: #f3f4f6;
+            color: #9333ea;
+            transform: scale(1.05);
+            transition: transform 0.2s ease;
+        }
     </style>
 </head>
 
@@ -82,7 +136,7 @@
         <?php include '../Includes/Sidebar.php'; ?>
 
         <!------------------------------ Main Content ------------------------------>
-        <div class="flex-grow-1 p-4" style="margin-left: 4rem;">
+        <div class="flex-grow-1 p-4 content">
             <div class="container">
                 <!-- Search Bar -->
                 <div class="search-bar mb-4">

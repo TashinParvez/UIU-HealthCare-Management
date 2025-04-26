@@ -2,85 +2,84 @@
 
 
 <?php
-include "../Includes/Database_connection.php";
+// include "../Includes/Database_connection.php";
 
-$payment_method = '';
-$amount = '';
+// $payment_method = '';
+// $amount = '';
 
-$stmt = $conn->prepare('INSERT INTO payments (payment_method, amount) VALUES (?, ?)');
-$stmt->bind_param('sd', $payment_method, $amount);
+// $stmt = $conn->prepare('INSERT INTO payments (payment_method, amount) VALUES (?, ?)');
+// $stmt->bind_param('sd', $payment_method, $amount);
 
-if ($stmt->execute()) {
+// if ($stmt->execute()) {
 
-    $payment_id = $conn->insert_id; // Get the auto-incremented payment_id
-    $stmt->close();
+//     $payment_id = $conn->insert_id; // Get the auto-incremented payment_id
+//     $stmt->close();
 
-    $payment_success = false;
+//     $payment_success = false;
 
-    switch ($payment_method) {
-        case 'cash':
+//     switch ($payment_method) {
+//         case 'cash':
 
-            $payment_success = true;
-            break;
-        case 'mobile_banking':
+//             $payment_success = true;
+//             break;
+//         case 'mobile_banking':
 
-            $banking_type = '';
-            $transaction_id = '';
-            $transaction_number = '';
+//             $banking_type = '';
+//             $transaction_id = '';
+//             $transaction_number = '';
 
-            $stmt = $conn->prepare('INSERT INTO mobile_banking_payments (payment_id, banking_type, transaction_id, transaction_number) VALUES (?, ?, ?, ?)');
-            $stmt->bind_param('isss', $payment_id, $banking_type, $transaction_id, $transaction_number);
+//             $stmt = $conn->prepare('INSERT INTO mobile_banking_payments (payment_id, banking_type, transaction_id, transaction_number) VALUES (?, ?, ?, ?)');
+//             $stmt->bind_param('isss', $payment_id, $banking_type, $transaction_id, $transaction_number);
 
-            $payment_success = $stmt->execute();
-            $stmt->close();
+//             $payment_success = $stmt->execute();
+//             $stmt->close();
 
-            break;
-        case 'card':
+//             break;
+//         case 'card':
 
-            $banking_type = '';
-            $transaction_id = '';
-            $transaction_number = '';
+//             $banking_type = '';
+//             $transaction_id = '';
+//             $transaction_number = '';
 
-            $stmt = $conn->prepare('INSERT INTO card_payments (payment_id, card_number, expiry, cvc, card_holder_name) VALUES (?, ?, ?, ?, ?)');
-            $stmt->bind_param('issss', $payment_id, $card_number, $expiry, $cvc, $card_holder_name);
+//             $stmt = $conn->prepare('INSERT INTO card_payments (payment_id, card_number, expiry, cvc, card_holder_name) VALUES (?, ?, ?, ?, ?)');
+//             $stmt->bind_param('issss', $payment_id, $card_number, $expiry, $cvc, $card_holder_name);
 
-            $payment_success = $stmt->execute();
-            $stmt->close();
+//             $payment_success = $stmt->execute();
+//             $stmt->close();
 
-            break;
-        default:
-            echo "Invalid payment method";
-            break;
-    }
+//             break;
+//         default:
+//             echo "Invalid payment method";
+//             break;
+//     }
 
-    if ($payment_success) {
+//     if ($payment_success) {
 
-        $patient_id = '';
-        $doctor_id = '';
-        $appoinment_date = '';
-        $appoinment_time = '';
+//         $patient_id = '';
+//         $doctor_id = '';
+//         $appoinment_date = '';
+//         $appoinment_time = '';
 
-        $stmt = $conn->prepare('INSERT INTO appointments (patient_id, doctor_id, payment_id, appointment_date, appointment_time) VALUES (?, ?, ?, ?, ?)');
-        $stmt->bind_param('iiiss', $patient_id, $doctor_id, $payment_id, $appoinment_date, $appoinment_time);
+//         $stmt = $conn->prepare('INSERT INTO appointments (patient_id, doctor_id, payment_id, appointment_date, appointment_time) VALUES (?, ?, ?, ?, ?)');
+//         $stmt->bind_param('iiiss', $patient_id, $doctor_id, $payment_id, $appoinment_date, $appoinment_time);
 
-        if ($stmt->execute()) {
-            $stmt->close();
-        } else {
-            echo "Error inserting appointment: " . $stmt->error;
-        }
+//         if ($stmt->execute()) {
+//             $stmt->close();
+//         } else {
+//             echo "Error inserting appointment: " . $stmt->error;
+//         }
 
-        mysqli_close($conn);
-    } else {
-        echo "Error inserting payment method details.";
-    }
-} else {
-    echo "Error inserting payment: " . $stmt->error;
-}
+//         mysqli_close($conn);
+//     } else {
+//         echo "Error inserting payment method details.";
+//     }
+// } else {
+//     echo "Error inserting payment: " . $stmt->error;
+// }
 
 
 
 ?>
-
 
 
 <!DOCTYPE html>
@@ -96,12 +95,9 @@ if ($stmt->execute()) {
         .sidebar {
             transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
             transform: translateZ(0);
-            /* Force hardware acceleration */
             will-change: width;
-            /* Optimize animation */
         }
 
-        /* Hide text when collapsed */
         .sidebar:not(:hover) .sidebar-text {
             display: none;
         }
@@ -110,7 +106,6 @@ if ($stmt->execute()) {
             display: none;
         }
 
-        /* Crazy cool hover effect */
         .sidebar-item {
             position: relative;
             overflow: hidden;
@@ -123,10 +118,7 @@ if ($stmt->execute()) {
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(120deg,
-                    transparent,
-                    rgba(147, 51, 234, 0.3),
-                    transparent);
+            background: linear-gradient(120deg, transparent, rgba(147, 51, 234, 0.3), transparent);
             transition: all 0.5s ease;
         }
 
@@ -136,14 +128,11 @@ if ($stmt->execute()) {
 
         .sidebar-item:hover {
             background-color: #f3f4f6;
-            /* Light gray hover */
             color: #9333ea;
-            /* Purple text on hover */
             transform: scale(1.05);
             transition: transform 0.2s ease;
         }
 
-        /* Hide default radio button */
         input[type="radio"] {
             appearance: none;
             -webkit-appearance: none;
@@ -152,46 +141,34 @@ if ($stmt->execute()) {
             opacity: 0;
         }
 
-        /* Style for doctor card labels */
         input[type="radio"]+label {
             display: block;
             background: white;
             border: 1px solid #d1d5db;
-            /* gray-300 */
             border-radius: 0.5rem;
-            /* rounded-lg */
             padding: 1rem;
-            /* p-4 */
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-            /* shadow-sm */
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
         input[type="radio"]:hover+label {
             background-color: #f3f4f6;
-            /* hover:bg-gray-100 */
         }
 
         input[type="radio"]:checked+label {
             border-color: #3b82f6;
-            /* blue-500 */
             background-color: #eff6ff;
-            /* blue-50 */
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
-        /* Style for day and time labels */
         input[type="radio"]+label.day-label,
         input[type="radio"]+label.time-label {
             display: block;
             background: white;
             border: 1px solid #d1d5db;
-            /* gray-300 */
             border-radius: 0.5rem;
-            /* rounded-lg */
             padding: 0.75rem;
-            /* p-3 */
             text-align: center;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -200,19 +177,15 @@ if ($stmt->execute()) {
         input[type="radio"]:hover+label.day-label,
         input[type="radio"]:hover+label.time-label {
             background-color: #f3f4f6;
-            /* hover:bg-gray-100 */
         }
 
         input[type="radio"]:checked+label.day-label,
         input[type="radio"]:checked+label.time-label {
             border-color: #3b82f6;
-            /* blue-500 */
             background-color: #eff6ff;
-            /* blue-50 */
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
-        /* Modal styles */
         .modal {
             display: none;
             position: fixed;
@@ -270,6 +243,19 @@ if ($stmt->execute()) {
             border-color: #3b82f6;
             background-color: #eff6ff;
         }
+
+        /* Sidebar and layout adjustments */
+        .content {
+            margin-left: 64px;
+            /* Match the collapsed sidebar width */
+            padding: 20px;
+            transition: margin-left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .sidebar:hover+.content {
+            margin-left: 256px;
+            /* Match the expanded sidebar width */
+        }
     </style>
 </head>
 
@@ -279,7 +265,7 @@ if ($stmt->execute()) {
         <?php include '../Includes/Sidebar.php'; ?>
 
         <!-- Main Content -->
-        <div class="flex-1 p-6 ml-16">
+        <div class="flex-1 p-6 content">
             <h1 class="text-3xl font-bold text-blue-900 mb-6">Book an appointment</h1>
 
             <!-- Form -->
