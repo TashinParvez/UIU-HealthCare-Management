@@ -5,56 +5,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UIU Health Care</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="hero_page.css">
-
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
+<body class="bg-gray-50 font-sans">
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="/Includes/Images/logo/logo-blue.png" alt="UIU Health Care">
+    <nav class="bg-white shadow-sm fixed w-full z-10">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="#" class="flex items-center">
+                <img src="/Includes/Images/logo/logo-blue.png" alt="UIU Health Care" class="h-10">
             </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <div class="hidden lg:flex items-center space-x-8">
+                <div class="flex space-x-6">
+                    <a href="\Hero\hero_page.php"
+                        class="text-gray-700 font-medium hover:text-blue-500 transition relative group no-underline">
+                        Home
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full "></span>
+                    </a>
+                    <a href="#"
+                        class="no-underline text-gray-700 font-medium hover:text-blue-500 transition relative group">
+                        About Us
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#"
+                        class="no-underline text-gray-700 font-medium hover:text-blue-500 transition relative group">
+                        Departments
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#"
+                        class="no-underline text-gray-700 font-medium hover:text-blue-500 transition relative group">
+                        Doctors
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="\Hero\FAQ.php"
+                        class="no-underline text-gray-700 font-medium hover:text-blue-500 transition relative group">
+                        FAQ
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="\Hero\contactUs.php"
+                        class="no-underline text-gray-700 font-medium hover:text-blue-500 transition relative group">
+                        Contact Us
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="..\logIn\login.php"
+                        class="no-underline text-gray-700 font-medium hover:text-blue-500 transition px-4 py-2 rounded-lg hover:bg-blue-50">Sign
+                        In</a>
+                    <a href="..\SignUp\signup.php"
+                        class="bg-blue-500 text-white font-medium px-5 py-2 rounded-lg hover:bg-blue-600 transition shadow-sm">Sign
+                        Up</a>
+                </div>
+            </div>
+            <button class="lg:hidden text-gray-600 focus:outline-none" onclick="toggleMenu()">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">AboutUs</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Departments</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Doctors</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">FAQ</a></li>
-                </ul>
-                <div class="d-flex">
-                    <button class="btn">Sign In</button>
-                    <button class="btn btn-primary ms-2">Sign Up</button>
+        </div>
+        <div id="mobileMenu" class="hidden lg:hidden bg-white shadow-md">
+            <div class="container mx-auto px-4 py-4 flex flex-col space-y-4">
+                <a href="\Hero\hero_page.php" class="text-gray-700 font-medium hover:text-blue-500 transition">Home</a>
+                <a href="#" class="text-gray-700 font-medium hover:text-blue-500 transition">About Us</a>
+                <a href="#" class="text-gray-700 font-medium hover:text-blue-500 transition">Departments</a>
+                <a href="#" class="text-gray-700 font-medium hover:text-blue-500 transition">Doctors</a>
+                <a href="\Hero\FAQ.php" class="text-gray-700 font-medium hover:text-blue-500 transition">FAQ</a>
+                <a href="\Hero\contactUs.php" class="text-gray-700 font-medium hover:text-blue-500 transition">Contact
+                    Us</a>
+                <div class="flex flex-col space-y-3">
+                    <a href="..\logIn\login.php" class="text-gray-700 font-medium hover:text-blue-500 transition">Sign
+                        In</a>
+                    <a href="..\SignUp\signup.php"
+                        class="bg-blue-500 text-white font-medium px-5 py-2 rounded-lg hover:bg-blue-600 transition text-center">Sign
+                        Up</a>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6 hero-text">
-                    <h1>Health Care Now<br>Simplified For Everyone</h1>
-                    <p>Health carely is a new way to get health insurance quotes. We offer tools similar to those provided by insurance companies for free and prices are based on donations and not restrictive health plan networks.</p>
-                    <h2>Start Your Health Journey Here</h2>
-                    <button class="btn btn-primary me-2">Book Consultation Now</button>
-                    <button class="btn btn-outline-primary">Learn More</button>
+    <section class="pt-24 pb-12 bg-gradient-to-b from-gray-50 to-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row items-center">
+                <div class="lg:w-1/2 mb-8 lg:mb-0">
+                    <h1 class="text-4xl lg:text-5xl font-bold text-gray-800 mb-4">Health Care Now<br>Simplified For
+                        Everyone</h1>
+                    <p class="text-gray-600 mb-6">Health carely offers free tools to get health insurance quotes, based
+                        on donations rather than restrictive health plan networks.</p>
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Start Your Health Journey Here</h2>
+                    <div class="flex space-x-4">
+                        <button class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition">Book
+                            Consultation Now</button>
+                        <button
+                            class="border border-blue-500 text-blue-500 px-6 py-3 rounded-lg hover:bg-blue-50 transition">Learn
+                            More</button>
+                    </div>
                 </div>
-                <div class="col-md-6 position-relative">
-                    <img src="/Includes/Images/HeroPage/hero_img.png" alt="Doctors" class="img-fluid">
-                    <div class="stats-card">
-                        <h5>870+ Doctors</h5>
+                <div class="lg:w-1/2 relative">
+                    <img src="/Includes/Images/HeroPage/hero_img.png" alt="Doctors" class="w-full rounded-lg">
+                    <div class="absolute bottom-4 left-4 bg-white p-4 rounded-lg shadow-lg">
+                        <h5 class="text-lg font-semibold text-gray-800">870+ Doctors</h5>
                     </div>
                 </div>
             </div>
@@ -62,319 +118,199 @@
     </section>
 
     <!-- Steps Section -->
-    <section class="steps-section" style="  background: linear-gradient(to right, #e9f5ff, #ffffff);">
-        <div class="container">
-            <h3 class="text-center blue-color"> Fast Solutions </h3>
-            <h2 class="text-center mb-5"> step by step to get your solutions </h2>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="steps-card">
-                        <div class="icon-placeholder mb-3"></div>
-                        <h5>Check health complaints</h5>
-                        <p>Check the disease so you can easily choose the right specialist</p>
-                    </div>
+    <section class="py-12 bg-gradient-to-r from-blue-50 to-white">
+        <div class="container mx-auto px-4">
+            <h3 class="text-center text-blue-500 font-semibold mb-2">Fast Solutions</h3>
+            <h2 class="text-center text-3xl font-bold text-gray-800 mb-8">Step by Step to Your Solutions</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full mb-4"></div>
+                    <h5 class="text-lg font-semibold text-gray-800 mb-2">Check Health Complaints</h5>
+                    <p class="text-gray-600 text-sm">Easily identify your condition to choose the right specialist.</p>
                 </div>
-                <div class="col-md-3">
-                    <div class="steps-card">
-                        <div class="icon-placeholder mb-3"></div>
-                        <h5>Choose a doctor specialist</h5>
-                        <p>Choose the specialist according to the disease complaints</p>
-                    </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full mb-4"></div>
+                    <h5 class="text-lg font-semibold text-gray-800 mb-2">Choose a Specialist</h5>
+                    <p class="text-gray-600 text-sm">Select a doctor based on your specific health needs.</p>
                 </div>
-                <div class="col-md-3">
-                    <div class="steps-card">
-                        <div class="icon-placeholder mb-3"></div>
-                        <h5>Make a Schedule</h5>
-                        <p>Make a schedule with the doctor concerned so you can start the consultation</p>
-                    </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full mb-4"></div>
+                    <h5 class="text-lg font-semibold text-gray-800 mb-2">Make a Schedule</h5>
+                    <p class="text-gray-600 text-sm">Book a consultation with your chosen specialist.</p>
                 </div>
-                <div class="col-md-3">
-                    <div class="steps-card">
-                        <div class="icon-placeholder mb-3"></div>
-                        <h5>Get Your Solutions</h5>
-                        <p>After conducting an examination with a specialist we can help find the right healing method</p>
-                    </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full mb-4"></div>
+                    <h5 class="text-lg font-semibold text-gray-800 mb-2">Get Your Solutions</h5>
+                    <p class="text-gray-600 text-sm">Receive tailored treatment plans from our experts.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Ratings Section -->
-    <section class="ratings-section">
-        <div class="container">
-            <h3 class="text-center blue-color"> Our Rating </h3>
-            <h2 class="text-center mb-5">We’re employee benefit at <br>
-                7500+ hospital</h2>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="ratings-card">
-                        <h3>900+</h3>
-                        <p style="font-weight: bolder;">Verified Specialist </p>
-                        <p style="color: gray;"> HIGHLY VERIFIED</p>
-                    </div>
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h3 class="text-center text-blue-500 font-semibold mb-2">Our Rating</h3>
+            <h2 class="text-center text-3xl font-bold text-gray-800 mb-8">Employee Benefits at 7500+ Hospitals</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="text-center">
+                    <h3 class="text-4xl font-bold text-gray-800 mb-2">900+</h3>
+                    <p class="text-lg font-semibold text-gray-800">Verified Specialists</p>
+                    <p class="text-gray-500 text-sm">Highly Verified</p>
                 </div>
-                <div class="col-md-4">
-                    <div class="ratings-card">
-                        <h3>45000+</h3>
-                        <p style="font-weight: bolder;">Happy Costumers </p>
-                        <p style="color: gray;"> HIGHLY PERFORMANCE</p>
-                    </div>
+                <div class="text-center">
+                    <h3 class="text-4xl font-bold text-gray-800 mb-2">45000+</h3>
+                    <p class="text-lg font-semibold text-gray-800">Happy Customers</p>
+                    <p class="text-gray-500 text-sm">High Performance</p>
                 </div>
-                <div class="col-md-4">
-                    <div class="ratings-card">
-                        <h3>99,7%</h3>
-                        <p style="font-weight: bolder;">Positive Feedback </p>
-                        <p style="color: gray;"> COSTUMERS APPROVE</p>
-                    </div>
+                <div class="text-center">
+                    <h3 class="text-4xl font-bold text-gray-800 mb-2">99.7%</h3>
+                    <p class="text-lg font-semibold text-gray-800">Positive Feedback</p>
+                    <p class="text-gray-500 text-sm">Customer Approved</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Appointment Section -->
-    <section class="appointment-section " style="  background: linear-gradient(to left, #e9f5ff, #ffffff);">
-        <div class="container">
-            <h2 class="mb-4 blue-color">BOOK AN APPOINTMENT</h2>
-            <div class="d-flex flex-wrap mb-4">
-                <button class="btn btn-outline-primary specialty-btn">Cardiologist</button>
-                <button class="btn btn-outline-primary specialty-btn">Orthopedist</button>
-                <button class="btn btn-outline-primary specialty-btn">Headache</button>
-                <button class="btn btn-outline-primary specialty-btn">Eye Care</button>
-                <button class="btn btn-outline-primary specialty-btn">Nutritionist</button>
+    <section class="py-12 bg-gradient-to-l from-blue-50 to-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Book an Appointment</h2>
+            <div class="flex flex-wrap gap-3 mb-6">
+                <button
+                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition">Cardiologist</button>
+                <button
+                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition">Orthopedist</button>
+                <button
+                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition">Headache</button>
+                <button
+                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition">Eye
+                    Care</button>
+                <button
+                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition">Nutritionist</button>
             </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="appointment-card">
-                        <img src="/Includes\male-doctors-white-medical.jpg" alt="Doctor" class="img-fluid mb-3">
-                        <h5>Prof. Dr. Tashin Parvez</h5>
-                        <p>CARDIOLOGIST MBBS, FCPS</p>
-                    </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                    <img src="/Includes/male-doctors-white-medical.jpg" alt="Doctor"
+                        class="w-full h-40 object-cover rounded-lg mb-3">
+                    <h5 class="text-lg font-semibold text-gray-800">Prof. Dr. Tashin Parvez</h5>
+                    <p class="text-gray-600 text-sm">Cardiologist MBBS, FCPS</p>
                 </div>
-                <div class="col-md-3">
-                    <div class="appointment-card">
-                        <img src="/Includes\male-doctors-white-medical.jpg" alt="Doctor" class="img-fluid mb-3">
-                        <h5>Prof. Dr. Nilufar Sultana</h5>
-                        <p>CARDIOLOGIST MBBS, FCPS</p>
-                    </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                    <img src="/Includes/male-doctors-white-medical.jpg" alt="Doctor"
+                        class="w-full h-40 object-cover rounded-lg mb-3">
+                    <h5 class="text-lg font-semibold text-gray-800">Prof. Dr. Nilufar Sultana</h5>
+                    <p class="text-gray-600 text-sm">Cardiologist MBBS, FCPS</p>
                 </div>
-                <div class="col-md-3">
-                    <div class="appointment-card">
-                        <img src="/Includes\male-doctors-white-medical.jpg" alt="Doctor" class="img-fluid mb-3">
-                        <h5>Prof. Dr. Nilufar Sultana</h5>
-                        <p>CARDIOLOGIST MBBS, FCPS</p>
-                    </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                    <img src="/Includes/male-doctors-white-medical.jpg" alt="Doctor"
+                        class="w-full h-40 object-cover rounded-lg mb-3">
+                    <h5 class="text-lg font-semibold text-gray-800">Prof. Dr. Nilufar Sultana</h5>
+                    <p class="text-gray-600 text-sm">Cardiologist MBBS, FCPS</p>
                 </div>
-                <div class="col-md-3">
-                    <div class="appointment-card">
-                        <img src="/Includes\male-doctors-white-medical.jpg" alt="Doctor" class="img-fluid mb-3">
-                        <h5>Prof. Dr. Nilufar Sultana</h5>
-                        <p>CARDIOLOGIST MBBS, FCPS</p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="appointment-card">
-                        <img src="/Includes\male-doctors-white-medical.jpg" alt="Doctor" class="img-fluid mb-3">
-                        <h5>Prof. Dr. Nilufar Sultana</h5>
-                        <p>CARDIOLOGIST MBBS, FCPS</p>
-                    </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                    <img src="/Includes/male-doctors-white-medical.jpg" alt="Doctor"
+                        class="w-full h-40 object-cover rounded-lg mb-3">
+                    <h5 class="text-lg font-semibold text-gray-800">Prof. Dr. Nilufar Sultana</h5>
+                    <p class="text-gray-600 text-sm">Cardiologist MBBS, FCPS</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Patient Caring Section -->
-    <section class="patient-caring-section">
-        <div class="container">
-            <h5 class="text-primary blue-color">HELPING PATIENTS FROM AROUND THE GLOBE!!</h5>
-            <h2>Patient <span class="blue-color">Caring</span> </h2>
-            <div class="row">
-                <div class="col-md-6">
-                    <p>Our goal is to deliver quality of care in a courteous, respectful, and compassionate manner. We hope you will allow us to care for you and strive to be the first and best choice for healthcare.</p>
-                    <ul class="list-unstyled">
-                        <li class="mb-2">• Stay Updated About Your Health</li>
-                        <li class="mb-2">• Check Your Results Online</li>
-                        <li class="mb-2">• Manage Your Appointments</li>
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h5 class="text-blue-500 font-semibold mb-2">Helping Patients Globally</h5>
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Patient <span class="text-blue-500">Caring</span></h2>
+            <div class="flex flex-col lg:flex-row items-center">
+                <div class="lg:w-1/2 mb-6 lg:mb-0">
+                    <p class="text-gray-600 mb-4">Our mission is to provide courteous, respectful, and compassionate
+                        care. Let us be your first choice for healthcare.</p>
+                    <ul class="list-none space-y-2">
+                        <li class="text-gray-600">• Stay Updated About Your Health</li>
+                        <li class="text-gray-600">• Check Your Results Online</li>
+                        <li class="text-gray-600">• Manage Your Appointments</li>
                     </ul>
                 </div>
-                <div class="col-md-6">
-                    <div class=" ">
-                        <!-- <img src="/Includes/Images\HeroPage\post-patientCentered.jpg" alt="Patient Care" class="img-fluid mb-3"> -->
-                        <img src="/Includes/Images\HeroPage/patient-care.jpeg" alt="Patient Care" class="img-fluid mb-3">
-                    </div>
+                <div class="lg:w-1/2">
+                    <img src="/Includes/Images/HeroPage/patient-care.jpeg" alt="Patient Care" class="w-full rounded-lg">
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Quick Consult Section -->
-    <section class="quick-consult-section " style="  background: linear-gradient(to right, #e9f5ff, #ffffff);">
-        <div class="container">
-            <h2 class="mb-4">QUICK CONSULT FOR</h2>
-            <div class="row">
-
-                <div class="col-md-2">
-                    <div class="quick-consult-card">
-                        <div class="icon-placeholder mb-2 quick-con-icon">
-                            <img style="height: 42px;" src="/Includes/Images/Quick Consult/heart.png" alt="" srcset="">
-                        </div>
-                        <p>HEART</p>
-                    </div>
+    <section class="py-12 bg-gradient-to-r from-blue-50 to-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Quick Consult For</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
+                <div class="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <img src="/Includes/Images/Quick Consult/heart.png" alt="Heart" class="h-10 mx-auto mb-2">
+                    <p class="text-gray-600 text-sm">Heart</p>
                 </div>
-
-                <div class="col-md-2">
-                    <div class="quick-consult-card">
-                        <div class="icon-placeholder mb-2 quick-con-icon">
-                            <img style="height: 42px;" src="/Includes/Images/Quick Consult/heart.png" alt="" srcset="">
-                        </div>
-                        <p>ASTHMA</p>
-                    </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <img src="/Includes/Images/Quick Consult/heart.png" alt="Asthma" class="h-10 mx-auto mb-2">
+                    <p class="text-gray-600 text-sm">Asthma</p>
                 </div>
-                <div class="col-md-2">
-                    <div class="quick-consult-card">
-                        <div class="icon-placeholder mb-2 quick-con-icon">
-                            <img style="height: 42px;" src="/Includes/Images/Quick Consult/heart.png" alt="" srcset="">
-                        </div>
-                        <p>LUNGS</p>
-                    </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <img src="/Includes/Images/Quick Consult/heart.png" alt="Lungs" class="h-10 mx-auto mb-2">
+                    <p class="text-gray-600 text-sm">Lungs</p>
                 </div>
-                <div class="col-md-2">
-                    <div class="quick-consult-card">
-                        <div class="icon-placeholder mb-2 quick-con-icon">
-                            <img style="height: 42px;" src="/Includes/Images/Quick Consult/heart.png" alt="" srcset="">
-                        </div>
-                        <p>OXYGEN</p>
-                    </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <img src="/Includes/Images/Quick Consult/heart.png" alt="Oxygen" class="h-10 mx-auto mb-2">
+                    <p class="text-gray-600 text-sm">Oxygen</p>
                 </div>
-                <div class="col-md-2">
-                    <div class="quick-consult-card">
-                        <div class="icon-placeholder mb-2 quick-con-icon">
-                            <img style="height: 42px;" src="/Includes/Images/Quick Consult/heart.png" alt="" srcset="">
-                        </div>
-                        <p>DIABETICS</p>
-                    </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <img src="/Includes/Images/Quick Consult/heart.png" alt="Diabetics" class="h-10 mx-auto mb-2">
+                    <p class="text-gray-600 text-sm">Diabetics</p>
                 </div>
-                <div class="col-md-2">
-                    <div class="quick-consult-card">
-                        <div class="icon-placeholder mb-2 quick-con-icon">
-                            <img style="height: 42px;" src="/Includes/Images/Quick Consult/heart.png" alt="" srcset="">
-                        </div>
-                        <p>PRESCRIBE</p>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="quick-consult-card">
-                        <div class="icon-placeholder mb-2 quick-con-icon">
-                            <img style="height: 42px;" src="/Includes/Images/Quick Consult/heart.png" alt="" srcset="">
-                        </div>
-                        <p>PRESCRIBE</p>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="quick-consult-card">
-                        <div class="icon-placeholder mb-2 quick-con-icon">
-                            <img style="height: 42px;" src="/Includes/Images/Quick Consult/heart.png" alt="" srcset="">
-                        </div>
-                        <p>PRESCRIBE</p>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="quick-consult-card">
-                        <div class="icon-placeholder mb-2 quick-con-icon">
-                            <img style="height: 42px;" src="/Includes/Images/Quick Consult/heart.png" alt="" srcset="">
-                        </div>
-                        <p>PRESCRIBE</p>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="quick-consult-card">
-                        <div class="icon-placeholder mb-2 quick-con-icon">
-                            <img style="height: 42px;" src="/Includes/Images/Quick Consult/heart.png" alt="" srcset="">
-                        </div>
-                        <p>PRESCRIBE</p>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="quick-consult-card">
-                        <div class="icon-placeholder mb-2 quick-con-icon">
-                            <img style="height: 42px;" src="/Includes/Images/Quick Consult/heart.png" alt="" srcset="">
-                        </div>
-                        <p>PRESCRIBE</p>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="quick-consult-card">
-                        <div class="icon-placeholder mb-2 quick-con-icon">
-                            <img style="height: 42px;" src="/Includes/Images/Quick Consult/heart.png" alt="" srcset="">
-                        </div>
-                        <p>PRESCRIBE</p>
-                    </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <img src="/Includes/Images/Quick Consult/heart.png" alt="Prescribe" class="h-10 mx-auto mb-2">
+                    <p class="text-gray-600 text-sm">Prescribe</p>
                 </div>
             </div>
-            <!-- <a href="#" class="text-primary">VIEW ALL</a> -->
         </div>
     </section>
 
     <!-- Feedback Section -->
-    <section class="feedback-section">
-        <div class="container">
-            <h2 class="text-center mb-5">OUR PATIENTS FEEDBACK ABOUT US</h2>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="feedback-card" style="display: flex;">
-                        <img style="height: 206px;" src="/Includes/Images/happy-patient.jpg" alt="Patient" class="img-fluid mb-3">
-                        <div>
-
-                            <p>"Healthcarely is an website and mobile app for you to feel better or get medical help. We offer you a 24/7 doctor service with no appointment needed"</p>
-                            <h5>Naufal Hidayat</h5>
-                            <p>Student at Telkom University</p>
-                        </div>
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-center text-3xl font-bold text-gray-800 mb-8">Our Patients’ Feedback</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-sm flex space-x-4 hover:shadow-md transition">
+                    <img src="/Includes/Images/happy-patient.jpg" alt="Patient"
+                        class="h-32 w-32 object-cover rounded-lg">
+                    <div>
+                        <p class="text-gray-600 mb-3">"Healthcarely offers 24/7 doctor services with no appointment
+                            needed, making it easy to feel better."</p>
+                        <h5 class="text-lg font-semibold text-gray-800">Naufal Hidayat</h5>
+                        <p class="text-gray-500 text-sm">Student at Telkom University</p>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="feedback-card" style="display: flex;">
-                        <img style="height: 206px;" src="/Includes/Images/happy-patient.jpg" alt="Patient" class="img-fluid mb-3">
-                        <div>
-
-                            <p>"Healthcarely is an website and mobile app for you to feel better or get medical help. We offer you a 24/7 doctor service with no appointment needed"</p>
-                            <h5>Naufal Hidayat</h5>
-                            <p>Student at Telkom University</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="feedback-card" style="display: flex;">
-                        <img style="height: 206px;" src="/Includes/Images/happy-patient.jpg" alt="Patient" class="img-fluid mb-3">
-                        <div>
-
-                            <p>"Healthcarely is an website and mobile app for you to feel better or get medical help. We offer you a 24/7 doctor service with no appointment needed"</p>
-                            <h5>Naufal Hidayat</h5>
-                            <p>Student at Telkom University</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="feedback-card" style="display: flex;">
-                        <img style="height: 206px;" src="/Includes/Images/happy-patient.jpg" alt="Patient" class="img-fluid mb-3">
-                        <div>
-
-                            <p>"Healthcarely is an website and mobile app for you to feel better or get medical help. We offer you a 24/7 doctor service with no appointment needed"</p>
-                            <h5>Naufal Hidayat</h5>
-                            <p>Student at Telkom University</p>
-                        </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm flex space-x-4 hover:shadow-md transition">
+                    <img src="/Includes/Images/happy-patient.jpg" alt="Patient"
+                        class="h-32 w-32 object-cover rounded-lg">
+                    <div>
+                        <p class="text-gray-600 mb-3">"Healthcarely offers 24/7 doctor services with no appointment
+                            needed, making it easy to feel better."</p>
+                        <h5 class="text-lg font-semibold text-gray-800">Naufal Hidayat</h5>
+                        <p class="text-gray-500 text-sm">Student at Telkom University</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-
     <!-- Footer Section -->
     <?php include '../Includes/footer.php'; ?>
 
-
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+    </script>
 </body>
 
 </html>
