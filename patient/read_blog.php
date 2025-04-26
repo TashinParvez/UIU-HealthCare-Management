@@ -14,8 +14,8 @@
         }
 
         .blog-content {
-            max-width: 800px;
-            margin: 0 auto;
+            width: 100%;
+            /* Stretch to full width of parent */
             background: white;
             padding: 30px;
             border-radius: 10px;
@@ -113,6 +113,64 @@
         .comment small {
             color: #6c757d;
         }
+
+        /* Sidebar and layout adjustments */
+        .content {
+            margin-left: 64px;
+            /* Match the collapsed sidebar width */
+            padding: 20px;
+            transition: margin-left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            width: calc(100% - 64px);
+            /* Full width minus collapsed sidebar */
+        }
+
+        .sidebar:hover+.content {
+            margin-left: 256px;
+            /* Match the expanded sidebar width */
+            width: calc(100% - 256px);
+            /* Full width minus expanded sidebar */
+        }
+
+        .sidebar {
+            transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transform: translateZ(0);
+            will-change: width;
+        }
+
+        .sidebar:not(:hover) .sidebar-text {
+            display: none;
+        }
+
+        .sidebar:not(:hover) .search-input {
+            display: none;
+        }
+
+        .sidebar-item {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(147, 51, 234, 0.3), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .sidebar-item:hover::before {
+            left: 100%;
+        }
+
+        .sidebar-item:hover {
+            background-color: #f3f4f6;
+            color: #9333ea;
+            transform: scale(1.05);
+            transition: transform 0.2s ease;
+        }
     </style>
 </head>
 
@@ -122,7 +180,7 @@
         <?php include '../Includes/Sidebar.php'; ?>
 
         <!------------------------------ Main Content ------------------------------>
-        <div class="flex-grow-1 p-4" style="margin-left: 4rem;">
+        <div class="p-4 content">
             <div class="blog-content">
                 <h1>5 Home Remedies for Headaches</h1>
                 <div class="tags">
