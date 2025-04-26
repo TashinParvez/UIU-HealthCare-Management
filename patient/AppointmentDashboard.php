@@ -1,4 +1,15 @@
 <!-- appointmentdashboard.php -->
+
+
+<?php
+// include "../Includes/Database_connection.php";
+
+
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 

@@ -1,0 +1,45 @@
+-Need to add card holder name
+-Need to delete country, postal code
+
+-Need to drop 'gender', 'address' and 'date_of_birth' from 'patient' table. And add them to 'users' table
+
+-Patient Profile Page
+
+Full Name (first_name + last_name)
+Email Address
+Phone Number
+Role (Always show “PATIENT” here)
+Date of Birth
+Gender (MALE/FEMALE)
+Address
+
+Medical Information
+
+Blood Group
+Medical History
+Allergies
+Insurance Details
+
+➕ Additional Data
+Profile Photo (Upload field + display)
+
+Emergency Contact (Name, relationship, phone number)
+
+Chronic Conditions (e.g., diabetes, hypertension)
+
+Medications (ongoing prescriptions)
+
+📈 Interaction Info
+
+Download Full Medical Record (PDF)
+
+⚙️ Functionality Suggestions
+
+Edit Profile Button (with restrictions for sensitive fields like medical history)
+Change Password
+
+Upload/View Documents (Lab reports, prescriptions)
+
+
+
+Download Personal Info as PDF
