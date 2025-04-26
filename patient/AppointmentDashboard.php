@@ -8,8 +8,6 @@
 
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,9 +26,7 @@
             align-items: center;
             justify-content: center;
             border: 1px solid #e5e7eb;
-            /* gray-200 */
             border-radius: 0.5rem;
-            /* Rounded corners for dates */
         }
 
         .calendar-day button {
@@ -45,7 +41,6 @@
 
         .calendar-day.today button {
             background-color: #3b82f6;
-            /* blue-500 */
             color: white;
             border-radius: 0.5rem;
         }
@@ -65,7 +60,6 @@
             top: 5px;
             right: 5px;
             background-color: #ef4444;
-            /* red-500 */
             color: white;
             font-size: 12px;
             width: 20px;
@@ -79,7 +73,6 @@
         /* Appointment card styles */
         .appointment-card {
             border: 1px solid #e5e7eb;
-            /* gray-200 */
             border-radius: 0.5rem;
             padding: 1rem;
             margin-bottom: 1rem;
@@ -117,6 +110,60 @@
             font-size: 1.5rem;
             cursor: pointer;
         }
+
+        /* Sidebar and layout adjustments */
+        .content {
+            margin-left: 64px;
+            /* Match the collapsed sidebar width */
+            padding: 20px;
+            transition: margin-left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .sidebar:hover+.content {
+            margin-left: 256px;
+            /* Match the expanded sidebar width */
+        }
+
+        .sidebar {
+            transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transform: translateZ(0);
+            will-change: width;
+        }
+
+        .sidebar:not(:hover) .sidebar-text {
+            display: none;
+        }
+
+        .sidebar:not(:hover) .search-input {
+            display: none;
+        }
+
+        .sidebar-item {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(147, 51, 234, 0.3), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .sidebar-item:hover::before {
+            left: 100%;
+        }
+
+        .sidebar-item:hover {
+            background-color: #f3f4f6;
+            color: #9333ea;
+            transform: scale(1.05);
+            transition: transform 0.2s ease;
+        }
     </style>
 </head>
 
@@ -126,7 +173,7 @@
         <?php include '../Includes/Sidebar.php'; ?>
 
         <!-- Main Content -->
-        <div class="flex-1 p-6 ml-16">
+        <div class="flex-1 p-6 content">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-3xl font-bold text-blue-900">Appointment Dashboard</h1>
                 <a href="booking.php" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Book New</a>

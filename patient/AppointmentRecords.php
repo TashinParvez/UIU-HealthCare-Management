@@ -1,4 +1,3 @@
-<!-- appointments.php -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,107 +8,145 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-    /* Table styles */
-    .table-container {
-        background-color: white;
-        border-radius: 0.5rem;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        overflow-x: auto;
-    }
+        /* Table styles */
+        .table-container {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
 
-    .table-container table {
-        width: 100%;
-        border-collapse: collapse;
-    }
+        .table-container table {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
-    .table-container th,
-    .table-container td {
-        padding: 0.75rem;
-        text-align: left;
-        border-bottom: 1px solid #e5e7eb;
-        /* gray-200 */
-    }
+        .table-container th,
+        .table-container td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
 
-    .table-container th {
-        background-color: #f9fafb;
-        /* gray-50 */
-        font-weight: 600;
-        color: #374151;
-        /* gray-700 */
-    }
+        .table-container th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+        }
 
-    .table-container td {
-        color: #4b5563;
-        /* gray-600 */
-    }
+        .table-container td {
+            color: #4b5563;
+        }
 
-    /* Prescription column with buttons */
-    .table-container td.flex {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        /* Space between prescription text and buttons */
-    }
+        .table-container td.flex {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-    /* Button styles */
-    .edit-btn {
-        background-color: #1f2937;
-        /* gray-800 */
-        color: white;
-        padding: 0.25rem 0.75rem;
-        border-radius: 0.25rem;
-        margin-right: 0.5rem;
-        transition: background-color 0.2s ease;
-    }
+        .edit-btn {
+            background-color: #1f2937;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            margin-right: 0.5rem;
+            transition: background-color 0.2s ease;
+        }
 
-    .edit-btn:hover {
-        background-color: #374151;
-        /* gray-700 */
-    }
+        .edit-btn:hover {
+            background-color: #374151;
+        }
 
-    .print-btn {
-        background-color: #ef4444;
-        /* red-500 */
-        color: white;
-        padding: 0.25rem 0.75rem;
-        border-radius: 0.25rem;
-        transition: background-color 0.2s ease;
-    }
+        .print-btn {
+            background-color: #ef4444;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s ease;
+        }
 
-    .print-btn:hover {
-        background-color: #dc2626;
-        /* red-600 */
-    }
+        .print-btn:hover {
+            background-color: #dc2626;
+        }
 
-    .prescribe-btn {
-        background-color: transparent;
-        border: 1px solid #d1d5db;
-        /* gray-300 */
-        color: #4b5563;
-        /* gray-600 */
-        padding: 0.25rem 0.75rem;
-        border-radius: 0.25rem;
-        transition: background-color 0.2s ease;
-    }
+        .prescribe-btn {
+            background-color: transparent;
+            border: 1px solid #d1d5db;
+            color: #4b5563;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s ease;
+        }
 
-    .prescribe-btn:hover {
-        background-color: #f3f4f6;
-        /* gray-100 */
-    }
+        .prescribe-btn:hover {
+            background-color: #f3f4f6;
+        }
 
-    .book-new-btn {
-        background-color: #3b82f6;
-        /* blue-500 */
-        color: white;
-        padding: 0.5rem 1rem;
-        border-radius: 0.25rem;
-        transition: background-color 0.2s ease;
-    }
+        .book-new-btn {
+            background-color: #3b82f6;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s ease;
+        }
 
-    .book-new-btn:hover {
-        background-color: #2563eb;
-        /* blue-600 */
-    }
+        .book-new-btn:hover {
+            background-color: #2563eb;
+        }
+
+        /* Sidebar and layout adjustments */
+        .content {
+            margin-left: 64px;
+            /* Match the collapsed sidebar width */
+            padding: 20px;
+            transition: margin-left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .sidebar:hover+.content {
+            margin-left: 256px;
+            /* Match the expanded sidebar width */
+        }
+
+        .sidebar {
+            transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transform: translateZ(0);
+            will-change: width;
+        }
+
+        .sidebar:not(:hover) .sidebar-text {
+            display: none;
+        }
+
+        .sidebar:not(:hover) .search-input {
+            display: none;
+        }
+
+        .sidebar-item {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(147, 51, 234, 0.3), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .sidebar-item:hover::before {
+            left: 100%;
+        }
+
+        .sidebar-item:hover {
+            background-color: #f3f4f6;
+            color: #9333ea;
+            transform: scale(1.05);
+            transition: transform 0.2s ease;
+        }
     </style>
 </head>
 
@@ -119,7 +156,7 @@
         <?php include '../Includes/Sidebar.php'; ?>
 
         <!-- Main Content -->
-        <div class="flex-1 p-6 ml-16">
+        <div class="flex-1 p-6 content">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-3xl font-bold text-blue-900">Appointments</h1>
                 <a href="booking.php" class="book-new-btn">Book New Appointment</a>
