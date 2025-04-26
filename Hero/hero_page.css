@@ -1,61 +1,61 @@
 body {
-    font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
 }
 
 .navbar {
-    background-color: #f8f9fa;
+  background-color: #f8f9fa;
 }
 
 .navbar-brand img {
-    height: 40px;
+  height: 40px;
 }
 
 .hero-section {
-    background: linear-gradient(to right, #fff 50%, #e6f0fa 50%);
-    padding: 50px 0;
+  background: linear-gradient(to right, #fff 50%, #e6f0fa 50%);
+  padding: 50px 0;
 }
 
 .hero-text h1 {
-    font-size: 3rem;
-    font-weight: bold;
+  font-size: 3rem;
+  font-weight: bold;
 }
 
 .hero-text p {
-    font-size: 1.2rem;
-    color: #6c757d;
+  font-size: 1.2rem;
+  color: #6c757d;
 }
 
 .btn-primary {
-    background-color: #007bff;
-    border: none;
-    padding: 10px 30px;
-    border-radius: 25px;
+  background-color: #007bff;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 25px;
 }
 
 .btn-outline-primary {
-    border-radius: 25px;
-    padding: 10px 30px;
+  border-radius: 25px;
+  padding: 10px 30px;
 }
 
 .stats-card {
-    background: #007bff;
-    color: white;
-    border-radius: 15px;
-    padding: 10px;
-    position: absolute;
-    top: 50%;
-    right: 20px;
+  background: #007bff;
+  color: white;
+  border-radius: 15px;
+  padding: 10px;
+  position: absolute;
+  top: 50%;
+  right: 20px;
 }
 
 .quick-con-icon {
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    height: 56px;
-    width: 56px;
-    margin: auto;
-    background-color: #042e6b;
-    border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  height: 56px;
+  width: 56px;
+  margin: auto;
+  background-color: #042e6b;
+  border-radius: 50%;
 }
 
 .steps-section,
@@ -64,7 +64,7 @@ body {
 .patient-caring-section,
 .quick-consult-section,
 .feedback-section {
-    padding: 50px 0;
+  padding: 50px 0;
 }
 
 .steps-card,
@@ -73,29 +73,28 @@ body {
 .patient-caring-card,
 .quick-consult-card,
 .feedback-card {
-    border: 1px solid #e0e0e0;
-    border-radius: 15px;
-    padding: 20px;
-    text-align: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
 }
 
 .quick-consult-card {
-    padding: 10px;
-    margin: 5px;
+  padding: 10px;
+  margin: 5px;
 }
 
 .feedback-card {
-    border: 1px solid #007bff;
-    border-radius: 10px;
-    padding: 20px;
+  border: 1px solid #007bff;
+  border-radius: 10px;
+  padding: 20px;
 }
 
 .specialty-btn {
-    border-radius: 20px;
-    margin: 5px;
+  border-radius: 20px;
+  margin: 5px;
 }
 
-
 .blue-color {
-    color: #007bff;
+  color: #007bff;
 }
