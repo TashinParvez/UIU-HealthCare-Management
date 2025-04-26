@@ -7,95 +7,15 @@
     <title>Prescription Page 01 - Collect Complaints</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Custom CSS -->
     <style>
         body {
             background-color: #f8f9fa;
-            margin: 0;
-            /* Ensure no default margins interfere */
-        }
-
-        .content {
-            margin-left: 64px;
-            /* Collapsed sidebar width */
-            padding: 0;
-            /* Remove padding to maximize content width */
-            transition: margin-left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            width: calc(100% - 64px);
-            /* Full width minus collapsed sidebar */
-            min-height: 100vh;
-            /* Ensure content takes full viewport height */
-            display: flex;
-            /* Use flex to center the prescription section */
-            justify-content: center;
-            /* Center horizontally */
-            align-items: center;
-            /* Center vertically */
-        }
-
-        .sidebar:hover+.content {
-            margin-left: 256px;
-            /* Expanded sidebar width */
-            width: calc(100% - 256px);
-            /* Full width minus expanded sidebar */
-        }
-
-        .sidebar {
-            transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            transform: translateZ(0);
-            will-change: width;
-        }
-
-        .sidebar:not(:hover) .sidebar-text {
-            display: none;
-        }
-
-        .sidebar:not(:hover) .search-input {
-            display: none;
-        }
-
-        .sidebar-item {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .sidebar-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(120deg, transparent, rgba(147, 51, 234, 0.3), transparent);
-            transition: all 0.5s ease;
-        }
-
-        .sidebar-item:hover::before {
-            left: 100%;
-        }
-
-        .sidebar-item:hover {
-            background-color: #f3f4f6;
-            color: #9333ea;
-            transform: scale(1.05);
-            transition: transform 0.2s ease;
         }
 
         .prescription-section {
-            padding: 0;
-            /* Remove padding to avoid offset */
+            padding: 20px 0;
             width: 100%;
-            /* Take full width of content area */
-            display: flex;
-            /* Center the card */
-            justify-content: center;
-            /* Center horizontally */
-            align-items: center;
-            /* Center vertically */
-            min-height: 100vh;
-            /* Ensure it takes full height for centering */
         }
 
         .prescription-section .card {
@@ -103,10 +23,8 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            max-width: 650px;
-            /* Increased from 600px */
-            width: 100%;
-            /* Ensure responsiveness */
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .prescription-section .card h5 {
@@ -194,11 +112,11 @@
 
 <body>
     <div class="d-flex min-vh-100">
-        <!-- Include Sidebar -->
+        <!------------------------------ Include Sidebar ------------------------------>
         <?php include '../../Includes/Sidebar.php'; ?>
 
-        <!-- Main Content -->
-        <div class="content">
+        <!------------------------------ Main Content ------------------------------>
+        <div class="flex-grow-1 p-4" style="margin-left: 4rem;">
             <div class="prescription-section">
                 <div class="card">
                     <!-- Step Indicator -->
@@ -236,6 +154,8 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 </body>
 
 </html>
