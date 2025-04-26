@@ -5,217 +5,150 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- Custom CSS -->
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        /* Navbar Styling */
-        .navbar {
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar-brand img {
-            height: 40px;
-        }
-
-        .navbar-nav .nav-link {
-            color: #333;
-            font-weight: 500;
-            margin-right: 15px;
-        }
-
-        .navbar-nav .nav-link:hover {
-            color: #007bff;
-        }
-
-        .navbar .btn {
-            border-radius: 25px;
-            padding: 8px 20px;
-        }
-
-        .navbar .btn-primary {
-            background-color: #007bff;
-            border: none;
-        }
-
-        .navbar .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .navbar .btn-outline-secondary {
-            border-color: #6c757d;
-            color: #6c757d;
-        }
-
-        .navbar .btn-outline-secondary:hover {
-            background-color: #6c757d;
-            color: #fff;
-        }
-
-        /* Hero Section Styling */
-        .hero-section {
-            padding: 40px 0;
-            background-color: #f8f9fa;
-        }
-
-        /* Contact Section Styling */
-        .contact-section {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .contact-section h6 {
-            font-size: 1rem;
-            color: #6c757d;
-            margin-bottom: 10px;
-        }
-
-        .contact-section h1 {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .contact-section p {
-            color: #6c757d;
-            margin-bottom: 30px;
-        }
-
-        .contact-section .form-control,
-        .contact-section .form-select {
-            border-radius: 8px;
-            border: 1px solid #ced4da;
-            margin-bottom: 15px;
-        }
-
-        .contact-section .form-control:focus,
-        .contact-section .form-select:focus {
-            border-color: #80bdff;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-        }
-
-        .contact-section textarea.form-control {
-            height: 150px;
-        }
-
-        .contact-section .form-check-label {
-            color: #6c757d;
-        }
-
-        .contact-section .btn {
-            background-color: #006d77;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            width: 100%;
-        }
-
-        .contact-section .btn:hover {
-            background-color: #00565f;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-    <div class="d-flex min-vh-100">
-        <!------------------------------ Include Sidebar ------------------------------>
-
-
-        <div class="flex-grow-1">
-            <!-- Navigation Bar -->
-            <nav class="navbar navbar-expand-lg navbar-light">
-                <div class="container">
-                    <a class="navbar-brand" href="#">
-                        <!-- Verify the logo path -->
-                        <img src="/Includes/Images/logo/logo-blue.png" alt="UIU Health Care">
+<body class="bg-gray-50 font-sans">
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-sm fixed w-full z-10">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="#" class="flex items-center">
+                <img src="/Includes/Images/logo/logo-blue.png" alt="UIU Health Care" class="h-10">
+            </a>
+            <div class="hidden lg:flex items-center space-x-8">
+                <div class="flex space-x-6">
+                    <a href="\Hero\hero_page.php"
+                        class="text-gray-700 font-medium hover:text-blue-500 transition relative group no-underline">
+                        Home
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full "></span>
                     </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav me-auto">
-                            <li class="nav-item"><a class="nav-link" href="\Hero\hero_page.php">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">AboutUs</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">Departments</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">Doctors</a></li>
-                            <li class="nav-item"><a class="nav-link active" href="\Hero\FAQ.php">FAQ</a></li>
-                            <li class="nav-item"><a class="nav-link active" href="\Hero\contactUs.php">Contact Us</a></li>
-                        </ul>
-                        <div class="d-flex">
-                            <button class="btn btn-outline-secondary">Sign In</button>
-                            <button class="btn btn-primary ms-2">Sign Up</button>
-                        </div>
-                    </div>
+                    <a href="#"
+                        class="no-underline text-gray-700 font-medium hover:text-blue-500 transition relative group">
+                        About Us
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#"
+                        class="no-underline text-gray-700 font-medium hover:text-blue-500 transition relative group">
+                        Departments
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#"
+                        class="no-underline text-gray-700 font-medium hover:text-blue-500 transition relative group">
+                        Doctors
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="\Hero\FAQ.php"
+                        class="no-underline text-gray-700 font-medium hover:text-blue-500 transition relative group">
+                        FAQ
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="\Hero\contactUs.php"
+                        class="no-underline text-gray-700 font-medium hover:text-blue-500 transition relative group">
+                        Contact Us
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
                 </div>
-            </nav>
-
-            <!-- Main Content -->
-            <section class="hero-section">
-                <div class="flex-grow-1 p-4" style="margin-left: 4rem;">
-                    <div class="contact-section">
-                        <h6>Get in Touch</h6>
-                        <h1>Contact Us</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <form>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <input type="text" class="form-control" placeholder="First name" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <input type="text" class="form-control" placeholder="Last name" required>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <input type="email" class="form-control" placeholder="Email" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <input type="tel" class="form-control" placeholder="Phone number">
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <select class="form-select" required>
-                                    <option value="" disabled selected>Choose a topic...</option>
-                                    <option value="general">General Inquiry</option>
-                                    <option value="appointment">Appointment Request</option>
-                                    <option value="feedback">Feedback</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <textarea class="form-control" placeholder="Type your message..." required></textarea>
-                            </div>
-                            <div class="form-check mb-3">
-                                <input type="checkbox" class="form-check-input" id="acceptTerms" required>
-                                <label class="form-check-label" for="acceptTerms">I accept the terms</label>
-                            </div>
-                            <button type="submit" class="btn">Submit</button>
-                        </form>
-                    </div>
+                <div class="flex items-center space-x-4">
+                    <a href="..\logIn\login.php"
+                        class="no-underline text-gray-700 font-medium hover:text-blue-500 transition px-4 py-2 rounded-lg hover:bg-blue-50">Sign
+                        In</a>
+                    <a href="..\SignUp\signup.php"
+                        class="bg-blue-500 text-white font-medium px-5 py-2 rounded-lg hover:bg-blue-600 transition shadow-sm">Sign
+                        Up</a>
                 </div>
-            </section>
+            </div>
+            <button class="lg:hidden text-gray-600 focus:outline-none" onclick="toggleMenu()">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
         </div>
-    </div>
+        <div id="mobileMenu" class="hidden lg:hidden bg-white shadow-md">
+            <div class="container mx-auto px-4 py-4 flex flex-col space-y-4">
+                <a href="\Hero\hero_page.php" class="text-gray-700 font-medium hover:text-blue-500 transition">Home</a>
+                <a href="#" class="text-gray-700 font-medium hover:text-blue-500 transition">About Us</a>
+                <a href="#" class="text-gray-700 font-medium hover:text-blue-500 transition">Departments</a>
+                <a href="#" class="text-gray-700 font-medium hover:text-blue-500 transition">Doctors</a>
+                <a href="\Hero\FAQ.php" class="text-gray-700 font-medium hover:text-blue-500 transition">FAQ</a>
+                <a href="\Hero\contactUs.php" class="text-gray-700 font-medium hover:text-blue-500 transition">Contact
+                    Us</a>
+                <div class="flex flex-col space-y-3">
+                    <a href="..\logIn\login.php" class="text-gray-700 font-medium hover:text-blue-500 transition">Sign
+                        In</a>
+                    <a href="..\SignUp\signup.php"
+                        class="bg-blue-500 text-white font-medium px-5 py-2 rounded-lg hover:bg-blue-600 transition text-center">Sign
+                        Up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section class="pt-24 pb-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-sm">
+                <h6 class="text-blue-500 font-semibold mb-2">Get in Touch</h6>
+                <h1 class="text-3xl font-bold text-gray-800 mb-4">Contact Us</h1>
+                <p class="text-gray-600 mb-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <form>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <input type="text"
+                            class="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                            placeholder="First name" required>
+                        <input type="text"
+                            class="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                            placeholder="Last name" required>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <input type="email"
+                            class="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                            placeholder="Email" required>
+                        <input type="tel"
+                            class="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                            placeholder="Phone number">
+                    </div>
+                    <div class="mb-4">
+                        <select
+                            class="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                            required>
+                            <option value="" disabled selected>Choose a topic...</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="appointment">Appointment Request</option>
+                            <option value="feedback">Feedback</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <textarea
+                            class="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                            placeholder="Type your message..." rows="5" required></textarea>
+                    </div>
+                    <div class="mb-4 flex items-center">
+                        <input type="checkbox" class="h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-200 rounded"
+                            id="acceptTerms" required>
+                        <label for="acceptTerms" class="ml-2 text-gray-600 text-sm">I accept the terms</label>
+                    </div>
+                    <button type="submit"
+                        class="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition">Submit</button>
+                </form>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer Section -->
     <?php include '../Includes/footer.php'; ?>
 
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
     </script>
 </body>
 
