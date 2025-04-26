@@ -1,4 +1,88 @@
 <!-- booking.php -->
+
+
+<?php
+include "../Includes/Database_connection.php";
+
+$payment_method = '';
+$amount = '';
+
+$stmt = $conn->prepare('INSERT INTO payments (payment_method, amount) VALUES (?, ?)');
+$stmt->bind_param('sd', $payment_method, $amount);
+
+if ($stmt->execute()) {
+
+    $payment_id = $conn->insert_id; // Get the auto-incremented payment_id
+    $stmt->close();
+
+    $payment_success = false;
+
+    switch ($payment_method) {
+        case 'cash':
+
+            $payment_success = true;
+            break;
+        case 'mobile_banking':
+
+            $banking_type = '';
+            $transaction_id = '';
+            $transaction_number = '';
+
+            $stmt = $conn->prepare('INSERT INTO mobile_banking_payments (payment_id, banking_type, transaction_id, transaction_number) VALUES (?, ?, ?, ?)');
+            $stmt->bind_param('isss', $payment_id, $banking_type, $transaction_id, $transaction_number);
+
+            $payment_success = $stmt->execute();
+            $stmt->close();
+
+            break;
+        case 'card':
+
+            $banking_type = '';
+            $transaction_id = '';
+            $transaction_number = '';
+
+            $stmt = $conn->prepare('INSERT INTO card_payments (payment_id, card_number, expiry, cvc, card_holder_name) VALUES (?, ?, ?, ?, ?)');
+            $stmt->bind_param('issss', $payment_id, $card_number, $expiry, $cvc, $card_holder_name);
+
+            $payment_success = $stmt->execute();
+            $stmt->close();
+
+            break;
+        default:
+            echo "Invalid payment method";
+            break;
+    }
+
+    if ($payment_success) {
+
+        $patient_id = '';
+        $doctor_id = '';
+        $appoinment_date = '';
+        $appoinment_time = '';
+
+        $stmt = $conn->prepare('INSERT INTO appointments (patient_id, doctor_id, payment_id, appointment_date, appointment_time) VALUES (?, ?, ?, ?, ?)');
+        $stmt->bind_param('iiiss', $patient_id, $doctor_id, $payment_id, $appoinment_date, $appoinment_time);
+
+        if ($stmt->execute()) {
+            $stmt->close();
+        } else {
+            echo "Error inserting appointment: " . $stmt->error;
+        }
+
+        mysqli_close($conn);
+    } else {
+        echo "Error inserting payment method details.";
+    }
+} else {
+    echo "Error inserting payment: " . $stmt->error;
+}
+
+
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,183 +93,183 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-    .sidebar {
-        transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        transform: translateZ(0);
-        /* Force hardware acceleration */
-        will-change: width;
-        /* Optimize animation */
-    }
+        .sidebar {
+            transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transform: translateZ(0);
+            /* Force hardware acceleration */
+            will-change: width;
+            /* Optimize animation */
+        }
 
-    /* Hide text when collapsed */
-    .sidebar:not(:hover) .sidebar-text {
-        display: none;
-    }
+        /* Hide text when collapsed */
+        .sidebar:not(:hover) .sidebar-text {
+            display: none;
+        }
 
-    .sidebar:not(:hover) .search-input {
-        display: none;
-    }
+        .sidebar:not(:hover) .search-input {
+            display: none;
+        }
 
-    /* Crazy cool hover effect */
-    .sidebar-item {
-        position: relative;
-        overflow: hidden;
-    }
+        /* Crazy cool hover effect */
+        .sidebar-item {
+            position: relative;
+            overflow: hidden;
+        }
 
-    .sidebar-item::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(120deg,
-                transparent,
-                rgba(147, 51, 234, 0.3),
-                transparent);
-        transition: all 0.5s ease;
-    }
+        .sidebar-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg,
+                    transparent,
+                    rgba(147, 51, 234, 0.3),
+                    transparent);
+            transition: all 0.5s ease;
+        }
 
-    .sidebar-item:hover::before {
-        left: 100%;
-    }
+        .sidebar-item:hover::before {
+            left: 100%;
+        }
 
-    .sidebar-item:hover {
-        background-color: #f3f4f6;
-        /* Light gray hover */
-        color: #9333ea;
-        /* Purple text on hover */
-        transform: scale(1.05);
-        transition: transform 0.2s ease;
-    }
+        .sidebar-item:hover {
+            background-color: #f3f4f6;
+            /* Light gray hover */
+            color: #9333ea;
+            /* Purple text on hover */
+            transform: scale(1.05);
+            transition: transform 0.2s ease;
+        }
 
-    /* Hide default radio button */
-    input[type="radio"] {
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        position: absolute;
-        opacity: 0;
-    }
+        /* Hide default radio button */
+        input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            position: absolute;
+            opacity: 0;
+        }
 
-    /* Style for doctor card labels */
-    input[type="radio"]+label {
-        display: block;
-        background: white;
-        border: 1px solid #d1d5db;
-        /* gray-300 */
-        border-radius: 0.5rem;
-        /* rounded-lg */
-        padding: 1rem;
-        /* p-4 */
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-        /* shadow-sm */
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
+        /* Style for doctor card labels */
+        input[type="radio"]+label {
+            display: block;
+            background: white;
+            border: 1px solid #d1d5db;
+            /* gray-300 */
+            border-radius: 0.5rem;
+            /* rounded-lg */
+            padding: 1rem;
+            /* p-4 */
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            /* shadow-sm */
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
 
-    input[type="radio"]:hover+label {
-        background-color: #f3f4f6;
-        /* hover:bg-gray-100 */
-    }
+        input[type="radio"]:hover+label {
+            background-color: #f3f4f6;
+            /* hover:bg-gray-100 */
+        }
 
-    input[type="radio"]:checked+label {
-        border-color: #3b82f6;
-        /* blue-500 */
-        background-color: #eff6ff;
-        /* blue-50 */
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
+        input[type="radio"]:checked+label {
+            border-color: #3b82f6;
+            /* blue-500 */
+            background-color: #eff6ff;
+            /* blue-50 */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
 
-    /* Style for day and time labels */
-    input[type="radio"]+label.day-label,
-    input[type="radio"]+label.time-label {
-        display: block;
-        background: white;
-        border: 1px solid #d1d5db;
-        /* gray-300 */
-        border-radius: 0.5rem;
-        /* rounded-lg */
-        padding: 0.75rem;
-        /* p-3 */
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
+        /* Style for day and time labels */
+        input[type="radio"]+label.day-label,
+        input[type="radio"]+label.time-label {
+            display: block;
+            background: white;
+            border: 1px solid #d1d5db;
+            /* gray-300 */
+            border-radius: 0.5rem;
+            /* rounded-lg */
+            padding: 0.75rem;
+            /* p-3 */
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
 
-    input[type="radio"]:hover+label.day-label,
-    input[type="radio"]:hover+label.time-label {
-        background-color: #f3f4f6;
-        /* hover:bg-gray-100 */
-    }
+        input[type="radio"]:hover+label.day-label,
+        input[type="radio"]:hover+label.time-label {
+            background-color: #f3f4f6;
+            /* hover:bg-gray-100 */
+        }
 
-    input[type="radio"]:checked+label.day-label,
-    input[type="radio"]:checked+label.time-label {
-        border-color: #3b82f6;
-        /* blue-500 */
-        background-color: #eff6ff;
-        /* blue-50 */
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
+        input[type="radio"]:checked+label.day-label,
+        input[type="radio"]:checked+label.time-label {
+            border-color: #3b82f6;
+            /* blue-500 */
+            background-color: #eff6ff;
+            /* blue-50 */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
 
-    /* Modal styles */
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 50;
-        justify-content: center;
-        align-items: center;
-    }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 50;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .modal-content {
-        background-color: white;
-        padding: 2rem;
-        border-radius: 0.5rem;
-        width: 100%;
-        max-width: 500px;
-        position: relative;
-    }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+        }
 
-    .modal-content input,
-    .modal-content select {
-        width: 100%;
-        padding: 0.5rem;
-        border: 1px solid #d1d5db;
-        border-radius: 0.25rem;
-        margin-top: 0.25rem;
-    }
+        .modal-content input,
+        .modal-content select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.25rem;
+            margin-top: 0.25rem;
+        }
 
-    .modal-content input:focus,
-    .modal-content select:focus {
-        outline: none;
-        border-color: #3b82f6;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
+        .modal-content input:focus,
+        .modal-content select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
 
-    .payment-options {
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 1rem;
-    }
+        .payment-options {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
 
-    .payment-options label {
-        flex: 1;
-        text-align: center;
-        padding: 0.5rem;
-        border: 1px solid #d1d5db;
-        border-radius: 0.25rem;
-        cursor: pointer;
-    }
+        .payment-options label {
+            flex: 1;
+            text-align: center;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.25rem;
+            cursor: pointer;
+        }
 
-    .payment-options input[type="radio"]:checked+label {
-        border-color: #3b82f6;
-        background-color: #eff6ff;
-    }
+        .payment-options input[type="radio"]:checked+label {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
     </style>
 </head>
 
@@ -435,12 +519,12 @@
                                 <svg class="w-5 h-5 mr-2" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
                                     <defs>
                                         <style>
-                                        .a {
-                                            fill: none;
-                                            stroke: #000000;
-                                            stroke-linecap: round;
-                                            stroke-linejoin: round;
-                                        }
+                                            .a {
+                                                fill: none;
+                                                stroke: #000000;
+                                                stroke-linecap: round;
+                                                stroke-linejoin: round;
+                                            }
                                         </style>
                                     </defs>
                                     <path class="a"
@@ -461,12 +545,12 @@
                                 <svg class="w-5 h-5 mr-2" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
                                     <defs>
                                         <style>
-                                        .a {
-                                            fill: none;
-                                            stroke: #000000;
-                                            stroke-linecap: round;
-                                            stroke-linejoin: round;
-                                        }
+                                            .a {
+                                                fill: none;
+                                                stroke: #000000;
+                                                stroke-linecap: round;
+                                                stroke-linejoin: round;
+                                            }
                                         </style>
                                     </defs>
                                     <path class="a" d="M18.8808,6.3975A19.3468,19.3468,0,1,0,42.3963,19.3847" />
@@ -527,55 +611,55 @@
     </div>
 
     <script>
-    const bookNowBtn = document.getElementById('bookNowBtn');
-    const paymentModal = document.getElementById('paymentModal');
-    const cancelBtn = document.getElementById('cancelBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const bookingForm = document.getElementById('bookingForm');
+        const bookNowBtn = document.getElementById('bookNowBtn');
+        const paymentModal = document.getElementById('paymentModal');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const bookingForm = document.getElementById('bookingForm');
 
-    // Show modal when "Book Now" is clicked
-    bookNowBtn.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevent default form submission
-        // Check if the required fields are filled
-        const specialist = bookingForm.querySelector('select[name="specialist"]').value;
-        const doctor = bookingForm.querySelector('input[name="doctor"]:checked');
-        const day = bookingForm.querySelector('input[name="day"]:checked');
-        const time = bookingForm.querySelector('input[name="time"]:checked');
+        // Show modal when "Book Now" is clicked
+        bookNowBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default form submission
+            // Check if the required fields are filled
+            const specialist = bookingForm.querySelector('select[name="specialist"]').value;
+            const doctor = bookingForm.querySelector('input[name="doctor"]:checked');
+            const day = bookingForm.querySelector('input[name="day"]:checked');
+            const time = bookingForm.querySelector('input[name="time"]:checked');
 
-        if (specialist && doctor && day && time) {
-            paymentModal.style.display = 'flex';
-        } else {
-            alert('Please fill out all required fields (Specialist, Doctor, Day, and Time).');
-        }
-    });
+            if (specialist && doctor && day && time) {
+                paymentModal.style.display = 'flex';
+            } else {
+                alert('Please fill out all required fields (Specialist, Doctor, Day, and Time).');
+            }
+        });
 
-    // Close modal when "Cancel" is clicked
-    cancelBtn.addEventListener('click', () => {
-        paymentModal.style.display = 'none';
-    });
-
-    // Submit form when "Next" is clicked
-    nextBtn.addEventListener('click', () => {
-        // Validate modal fields
-        const cardNumber = document.querySelector('input[name="card_number"]').value;
-        const expiry = document.querySelector('input[name="expiry"]').value;
-        const cvc = document.querySelector('input[name="cvc"]').value;
-        const country = document.querySelector('select[name="country"]').value;
-        const postalCode = document.querySelector('input[name="postal_code"]').value;
-
-        if (cardNumber && expiry && cvc && country && postalCode) {
-            bookingForm.submit(); // Submit the form to submit_booking.php
-        } else {
-            alert('Please fill out all payment fields.');
-        }
-    });
-
-    // Close modal when clicking outside of it
-    paymentModal.addEventListener('click', (e) => {
-        if (e.target === paymentModal) {
+        // Close modal when "Cancel" is clicked
+        cancelBtn.addEventListener('click', () => {
             paymentModal.style.display = 'none';
-        }
-    });
+        });
+
+        // Submit form when "Next" is clicked
+        nextBtn.addEventListener('click', () => {
+            // Validate modal fields
+            const cardNumber = document.querySelector('input[name="card_number"]').value;
+            const expiry = document.querySelector('input[name="expiry"]').value;
+            const cvc = document.querySelector('input[name="cvc"]').value;
+            const country = document.querySelector('select[name="country"]').value;
+            const postalCode = document.querySelector('input[name="postal_code"]').value;
+
+            if (cardNumber && expiry && cvc && country && postalCode) {
+                bookingForm.submit(); // Submit the form to submit_booking.php
+            } else {
+                alert('Please fill out all payment fields.');
+            }
+        });
+
+        // Close modal when clicking outside of it
+        paymentModal.addEventListener('click', (e) => {
+            if (e.target === paymentModal) {
+                paymentModal.style.display = 'none';
+            }
+        });
     </script>
 </body>
 
