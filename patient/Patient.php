@@ -161,7 +161,7 @@
                 </button>
             </div>
             <br>
-            <a href="\emergency\EmergencyPage.php">
+            <a href="..\patient\EmergencyAlert.php">
                 <button type="button"
                     class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
                     Emergency Alert
@@ -172,7 +172,7 @@
             <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8">
                 <div class="flex items-center justify-between">
                     <h5 class="text-xl font-medium text-gray-500">Book an appointment</h5>
-                    <a href="\patient\AppointmentDashboard.php"><button type="button"
+                    <a href="..\patient\AppointmentDashboard.php"><button type="button"
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 font-medium rounded-lg text-sm px-5 py-2.5">
                             Book Now
                         </button>
