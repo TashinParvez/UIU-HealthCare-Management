@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - UIU Health Care</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Custom CSS -->
     <style>
         body {
@@ -123,11 +124,13 @@
             <!-- Illustration Side -->
             <div class="col-md-6 illustration-side">
                 <h1>Care. Heal. Thrive.</h1>
-                <img src="/Includes/Images/care1.jpg" alt="Doctor, Nurse, and Patient Illustration" style="width: 50px;">
+                <img src="\Includes\Images\3568984.jpg" alt="Doctor, Nurse, and Patient Illustration"
+                    style="width: 50px;">
             </div>
             <!-- Sign Up Side -->
             <div class="col-md-6 signup-side">
-                <img src="/Includes/Images/logo/logo-blue.png" alt="UIU Health Care Logo" class="mb-4" style="width: 134px;">
+                <img src="/Includes/Images/logo/logo-blue.png" alt="UIU Health Care Logo" class="mb-4"
+                    style="width: 134px;">
                 <h2>Sign Up</h2>
                 <form>
                     <div class="row">
@@ -139,7 +142,8 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <input type="email" class="form-control" placeholder="Email" value="johnsmith@gmail.com" required>
+                        <input type="email" class="form-control" placeholder="Email" value="johnsmith@gmail.com"
+                            required>
                     </div>
                     <div class="mb-3">
                         <input type="password" class="form-control" placeholder="Password" required>
@@ -150,7 +154,8 @@
                     <div class="form-check mb-3">
                         <input type="checkbox" class="form-check-input" id="privacyPolicy" required>
                         <label class="form-check-label" for="privacyPolicy">
-                            I have read and agree to StaffMerge’s <a href="#">Privacy Policy, Terms of Use, and Cookies Policy</a>
+                            I have read and agree to StaffMerge’s <a href="#">Privacy Policy, Terms of Use, and Cookies
+                                Policy</a>
                         </label>
                     </div>
                     <button type="submit" class="btn btn-primary">Create Your Account</button>
@@ -164,7 +169,9 @@
     </div>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>

@@ -223,8 +223,20 @@
                 class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
                 Emergency Alert
             </button>
-            <br><br>
-            <!-- Book an Appointment Box -->
+
+
+        </div>
+        <br>
+        <a href="/emergency/EmergencyPage.php" class="no-underline">
+            <button type="button"
+                class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+                Emergency Alert
+            </button>
+        </a>
+        <br><br>
+        <!-- Book an Appointment Box -->
+        <a href="/patient/AppointmentDashboard.php" class="no-underline">
+
             <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8">
                 <div class="flex items-center justify-between">
                     <h5 class="text-xl font-medium text-gray-500">Book an appointment</h5>
@@ -234,18 +246,21 @@
                     </button>
                 </div>
             </div>
-            <!-- Medicine Section -->
-            <div class="mt-8">
-                <h1 class="text-5xl font-bold mb-6">Medicine</h1>
-                <div class="space-y-4">
-                    <?php
-                    // Example array of medicines (replace with database query)
-                    $medicines = [
-                        ['id' => 1, 'name' => 'Drometa Zoletronic', 'dosage' => '500mg | 25ml | After Meal', 'time' => '8:30AM - 12:00AM', 'duration' => '2 Month', 'start_date' => '05 Oct 2024', 'progress' => 50],
-                        ['id' => 2, 'name' => 'Drometa Zoletronic', 'dosage' => '500mg | 25ml | After Meal', 'time' => '8:30AM - 12:00AM', 'duration' => '2 Month', 'start_date' => '05 Oct 2024', 'progress' => 50],
-                        ['id' => 3, 'name' => 'Drometa Zoletronic', 'dosage' => '500mg | 25ml | After Meal', 'time' => '8:30AM - 12:00AM', 'duration' => '2 Month', 'start_date' => '05 Oct 2024', 'progress' => 50],
-                        ['id' => 4, 'name' => 'Drometa Zoletronic', 'dosage' => '500mg | 25ml | After Meal', 'time' => '8:30AM - 12:00AM', 'duration' => '2 Month', 'start_date' => '05 Oct 2024', 'progress' => 50],
-                    ];
+
+        </a>
+        <!-- Medicine Section -->
+        <div class="mt-8">
+            <h1 class="text-5xl font-bold mb-6">Medicine</h1>
+            <div class="space-y-4">
+                <?php
+                // Example array of medicines (replace with database query)
+                $medicines = [
+                    ['id' => 1, 'name' => 'Drometa Zoletronic', 'dosage' => '500mg | 25ml | After Meal', 'time' => '8:30AM - 12:00AM', 'duration' => '2 Month', 'start_date' => '05 Oct 2024', 'progress' => 50],
+                    ['id' => 2, 'name' => 'Drometa Zoletronic', 'dosage' => '500mg | 25ml | After Meal', 'time' => '8:30AM - 12:00AM', 'duration' => '2 Month', 'start_date' => '05 Oct 2024', 'progress' => 50],
+                    ['id' => 3, 'name' => 'Drometa Zoletronic', 'dosage' => '500mg | 25ml | After Meal', 'time' => '8:30AM - 12:00AM', 'duration' => '2 Month', 'start_date' => '05 Oct 2024', 'progress' => 50],
+                    ['id' => 4, 'name' => 'Drometa Zoletronic', 'dosage' => '500mg | 25ml | After Meal', 'time' => '8:30AM - 12:00AM', 'duration' => '2 Month', 'start_date' => '05 Oct 2024', 'progress' => 50],
+                ];
+
 
                     foreach ($medicines as $medicine) {
                     ?>

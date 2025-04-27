@@ -5,261 +5,254 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAQ</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- Custom CSS -->
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        /* Navbar Styling */
-        .navbar {
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar-brand img {
-            height: 40px;
-        }
-
-        .navbar-nav .nav-link {
-            color: #333;
-            font-weight: 500;
-            margin-right: 15px;
-        }
-
-        .navbar-nav .nav-link:hover {
-            color: #007bff;
-        }
-
-        .navbar .btn {
-            border-radius: 25px;
-            padding: 8px 20px;
-        }
-
-        .navbar .btn-primary {
-            background-color: #007bff;
-            border: none;
-        }
-
-        .navbar .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .navbar .btn-outline-secondary {
-            border-color: #6c757d;
-            color: #6c757d;
-        }
-
-        .navbar .btn-outline-secondary:hover {
-            background-color: #6c757d;
-            color: #fff;
-        }
-
-        /* Hero Section Styling */
-        .hero-section {
-            padding: 40px 0;
-            background-color: #f8f9fa;
-        }
-
-        /* FAQ Section Styling */
-        .faq-section {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .faq-section h1 {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .faq-section .subtitle {
-            color: #6c757d;
-            margin-bottom: 30px;
-        }
-
-        .accordion-button {
-            color: #007bff;
-            font-weight: 500;
-        }
-
-        .accordion-button:not(.collapsed) {
-            color: #007bff;
-            background-color: #e6f0fa;
-        }
-
-        .accordion-body {
-            color: #6c757d;
-            font-size: 0.9rem;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-    <div class="d-flex min-vh-100">
-
-        <div class="flex-grow-1">
-            <!-- Navigation Bar -->
-            <nav class="navbar navbar-expand-lg navbar-light">
-                <div class="container">
-                    <a class="navbar-brand" href="#">
-                        <!-- Verify the logo path -->
-                        <img src="/Includes/Images/logo/logo-blue.png" alt="UIU Health Care">
+<body class="bg-gray-50 font-sans">
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-sm fixed w-full z-10">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="#" class="flex items-center">
+                <img src="/Includes/Images/logo/logo-blue.png" alt="UIU Health Care" class="h-10">
+            </a>
+            <div class="hidden lg:flex items-center space-x-8">
+                <div class="flex space-x-6">
+                    <a href="\Hero\hero_page.php"
+                        class="text-gray-700 font-medium hover:text-blue-500 transition relative group no-underline">
+                        Home
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full "></span>
                     </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav me-auto">
-                            <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">AboutUs</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">Departments</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">Doctors</a></li>
-                            <li class="nav-item"><a class="nav-link active" href="#">FAQ</a></li>
-                        </ul>
-                        <div class="d-flex">
-                            <button class="btn btn-outline-secondary">Sign In</button>
-                            <button class="btn btn-primary ms-2">Sign Up</button>
-                        </div>
-                    </div>
+                    <a href="#"
+                        class="no-underline text-gray-700 font-medium hover:text-blue-500 transition relative group">
+                        About Us
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#"
+                        class="no-underline text-gray-700 font-medium hover:text-blue-500 transition relative group">
+                        Departments
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#"
+                        class="no-underline text-gray-700 font-medium hover:text-blue-500 transition relative group">
+                        Doctors
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="\Hero\FAQ.php"
+                        class="no-underline text-gray-700 font-medium hover:text-blue-500 transition relative group">
+                        FAQ
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="\Hero\contactUs.php"
+                        class="no-underline text-gray-700 font-medium hover:text-blue-500 transition relative group">
+                        Contact Us
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
                 </div>
-            </nav>
-
-            <!-- Main Content -->
-            <section class="hero-section">
-                <div class="p-4" style="margin-left: 4rem;">
-                    <div class="faq-section">
-                        <h1>FAQ</h1>
-                        <p class="subtitle">Problems trying to resolve the conflict between the two major realms of Classical physics: Newtonian mechanics</p>
-                        <div class="accordion" id="faqAccordion">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        The quick fox jumps over the lazy dog
-                                    </button>
-                                </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
-                                    <div class="accordion-body">
-                                        Things on a very small scale behave like nothing you have any direct experience with.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingTwo">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        The quick fox jumps over the lazy dog
-                                    </button>
-                                </h2>
-                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
-                                    <div class="accordion-body">
-                                        Things on a very small scale behave like nothing you have any direct experience with.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingThree">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                        The quick fox jumps over the lazy dog
-                                    </button>
-                                </h2>
-                                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
-                                    <div class="accordion-body">
-                                        Things on a very small scale behave like nothing you have any direct experience with.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingFour">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                        The quick fox jumps over the lazy dog
-                                    </button>
-                                </h2>
-                                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
-                                    <div class="accordion-body">
-                                        Things on a very small scale behave like nothing you have any direct experience with.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingFive">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                        The quick fox jumps over the lazy dog
-                                    </button>
-                                </h2>
-                                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
-                                    <div class="accordion-body">
-                                        Things on a very small scale behave like nothing you have any direct experience with.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingSix">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                                        The quick fox jumps over the lazy dog
-                                    </button>
-                                </h2>
-                                <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#faqAccordion">
-                                    <div class="accordion-body">
-                                        Things on a very small scale behave like nothing you have any direct experience with.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingSeven">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
-                                        The quick fox jumps over the lazy dog
-                                    </button>
-                                </h2>
-                                <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#faqAccordion">
-                                    <div class="accordion-body">
-                                        Things on a very small scale behave like nothing you have any direct experience with.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingEight">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
-                                        The quick fox jumps over the lazy dog
-                                    </button>
-                                </h2>
-                                <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#faqAccordion">
-                                    <div class="accordion-body">
-                                        Things on a very small scale behave like nothing you have any direct experience with.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingNine">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
-                                        The quick fox jumps over the lazy dog
-                                    </button>
-                                </h2>
-                                <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine" data-bs-parent="#faqAccordion">
-                                    <div class="accordion-body">
-                                        Things on a very small scale behave like nothing you have any direct experience with.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="flex items-center space-x-4">
+                    <a href="..\logIn\login.php"
+                        class="no-underline text-gray-700 font-medium hover:text-blue-500 transition px-4 py-2 rounded-lg hover:bg-blue-50">Sign
+                        In</a>
+                    <a href="..\SignUp\signup.php"
+                        class="bg-blue-500 text-white font-medium px-5 py-2 rounded-lg hover:bg-blue-600 transition shadow-sm">Sign
+                        Up</a>
                 </div>
-            </section>
+            </div>
+            <button class="lg:hidden text-gray-600 focus:outline-none" onclick="toggleMenu()">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
         </div>
-    </div>
+        <div id="mobileMenu" class="hidden lg:hidden bg-white shadow-md">
+            <div class="container mx-auto px-4 py-4 flex flex-col space-y-4">
+                <a href="\Hero\hero_page.php" class="text-gray-700 font-medium hover:text-blue-500 transition">Home</a>
+                <a href="#" class="text-gray-700 font-medium hover:text-blue-500 transition">About Us</a>
+                <a href="#" class="text-gray-700 font-medium hover:text-blue-500 transition">Departments</a>
+                <a href="#" class="text-gray-700 font-medium hover:text-blue-500 transition">Doctors</a>
+                <a href="\Hero\FAQ.php" class="text-gray-700 font-medium hover:text-blue-500 transition">FAQ</a>
+                <a href="\Hero\contactUs.php" class="text-gray-700 font-medium hover:text-blue-500 transition">Contact
+                    Us</a>
+                <div class="flex flex-col space-y-3">
+                    <a href="..\logIn\login.php" class="text-gray-700 font-medium hover:text-blue-500 transition">Sign
+                        In</a>
+                    <a href="..\SignUp\signup.php"
+                        class="bg-blue-500 text-white font-medium px-5 py-2 rounded-lg hover:bg-blue-600 transition text-center">Sign
+                        Up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
 
+    <!-- Main Content -->
+    <section class="pt-24 pb-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-sm">
+                <h1 class="text-3xl font-bold text-gray-800 mb-4">FAQ</h1>
+                <p class="text-gray-600 mb-6">Problems trying to resolve the conflict between the two major realms of
+                    Classical physics: Newtonian mechanics</p>
+                <div class="space-y-4">
+                    <div class="border border-gray-200 rounded-lg">
+                        <button
+                            class="w-full p-4 text-left text-blue-500 font-medium hover:bg-blue-50 transition flex justify-between items-center"
+                            onclick="toggleAccordion('collapseOne')">
+                            The quick fox jumps over the lazy dog
+                            <svg id="iconOne" class="w-5 h-5 transform transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="collapseOne" class="hidden px-4 pb-4 text-gray-600 text-sm">
+                            Things on a very small scale behave like nothing you have any direct experience with.
+                        </div>
+                    </div>
+                    <div class="border border-gray-200 rounded-lg">
+                        <button
+                            class="w-full p-4 text-left text-blue-500 font-medium hover:bg-blue-50 transition flex justify-between items-center"
+                            onclick="toggleAccordion('collapseTwo')">
+                            The quick fox jumps over the lazy dog
+                            <svg id="iconTwo" class="w-5 h-5 transform transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="collapseTwo" class="hidden px-4 pb-4 text-gray-600 text-sm">
+                            Things on a very small scale behave like nothing you have any direct experience with.
+                        </div>
+                    </div>
+                    <div class="border border-gray-200 rounded-lg">
+                        <button
+                            class="w-full p-4 text-left text-blue-500 font-medium hover:bg-blue-50 transition flex justify-between items-center"
+                            onclick="toggleAccordion('collapseThree')">
+                            The quick fox jumps over the lazy dog
+                            <svg id="iconThree" class="w-5 h-5 transform transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="collapseThree" class="hidden px-4 pb-4 text-gray-600 text-sm">
+                            Things on a very small scale behave like nothing you have any direct experience with.
+                        </div>
+                    </div>
+                    <div class="border border-gray-200 rounded-lg">
+                        <button
+                            class="w-full p-4 text-left text-blue-500 font-medium hover:bg-blue-50 transition flex justify-between items-center"
+                            onclick="toggleAccordion('collapseFour')">
+                            The quick fox jumps over the lazy dog
+                            <svg id="iconFour" class="w-5 h-5 transform transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="collapseFour" class="hidden px-4 pb-4 text-gray-600 text-sm">
+                            Things on a very small scale behave like nothing you have any direct experience with.
+                        </div>
+                    </div>
+                    <div class="border border-gray-200 rounded-lg">
+                        <button
+                            class="w-full p-4 text-left text-blue-500 font-medium hover:bg-blue-50 transition flex justify-between items-center"
+                            onclick="toggleAccordion('collapseFive')">
+                            The quick fox jumps over the lazy dog
+                            <svg id="iconFive" class="w-5 h-5 transform transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="collapseFive" class="hidden px-4 pb-4 text-gray-600 text-sm">
+                            Things on a very small scale behave like nothing you have any direct experience with.
+                        </div>
+                    </div>
+                    <div class="border border-gray-200 rounded-lg">
+                        <button
+                            class="w-full p-4 text-left text-blue-500 font-medium hover:bg-blue-50 transition flex justify-between items-center"
+                            onclick="toggleAccordion('collapseSix')">
+                            The quick fox jumps over the lazy dog
+                            <svg id="iconSix" class="w-5 h-5 transform transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="collapseSix" class="hidden px-4 pb-4 text-gray-600 text-sm">
+                            Things on a very small scale behave like nothing you have any direct experience with.
+                        </div>
+                    </div>
+                    <div class="border border-gray-200 rounded-lg">
+                        <button
+                            class="w-full p-4 text-left text-blue-500 font-medium hover:bg-blue-50 transition flex justify-between items-center"
+                            onclick="toggleAccordion('collapseSeven')">
+                            The quick fox jumps over the lazy dog
+                            <svg id="iconSeven" class="w-5 h-5 transform transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="collapseSeven" class="hidden px-4 pb-4 text-gray-600 text-sm">
+                            Things on a very small scale behave like nothing you have any direct experience with.
+                        </div>
+                    </div>
+                    <div class="border border-gray-200 rounded-lg">
+                        <button
+                            class="w-full p-4 text-left text-blue-500 font-medium hover:bg-blue-50 transition flex justify-between items-center"
+                            onclick="toggleAccordion('collapseEight')">
+                            The quick fox jumps over the lazy dog
+                            <svg id="iconEight" class="w-5 h-5 transform transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="collapseEight" class="hidden px-4 pb-4 text-gray-600 text-sm">
+                            Things on a very small scale behave like nothing you have any direct experience with.
+                        </div>
+                    </div>
+                    <div class="border border-gray-200 rounded-lg">
+                        <button
+                            class="w-full p-4 text-left text-blue-500 font-medium hover:bg-blue-50 transition flex justify-between items-center"
+                            onclick="toggleAccordion('collapseNine')">
+                            The quick fox jumps over the lazy dog
+                            <svg id="iconNine" class="w-5 h-5 transform transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="collapseNine" class="hidden px-4 pb-4 text-gray-600 text-sm">
+                            Things on a very small scale behave like nothing you have any direct experience with.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer Section -->
     <?php include '../Includes/footer.php'; ?>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById(`icon${id.replace('collapse', '')}`);
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+    </script>
 </body>
 
 </html>
