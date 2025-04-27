@@ -13,75 +13,11 @@
     <style>
         body {
             background-color: #f8f9fa;
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            /* Ensure no default body margins interfere */
-        }
-
-        .content {
-            margin-left: 74px;
-            /* Collapsed sidebar width (64px) + 10px gap */
-            padding: 0;
-            /* Remove padding to maximize content width */
-            transition: margin-left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            width: calc(100% - 74px);
-            /* Full width minus collapsed sidebar and gap */
-        }
-
-        .sidebar:hover+.content {
-            margin-left: 266px;
-            /* Expanded sidebar width (256px) + 10px gap */
-            width: calc(100% - 266px);
-            /* Full width minus expanded sidebar and gap */
-        }
-
-        .sidebar {
-            transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            transform: translateZ(0);
-            will-change: width;
-        }
-
-        .sidebar:not(:hover) .sidebar-text {
-            display: none;
-        }
-
-        .sidebar:not(:hover) .search-input {
-            display: none;
-        }
-
-        .sidebar-item {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .sidebar-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(120deg, transparent, rgba(147, 51, 234, 0.3), transparent);
-            transition: all 0.5s ease;
-        }
-
-        .sidebar-item:hover::before {
-            left: 100%;
-        }
-
-        .sidebar-item:hover {
-            background-color: #f3f4f6;
-            color: #9333ea;
-            transform: scale(1.05);
-            transition: transform 0.2s ease;
         }
 
         .patient-section {
             padding: 20px 0;
-            /* No horizontal padding to stretch content fully */
             width: 100%;
-            margin: 0;
-            /* Remove any margins */
         }
 
         .patient-section h1 {
@@ -89,8 +25,6 @@
             font-weight: bold;
             color: #333;
             margin-bottom: 20px;
-            padding: 0 15px;
-            /* Add padding to h1 for consistent spacing */
         }
 
         .patient-section .patient-header {
@@ -99,8 +33,6 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
             margin-bottom: 20px;
-            margin-left: 15px;
-            margin-right: 15px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -139,8 +71,6 @@
         .patient-section .nav-tabs {
             border-bottom: 2px solid #007bff;
             margin-bottom: 20px;
-            margin-left: 15px;
-            margin-right: 15px;
         }
 
         .patient-section .nav-tabs .nav-link {
@@ -158,8 +88,6 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            margin-left: 15px;
-            margin-right: 15px;
         }
 
         .patient-section .appointment-info .date-picker {
@@ -179,8 +107,6 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
             margin-bottom: 20px;
-            margin-left: 15px;
-            margin-right: 15px;
         }
 
         .patient-section .vitals h6,
@@ -228,8 +154,6 @@
         .patient-section .action-buttons {
             display: flex;
             gap: 15px;
-            margin-left: 15px;
-            margin-right: 15px;
         }
 
         .patient-section .action-buttons .btn {
@@ -255,27 +179,16 @@
         .patient-section .action-buttons .btn-prescribe:hover {
             background-color: #218838;
         }
-
-        /* Override Bootstrap row margins to stretch content */
-        .full-width-row {
-            margin-left: 0;
-            margin-right: 0;
-        }
-
-        .full-width-row>div {
-            padding-left: 10px;
-            padding-right: 10px;
-        }
     </style>
 </head>
 
 <body>
     <div class="d-flex min-vh-100">
-        <!-- Include Sidebar -->
+        <!------------------------------ Include Sidebar ------------------------------>
         <?php include '../../Includes/Sidebar.php'; ?>
 
-        <!-- Main Content -->
-        <div class="content">
+        <!------------------------------ Main Content ------------------------------>
+        <div class="flex-grow-1 p-4" style="margin-left: 4rem;">
             <div class="patient-section">
                 <h1>Patients</h1>
 
@@ -331,7 +244,7 @@
                         <!-- Vitals -->
                         <div class="vitals">
                             <h6><i class="bi bi-heart me-2"></i>Vitals</h6>
-                            <div class="row full-width-row">
+                            <div class="row">
                                 <div class="col-md-2 vital-item">
                                     <p>Blood glucose level</p>
                                     <h5>120 mg/dt</h5>
