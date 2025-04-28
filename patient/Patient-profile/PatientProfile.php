@@ -15,7 +15,8 @@
     <link rel="shortcut icon" href="\Images\logo\logo.png" type="image/x-icon">
     <title>Patient Profile</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Tailwind CSS for Sidebar -->
@@ -157,7 +158,8 @@
 
             <!-- Profile Header -->
             <div class="profile-header">
-                <img src="profile-placeholder.png" alt="Profile Photo" class="profile-photo">
+                <img src="https://t4.ftcdn.net/jpg/03/83/25/83/360_F_383258331_D8imaEMl8Q3lf7EKU2Pi78Cn0R7KkW9o.jpg"
+                    alt="Profile Photo" class="profile-photo">
                 <h2 class="mt-3" id="name-header">Tashin Parvez</h2>
                 <p class="text-muted mb-0">Role: PATIENT</p>
             </div>
@@ -191,8 +193,10 @@
                     </div>
                     <div class="col-12">
                         <div class="profile-label">Address</div>
-                        <div class="profile-value profile-field" data-field="address">123 Example Street, Dhaka, Bangladesh</div>
-                        <input type="text" class="form-control profile-input d-none" value="123 Example Street, Dhaka, Bangladesh">
+                        <div class="profile-value profile-field" data-field="address">123 Example Street, Dhaka,
+                            Bangladesh</div>
+                        <input type="text" class="form-control profile-input d-none"
+                            value="123 Example Street, Dhaka, Bangladesh">
                     </div>
                 </div>
             </div>
@@ -215,8 +219,10 @@
                     </div>
                     <div class="col-12">
                         <div class="profile-label">Medical History</div>
-                        <div class="profile-value profile-field" data-field="medical_history">Previous surgeries, no major illnesses.</div>
-                        <input type="text" class="form-control profile-input d-none" value="Previous surgeries, no major illnesses.">
+                        <div class="profile-value profile-field" data-field="medical_history">Previous surgeries, no
+                            major illnesses.</div>
+                        <input type="text" class="form-control profile-input d-none"
+                            value="Previous surgeries, no major illnesses.">
                     </div>
                     <div class="col-12">
                         <div class="profile-label">Allergies</div>
@@ -234,13 +240,17 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <div class="profile-label">Insurance Details</div>
-                        <div class="profile-value profile-field" data-field="insurance_details">XYZ Health Insurance, Policy #12345</div>
-                        <input type="text" class="form-control profile-input d-none" value="XYZ Health Insurance, Policy #12345">
+                        <div class="profile-value profile-field" data-field="insurance_details">XYZ Health Insurance,
+                            Policy #12345</div>
+                        <input type="text" class="form-control profile-input d-none"
+                            value="XYZ Health Insurance, Policy #12345">
                     </div>
                     <div class="col-md-6">
                         <div class="profile-label">Emergency Contact</div>
-                        <div class="profile-value profile-field" data-field="emergency_contact">John Doe (Brother) - +880987654321</div>
-                        <input type="text" class="form-control profile-input d-none" value="John Doe (Brother) - +880987654321">
+                        <div class="profile-value profile-field" data-field="emergency_contact">John Doe (Brother) -
+                            +880987654321</div>
+                        <input type="text" class="form-control profile-input d-none"
+                            value="John Doe (Brother) - +880987654321">
                     </div>
                     <div class="col-12">
                         <div class="profile-label">Medications</div>
@@ -307,8 +317,12 @@
     </div>
 
     <!-- Bootstrap JS and Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
+    </script>
     <script>
         const editIcon = document.getElementById('edit-icon');
         const saveSection = document.getElementById('save-section');
