@@ -123,7 +123,9 @@
                     <textarea placeholder="Advice"></textarea>
 
                     <!-- Submit Button -->
-                    <button class="btn-submit">Submit</button>
+                    <a href="\doctor\patient-view\pescrive-5.php">
+                        <button class="btn-submit">Continue</button>
+                    </a>
                 </div>
             </div>
         </div>
