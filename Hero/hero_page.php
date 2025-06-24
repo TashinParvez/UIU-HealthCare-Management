@@ -181,7 +181,7 @@ $pFeedback = mysqli_fetch_all($pFeedback, MYSQLI_ASSOC);  // returns associative
                         <span
                             class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full "></span>
                     </a>
-                    <a href="#"
+                    <a href="/Hero/aboutUs.php"
                         class="no-underline text-gray-700 font-medium hover:text-blue-500 transition relative group">
                         About Us
                         <span

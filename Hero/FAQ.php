@@ -9,7 +9,7 @@
 </head>
 
 <body class="bg-gray-50 font-sans">
-    <!-- Navigation Bar -->
+     <!-- Navigation Bar -->
     <nav class="bg-white shadow-sm fixed w-full z-10">
         <div class="container mx-auto px-4 py-4 flex items-center justify-between">
             <a href="#" class="flex items-center">
@@ -23,7 +23,7 @@
                         <span
                             class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full "></span>
                     </a>
-                    <a href="#"
+                    <a href="/Hero/aboutUs.php"
                         class="no-underline text-gray-700 font-medium hover:text-blue-500 transition relative group">
                         About Us
                         <span
