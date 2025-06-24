@@ -170,7 +170,7 @@ $pFeedback = mysqli_fetch_all($pFeedback, MYSQLI_ASSOC);  // returns associative
     <!-- Navigation Bar -->
     <?php include($_SERVER['DOCUMENT_ROOT'] . '/Hero/heroNav.php'); ?>
 
-    
+
 
     <!-- Hero Section -->
     <section class="pt-24 pb-12 bg-gradient-to-b from-gray-50 to-white">
@@ -254,6 +254,83 @@ $pFeedback = mysqli_fetch_all($pFeedback, MYSQLI_ASSOC);  // returns associative
             </div>
         </div>
     </section>
+
+
+    <!----------------------------- Departments Section ----------------------------->
+
+
+    <section class="py-12 bg-white" id="departments">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Our Departments</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+
+                <!-- Department Card Example -->
+                <div
+                    class="bg-blue-50 rounded-lg p-6 flex flex-col items-center text-center shadow-sm hover:shadow-lg transition">
+                    <!-- Icon placeholder -->
+                    <div
+                        class="bg-blue-200 text-blue-600 rounded-full p-4 mb-4 inline-flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 14l9-5-9-5-9 5 9 5z" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 14l6.16-3.422a12.083 12.083 0 01.34 6.374L12 20.5l-6.5-3.548a12.083 12.083 0 01.34-6.374L12 14z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Cardiology</h3>
+                    <p class="text-gray-600 text-sm">Heart health and treatment by expert cardiologists.</p>
+                </div>
+
+                <div
+                    class="bg-green-50 rounded-lg p-6 flex flex-col items-center text-center shadow-sm hover:shadow-lg transition">
+                    <div
+                        class="bg-green-200 text-green-600 rounded-full p-4 mb-4 inline-flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9 12l2 2 4-4" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 14l9-5-9-5-9 5 9 5z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Orthopedics</h3>
+                    <p class="text-gray-600 text-sm">Bone and joint care from specialized orthopedic doctors.</p>
+                </div>
+
+                <div
+                    class="bg-purple-50 rounded-lg p-6 flex flex-col items-center text-center shadow-sm hover:shadow-lg transition">
+                    <div
+                        class="bg-purple-200 text-purple-600 rounded-full p-4 mb-4 inline-flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Neurology</h3>
+                    <p class="text-gray-600 text-sm">Diagnosis and treatment for headache and brain disorders.</p>
+                </div>
+
+                <div
+                    class="bg-yellow-50 rounded-lg p-6 flex flex-col items-center text-center shadow-sm hover:shadow-lg transition">
+                    <div
+                        class="bg-yellow-200 text-yellow-600 rounded-full p-4 mb-4 inline-flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14v7" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Eye Care</h3>
+                    <p class="text-gray-600 text-sm">Comprehensive eye exams and treatments by specialists.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ----------------------------- -->
 
 
 
