@@ -1,3 +1,18 @@
+<?php
+
+include "../Includes/Database_connection.php";
+
+
+// --------------- FAQ ---------------------
+$sql = "SELECT question, answer FROM faq ORDER BY faq_id ASC;";
+$result = mysqli_query($conn, $sql);
+$faqs = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,9 +24,11 @@
 </head>
 
 <body class="bg-gray-50 font-sans">
- 
+
     <!-- Navigation Bar -->
     <?php include($_SERVER['DOCUMENT_ROOT'] . '/Hero/heroNav.php'); ?>
+
+
 
     <!-- Main Content -->
     <section class="pt-24 pb-12 bg-gray-50">
@@ -20,146 +37,38 @@
                 <h1 class="text-3xl font-bold text-gray-800 mb-4">FAQ</h1>
                 <p class="text-gray-600 mb-6">Problems trying to resolve the conflict between the two major realms of
                     Classical physics: Newtonian mechanics</p>
+
                 <div class="space-y-4">
-                    <div class="border border-gray-200 rounded-lg">
-                        <button
-                            class="w-full p-4 text-left text-blue-500 font-medium hover:bg-blue-50 transition flex justify-between items-center"
-                            onclick="toggleAccordion('collapseOne')">
-                            The quick fox jumps over the lazy dog
-                            <svg id="iconOne" class="w-5 h-5 transform transition-transform" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <div id="collapseOne" class="hidden px-4 pb-4 text-gray-600 text-sm">
-                            Things on a very small scale behave like nothing you have any direct experience with.
+                    <?php
+                    $count = 1;
+                    foreach ($faqs as $faq):
+                        $collapseId = "collapse" . $count;
+                        $iconId = "icon" . $count;
+                    ?>
+                        <div class="border border-gray-200 rounded-lg">
+                            <button
+                                class="w-full p-4 text-left text-blue-500 font-medium hover:bg-blue-50 transition flex justify-between items-center"
+                                onclick="toggleAccordion('<?php echo $collapseId; ?>', '<?php echo $iconId; ?>')">
+                                <?php echo htmlspecialchars($faq['question']); ?>
+                                <svg id="<?php echo $iconId; ?>" class="w-5 h-5 transform transition-transform"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div id="<?php echo $collapseId; ?>" class="hidden px-4 pb-4 text-gray-600 text-sm">
+                                <?php echo htmlspecialchars($faq['answer']); ?>
+                            </div>
                         </div>
-                    </div>
-                    <div class="border border-gray-200 rounded-lg">
-                        <button
-                            class="w-full p-4 text-left text-blue-500 font-medium hover:bg-blue-50 transition flex justify-between items-center"
-                            onclick="toggleAccordion('collapseTwo')">
-                            The quick fox jumps over the lazy dog
-                            <svg id="iconTwo" class="w-5 h-5 transform transition-transform" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <div id="collapseTwo" class="hidden px-4 pb-4 text-gray-600 text-sm">
-                            Things on a very small scale behave like nothing you have any direct experience with.
-                        </div>
-                    </div>
-                    <div class="border border-gray-200 rounded-lg">
-                        <button
-                            class="w-full p-4 text-left text-blue-500 font-medium hover:bg-blue-50 transition flex justify-between items-center"
-                            onclick="toggleAccordion('collapseThree')">
-                            The quick fox jumps over the lazy dog
-                            <svg id="iconThree" class="w-5 h-5 transform transition-transform" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <div id="collapseThree" class="hidden px-4 pb-4 text-gray-600 text-sm">
-                            Things on a very small scale behave like nothing you have any direct experience with.
-                        </div>
-                    </div>
-                    <div class="border border-gray-200 rounded-lg">
-                        <button
-                            class="w-full p-4 text-left text-blue-500 font-medium hover:bg-blue-50 transition flex justify-between items-center"
-                            onclick="toggleAccordion('collapseFour')">
-                            The quick fox jumps over the lazy dog
-                            <svg id="iconFour" class="w-5 h-5 transform transition-transform" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <div id="collapseFour" class="hidden px-4 pb-4 text-gray-600 text-sm">
-                            Things on a very small scale behave like nothing you have any direct experience with.
-                        </div>
-                    </div>
-                    <div class="border border-gray-200 rounded-lg">
-                        <button
-                            class="w-full p-4 text-left text-blue-500 font-medium hover:bg-blue-50 transition flex justify-between items-center"
-                            onclick="toggleAccordion('collapseFive')">
-                            The quick fox jumps over the lazy dog
-                            <svg id="iconFive" class="w-5 h-5 transform transition-transform" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <div id="collapseFive" class="hidden px-4 pb-4 text-gray-600 text-sm">
-                            Things on a very small scale behave like nothing you have any direct experience with.
-                        </div>
-                    </div>
-                    <div class="border border-gray-200 rounded-lg">
-                        <button
-                            class="w-full p-4 text-left text-blue-500 font-medium hover:bg-blue-50 transition flex justify-between items-center"
-                            onclick="toggleAccordion('collapseSix')">
-                            The quick fox jumps over the lazy dog
-                            <svg id="iconSix" class="w-5 h-5 transform transition-transform" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <div id="collapseSix" class="hidden px-4 pb-4 text-gray-600 text-sm">
-                            Things on a very small scale behave like nothing you have any direct experience with.
-                        </div>
-                    </div>
-                    <div class="border border-gray-200 rounded-lg">
-                        <button
-                            class="w-full p-4 text-left text-blue-500 font-medium hover:bg-blue-50 transition flex justify-between items-center"
-                            onclick="toggleAccordion('collapseSeven')">
-                            The quick fox jumps over the lazy dog
-                            <svg id="iconSeven" class="w-5 h-5 transform transition-transform" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <div id="collapseSeven" class="hidden px-4 pb-4 text-gray-600 text-sm">
-                            Things on a very small scale behave like nothing you have any direct experience with.
-                        </div>
-                    </div>
-                    <div class="border border-gray-200 rounded-lg">
-                        <button
-                            class="w-full p-4 text-left text-blue-500 font-medium hover:bg-blue-50 transition flex justify-between items-center"
-                            onclick="toggleAccordion('collapseEight')">
-                            The quick fox jumps over the lazy dog
-                            <svg id="iconEight" class="w-5 h-5 transform transition-transform" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <div id="collapseEight" class="hidden px-4 pb-4 text-gray-600 text-sm">
-                            Things on a very small scale behave like nothing you have any direct experience with.
-                        </div>
-                    </div>
-                    <div class="border border-gray-200 rounded-lg">
-                        <button
-                            class="w-full p-4 text-left text-blue-500 font-medium hover:bg-blue-50 transition flex justify-between items-center"
-                            onclick="toggleAccordion('collapseNine')">
-                            The quick fox jumps over the lazy dog
-                            <svg id="iconNine" class="w-5 h-5 transform transition-transform" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <div id="collapseNine" class="hidden px-4 pb-4 text-gray-600 text-sm">
-                            Things on a very small scale behave like nothing you have any direct experience with.
-                        </div>
-                    </div>
+                    <?php
+                        $count++;
+                    endforeach;
+                    ?>
                 </div>
             </div>
         </div>
     </section>
+
 
     <!-- Footer Section -->
     <?php include '../Includes/footer.php'; ?>
