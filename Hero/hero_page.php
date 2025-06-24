@@ -307,34 +307,35 @@ $nutritionist = mysqli_fetch_all($nutritionist, MYSQLI_ASSOC);  // returns assoc
         </div>
     </section>
 
+
+
+
+
     <!-- Book an Appointment Section -->
     <section class="py-12 bg-gradient-to-l from-blue-50 to-white">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-gray-800 mb-6">Book an Appointment</h2>
+
+            <!-- Buttons with data-category -->
             <div class="flex flex-wrap gap-3 mb-6">
-                <button
-                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition">All</button>
-                <button
-                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition">Cardiologist</button>
-                <button
-                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition">Orthopedist</button>
-                <button
-                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition">Headache</button>
-                <button
-                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition">Eye
-                    Care</button>
-                <button
-                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition">Nutritionist</button>
+                <button data-category="all"
+                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition filter-btn">All</button>
+                <button data-category="cardiologist"
+                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition filter-btn">Cardiologist</button>
+                <button data-category="orthopedist"
+                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition filter-btn">Orthopedist</button>
+                <button data-category="headache"
+                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition filter-btn">Headache</button>
+                <button data-category="eyecare"
+                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition filter-btn">Eye Care</button>
+                <button data-category="nutritionist"
+                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition filter-btn">Nutritionist</button>
             </div>
 
-            <!------------------------- DOCTORS section ----------------------- -->
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
-
-                <!-- ======================= -->
-
+            <!-- Doctors container with ID -->
+            <div id="doctorsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <?php
+                // Initially show all doctors with your original PHP loop
                 foreach ($allDoctors as $row) {
                 ?>
                     <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
@@ -342,17 +343,15 @@ $nutritionist = mysqli_fetch_all($nutritionist, MYSQLI_ASSOC);  // returns assoc
                             class="w-full h-40 object-cover rounded-lg mb-3">
 
                         <h5 class="text-lg font-semibold text-gray-800">
-                            <?php
-                            echo $row['full_name'];
-                            ?></h5>
+                            <?php echo $row['full_name']; ?>
+                        </h5>
                         <p class="text-gray-600 text-sm">
-                            <?php
-                            echo $row['specialization']; ?> </p>
+                            <?php echo $row['specialization']; ?>
+                        </p>
                     </div>
                 <?php
                 }
                 ?>
-
             </div>
         </div>
     </section>
@@ -450,6 +449,54 @@ $nutritionist = mysqli_fetch_all($nutritionist, MYSQLI_ASSOC);  // returns assoc
             menu.classList.toggle('hidden');
         }
     </script>
+
+
+    <!-- FOR THE DOCTOR APOINMENT SECTION -->
+
+
+
+    <!-- ========= -->
+    <script>
+        // Pass PHP arrays as JS objects
+        const doctorsData = {
+            all: <?php echo json_encode($allDoctors); ?>,
+            cardiologist: <?php echo json_encode($cardiologist); ?>,
+            orthopedist: <?php echo json_encode($orthopedist); ?>,
+            headache: <?php echo json_encode($headache); ?>,
+            eyecare: <?php echo json_encode($eyecare); ?>,
+            nutritionist: <?php echo json_encode($nutritionist); ?>
+        };
+
+        // Render doctors keeping your exact card format and styles
+        function renderDoctors(doctors) {
+            const container = document.getElementById('doctorsContainer');
+            container.innerHTML = ''; // clear existing
+
+            doctors.forEach(doc => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition";
+
+                card.innerHTML = `
+                <img src="/Includes/male-doctors-white-medical.jpg" alt="Doctor"
+                    class="w-full h-40 object-cover rounded-lg mb-3">
+                <h5 class="text-lg font-semibold text-gray-800">${doc.full_name}</h5>
+                <p class="text-gray-600 text-sm">${doc.specialization}</p>
+            `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // Add click listeners to buttons
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const category = button.getAttribute('data-category');
+                renderDoctors(doctorsData[category]);
+            });
+        });
+    </script>
+
+
 </body>
 
 </html>
