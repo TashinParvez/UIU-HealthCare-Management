@@ -108,6 +108,29 @@ $nutritionist = mysqli_fetch_all($nutritionist, MYSQLI_ASSOC);  // returns assoc
 
 
 
+//  --------------------- Our Patients’ Feedback  ---------------------
+
+$sql = "SELECT 
+            CONCAT(u.first_name, ' ', u.last_name) AS patient_name,
+            pf.feedback_text
+        FROM 
+            patient_feedback pf
+        JOIN 
+            users u ON pf.patient_id = u.user_id
+        ORDER BY 
+            RAND()
+        LIMIT 5;";
+
+$pFeedback = mysqli_query($conn, $sql);
+$pFeedback = mysqli_fetch_all($pFeedback, MYSQLI_ASSOC);  // returns associative array
+
+// print_r($pFeedback);
+
+
+
+
+
+
 
 
 // ===========================================================
@@ -411,36 +434,45 @@ $nutritionist = mysqli_fetch_all($nutritionist, MYSQLI_ASSOC);  // returns assoc
         </div>
     </section>
 
-    <!-- Feedback Section -->
+
+    <!--------------------- Our Patients’ Feedback Section --------------------->
+
     <section class="py-12 bg-white">
         <div class="container mx-auto px-4">
             <h2 class="text-center text-3xl font-bold text-gray-800 mb-8">Our Patients’ Feedback</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-lg shadow-sm flex space-x-4 hover:shadow-md transition">
-                    <img src="/Includes/Images/happy-patient.jpg" alt="Patient"
-                        class="h-32 w-32 object-cover rounded-lg">
-                    <div>
-                        <p class="text-gray-600 mb-3">"Healthcarely offers 24/7 doctor services with no appointment
-                            needed, making it easy to feel better."</p>
-                        <h5 class="text-lg font-semibold text-gray-800">Naufal Hidayat</h5>
-                        <p class="text-gray-500 text-sm">Student at Telkom University</p>
-                    </div>
+
+            <!-- Feedback slider container -->
+            <div class="relative">
+                <!-- Left button -->
+                <button id="prevBtn"
+                    class="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-lg border border-gray-300 text-blue-500 hover:text-white hover:bg-blue-500 p-3 rounded-full transition duration-300 z-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+
+                <!-- Feedbacks wrapper -->
+                <div id="feedbackContainer" class="grid grid-cols-2 gap-6 overflow-hidden">
+                    <!-- Feedback cards will be rendered here by JS -->
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-sm flex space-x-4 hover:shadow-md transition">
-                    <img src="/Includes/Images/happy-patient.jpg" alt="Patient"
-                        class="h-32 w-32 object-cover rounded-lg">
-                    <div>
-                        <p class="text-gray-600 mb-3">"Healthcarely offers 24/7 doctor services with no appointment
-                            needed, making it easy to feel better."</p>
-                        <h5 class="text-lg font-semibold text-gray-800">Naufal Hidayat</h5>
-                        <p class="text-gray-500 text-sm">Student at Telkom University</p>
-                    </div>
-                </div>
+
+                <!-- Right button -->
+                <button id="nextBtn"
+                    class="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-lg border border-gray-300 text-blue-500 hover:text-white hover:bg-blue-500 p-3 rounded-full transition duration-300 z-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
             </div>
         </div>
     </section>
 
-    <!-- Footer Section -->
+
+
+
+    <!---------------------------------- Footer Section ---------------------------------->
     <?php include '../Includes/footer.php'; ?>
 
     <script>
@@ -451,11 +483,8 @@ $nutritionist = mysqli_fetch_all($nutritionist, MYSQLI_ASSOC);  // returns assoc
     </script>
 
 
-    <!-- FOR THE DOCTOR APOINMENT SECTION -->
+    <!-------------------- FOR THE DOCTOR APOINMENT SECTION script-------------------->
 
-
-
-    <!-- ========= -->
     <script>
         // Pass PHP arrays as JS objects
         const doctorsData = {
@@ -496,6 +525,61 @@ $nutritionist = mysqli_fetch_all($nutritionist, MYSQLI_ASSOC);  // returns assoc
         });
     </script>
 
+    <!-------------------- FOR Our Patients’ Feedback script-------------------->
+
+    <script>
+        // Pass PHP feedback array to JS
+        const feedbacks = <?php echo json_encode($pFeedback); ?>;
+
+        // Current index to track which feedbacks are visible
+        let currentIndex = 0;
+
+        // Render function to display 2 feedback cards starting from currentIndex
+        function renderFeedbacks() {
+            const container = document.getElementById('feedbackContainer');
+            container.innerHTML = '';
+
+            // Show 2 feedbacks at a time, cycle around if needed
+            for (let i = 0; i < 2; i++) {
+                const idx = (currentIndex + i) % feedbacks.length;
+                const fb = feedbacks[idx];
+
+                const card = document.createElement('div');
+                card.className = "bg-white p-6 rounded-lg shadow-sm flex space-x-4 hover:shadow-md transition";
+
+                card.innerHTML = `
+                <img src="/Includes/Images/happy-patient.jpg" alt="Patient" class="h-32 w-32 object-cover rounded-lg">
+                <div>
+                    <p class="text-gray-600 mb-3">"${fb.feedback_text}"</p>
+                    <h5 class="text-lg font-semibold text-gray-800">${fb.patient_name}</h5>
+                    <p class="text-gray-500 text-sm">Patient</p>
+                </div>
+            `;
+
+                container.appendChild(card);
+            }
+        }
+
+        // Event listeners for buttons
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            currentIndex = (currentIndex - 2 + feedbacks.length) % feedbacks.length; // Move backward by 2
+            renderFeedbacks();
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            currentIndex = (currentIndex + 2) % feedbacks.length; // Move forward by 2
+            renderFeedbacks();
+        });
+
+        // Initial render on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFeedbacks();
+        });
+    </script>
+
+    <!-- ================================================================================ -->
+    <!-- ================================  BODY END ===================================== -->
+    <!-- ================================================================================ -->
 
 </body>
 
