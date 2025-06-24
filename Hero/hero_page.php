@@ -2,23 +2,130 @@
 
 include "../Includes/Database_connection.php";
 
-$sql = "SELECT *
-        FROM users";
 
-$result = mysqli_query($conn, $sql);  // get query result
+// --------------- DOCTOR INFO ---------------------
+$sql = "SELECT 
+            CONCAT(u.first_name, ' ', u.last_name) AS full_name,
+            d.specialization
+        FROM 
+            users u
+        JOIN 
+            doctors d 
+        ON u.user_id = d.doctor_id;";
 
-$userInfo = mysqli_fetch_all($result); // conver to array
+$allDoctors = mysqli_query($conn, $sql);
+$allDoctors = mysqli_fetch_all($allDoctors, MYSQLI_ASSOC);  // returns associative array
 
-$firstName = $userInfo[0][1];
-$lastName = $userInfo[0][2];
-$email  = $userInfo[0][3];
-$phone = $userInfo[0][4];
-$role = $userInfo[0][5];
 
-echo $firstName;
+// --------------- Cardiologist ---------------------
 
-print_r($userInfo);
+$sql = "SELECT 
+            CONCAT(u.first_name, ' ', u.last_name) AS full_name,
+            d.specialization
+        FROM 
+            users u
+        JOIN 
+            doctors d ON u.user_id = d.doctor_id
+        WHERE 
+            LOWER(d.specialization) = 'cardiologist';";
 
+$cardiologist = mysqli_query($conn, $sql);
+$cardiologist = mysqli_fetch_all($cardiologist, MYSQLI_ASSOC);  // returns associative array
+
+// print_r($cardiologist);
+
+
+// --------------- orthopedist ---------------------
+
+$sql = "SELECT 
+            CONCAT(u.first_name, ' ', u.last_name) AS full_name,
+            d.specialization
+        FROM 
+            users u
+        JOIN 
+            doctors d ON u.user_id = d.doctor_id
+        WHERE 
+            LOWER(d.specialization) = 'orthopedist';";
+
+$orthopedist = mysqli_query($conn, $sql);
+$orthopedist = mysqli_fetch_all($orthopedist, MYSQLI_ASSOC);  // returns associative array
+
+// print_r($orthopedist);
+
+
+// --------------- headache ---------------------
+
+$sql = "SELECT 
+            CONCAT(u.first_name, ' ', u.last_name) AS full_name,
+            d.specialization
+        FROM 
+            users u
+        JOIN 
+            doctors d ON u.user_id = d.doctor_id
+        WHERE 
+            LOWER(d.specialization) = 'headache';";
+
+$headache = mysqli_query($conn, $sql);
+$headache = mysqli_fetch_all($headache, MYSQLI_ASSOC);  // returns associative array
+
+// print_r($headache);
+
+
+// --------------- eyecare ---------------------
+
+$sql = "SELECT 
+            CONCAT(u.first_name, ' ', u.last_name) AS full_name,
+            d.specialization
+        FROM 
+            users u
+        JOIN 
+            doctors d ON u.user_id = d.doctor_id
+        WHERE 
+            LOWER(d.specialization) = 'eyecare';";
+
+$eyecare = mysqli_query($conn, $sql);
+$eyecare = mysqli_fetch_all($eyecare, MYSQLI_ASSOC);  // returns associative array
+
+// print_r($eyecare);
+
+
+// --------------- nutritionist ---------------------
+
+$sql = "SELECT 
+            CONCAT(u.first_name, ' ', u.last_name) AS full_name,
+            d.specialization
+        FROM 
+            users u
+        JOIN 
+            doctors d ON u.user_id = d.doctor_id
+        WHERE 
+            LOWER(d.specialization) = 'nutritionist';";
+
+$nutritionist = mysqli_query($conn, $sql);
+$nutritionist = mysqli_fetch_all($nutritionist, MYSQLI_ASSOC);  // returns associative array
+
+// print_r($nutritionist);
+
+
+
+
+
+// ===========================================================
+
+
+// foreach ($result as $row) {
+//     echo "Doctor Name: " . $row['full_name'] . "<br>";
+//     echo "Specialization: " . $row['specialization'] . "<br><br>";
+// }
+
+// $firstName = $userInfo[0][1];
+// $lastName = $userInfo[0][2];
+// $email  = $userInfo[0][3];
+// $phone = $userInfo[0][4];
+// $role = $userInfo[0][5];
+
+// echo $firstName . "<br>";
+// echo $result[0] . "<br>";
 
 ?>
 
@@ -200,11 +307,13 @@ print_r($userInfo);
         </div>
     </section>
 
-    <!-- Appointment Section -->
+    <!-- Book an Appointment Section -->
     <section class="py-12 bg-gradient-to-l from-blue-50 to-white">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-gray-800 mb-6">Book an Appointment</h2>
             <div class="flex flex-wrap gap-3 mb-6">
+                <button
+                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition">All</button>
                 <button
                     class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition">Cardiologist</button>
                 <button
@@ -217,31 +326,33 @@ print_r($userInfo);
                 <button
                     class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition">Nutritionist</button>
             </div>
+
+            <!------------------------- DOCTORS section ----------------------- -->
+
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
-                    <img src="/Includes/male-doctors-white-medical.jpg" alt="Doctor"
-                        class="w-full h-40 object-cover rounded-lg mb-3">
-                    <h5 class="text-lg font-semibold text-gray-800">Prof. Dr. Tashin Parvez</h5>
-                    <p class="text-gray-600 text-sm">Cardiologist MBBS, FCPS</p>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
-                    <img src="/Includes/male-doctors-white-medical.jpg" alt="Doctor"
-                        class="w-full h-40 object-cover rounded-lg mb-3">
-                    <h5 class="text-lg font-semibold text-gray-800">Prof. Dr. Nilufar Sultana</h5>
-                    <p class="text-gray-600 text-sm">Cardiologist MBBS, FCPS</p>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
-                    <img src="/Includes/male-doctors-white-medical.jpg" alt="Doctor"
-                        class="w-full h-40 object-cover rounded-lg mb-3">
-                    <h5 class="text-lg font-semibold text-gray-800">Prof. Dr. Nilufar Sultana</h5>
-                    <p class="text-gray-600 text-sm">Cardiologist MBBS, FCPS</p>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
-                    <img src="/Includes/male-doctors-white-medical.jpg" alt="Doctor"
-                        class="w-full h-40 object-cover rounded-lg mb-3">
-                    <h5 class="text-lg font-semibold text-gray-800">Prof. Dr. Nilufar Sultana</h5>
-                    <p class="text-gray-600 text-sm">Cardiologist MBBS, FCPS</p>
-                </div>
+
+
+                <!-- ======================= -->
+
+                <?php
+                foreach ($allDoctors as $row) {
+                ?>
+                    <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                        <img src="/Includes/male-doctors-white-medical.jpg" alt="Doctor"
+                            class="w-full h-40 object-cover rounded-lg mb-3">
+
+                        <h5 class="text-lg font-semibold text-gray-800">
+                            <?php
+                            echo $row['full_name'];
+                            ?></h5>
+                        <p class="text-gray-600 text-sm">
+                            <?php
+                            echo $row['specialization']; ?> </p>
+                    </div>
+                <?php
+                }
+                ?>
+
             </div>
         </div>
     </section>
