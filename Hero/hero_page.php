@@ -1,3 +1,31 @@
+<?php
+
+include "../Includes/Database_connection.php";
+
+$sql = "SELECT *
+        FROM users";
+
+$result = mysqli_query($conn, $sql);  // get query result
+
+$userInfo = mysqli_fetch_all($result); // conver to array
+
+$firstName = $userInfo[0][1];
+$lastName = $userInfo[0][2];
+$email  = $userInfo[0][3];
+$phone = $userInfo[0][4];
+$role = $userInfo[0][5];
+
+echo $firstName;
+
+print_r($userInfo);
+
+
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
