@@ -1,3 +1,59 @@
+<?php
+
+
+$error = $email = $password = '';
+
+
+if (isset($_POST['login'])) {
+
+
+    //...................... Database Connection ..............................
+    include '../Includes/Database_connection.php';
+
+
+    //................ Retrieve all data  from input field & escape sql chars ...............
+
+    $email = mysqli_real_escape_string($conn, $_POST['email'] ?? '');
+    $password = mysqli_real_escape_string($conn, $_POST['password'] ?? '');
+
+
+    if (empty($_POST['email']) || empty($_POST['password'])) {
+
+        $error = 'Please Enter email or password.';
+    } else {
+
+        $stmt = $conn->prepare('SELECT user_id, password FROM users WHERE email = ? LIMIT 1');
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+        $stmt->bind_result($user_id, $stored_password);
+
+        if ($stmt->fetch()) {
+
+            if ($password === $stored_password) {
+
+                session_start();
+                $_SESSION['user_id'] = $user_id;
+
+                $stmt->close();
+                mysqli_close($conn);
+                header('Location: #');
+                exit();
+            } else {
+                $error = "Invalid email or password.";
+            }
+        } else {
+            $error = "Data Fetch Failed";
+        }
+    }
+}
+
+
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -134,12 +190,12 @@
             <div class="col-md-6 login-side">
                 <img src="/Includes/Images/logo/logo-blue.png" alt="UIU Health Care Logo" class="mb-4" style="width: 134px;">
                 <h2>Welcome Back...</h2>
-                <form>
+                <form action="login-second.php" method="post">
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Username" value="JOHNDOE" required>
+                        <input type="text" class="form-control" placeholder="Email" value="<?php echo htmlspecialchars($email); ?>" name="email" required>
                     </div>
                     <div class="mb-3">
-                        <input type="password" class="form-control" placeholder="Password" required>
+                        <input type="password" class="form-control" placeholder="Password" name="password" required>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="form-check">
@@ -150,10 +206,10 @@
                             <a href="#">Forgot Password?</a>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Log In</button>
+                    <button type="submit" class="btn btn-primary" name="login">Log In</button>
                 </form>
                 <div class="signup-link">
-                    <p>Don't have an account? <a href="#">Sign Up</a></p>
+                    <p>Don't have an account? <a href="../SignUp/signup.php">Sign Up</a></p>
                 </div>
             </div>
         </div>

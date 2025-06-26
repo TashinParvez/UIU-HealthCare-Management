@@ -51,21 +51,18 @@ $doctors_info = $result->fetch_all(MYSQLI_ASSOC);
 // echo $doctors_info[0]['doctor_id'];
 
 
+
+
 // ................ Book an Appointment .....................
 
 if (isset($_POST['book_appointment'])) {
 
-    echo "success!";
-
     $patient_id = $_SESSION['user_id'] ?? '1002';
-    $doctor_id = mysqli_real_escape_string($conn, $_POST['doctor'] ?? '');
-    $appointment_date = mysqli_real_escape_string($conn, $_POST['day'] ?? '');
-    $appointment_time = mysqli_real_escape_string($conn, $_POST['time'] ?? '');
+    $doctor_id = mysqli_real_escape_string($conn, $_POST['doctor_id'] ?? '');
+    $appoinment_date = mysqli_real_escape_string($conn, $_POST['appoinment_date'] ?? '');
+    $appoinment_time = mysqli_real_escape_string($conn, $_POST['appoinment_time'] ?? '');
 
-    $payment_method = mysqli_real_escape_string($conn, $_POST['payment_method'] ?? 'cash');
-    if ($payment_method == 'Nagad' || $payment_method == 'bKash') {
-        $payment_method = 'mobile_banking';
-    }
+    $payment_method = mysqli_real_escape_string($conn, $_POST['payment_method'] ?? '');
     $amount = getAmount($doctors_info, $doctor_id);
 
     $stmt = $conn->prepare('INSERT INTO payments (payment_method, amount) VALUES (?, ?)');
@@ -85,7 +82,7 @@ if (isset($_POST['book_appointment'])) {
                 break;
             case 'mobile_banking':
 
-                $banking_type = $payment_method;
+                $banking_type = mysqli_real_escape_string($conn, $_POST['banking_type'] ?? '');
                 $transaction_id = mysqli_real_escape_string($conn, $_POST['transaction_id'] ?? '');
                 $transaction_number = mysqli_real_escape_string($conn, $_POST['transaction_number'] ?? '');
 
@@ -118,14 +115,10 @@ if (isset($_POST['book_appointment'])) {
         if ($payment_success) {
 
             $stmt = $conn->prepare('INSERT INTO appointments (patient_id, doctor_id, payment_id, appointment_date, appointment_time) VALUES (?, ?, ?, ?, ?)');
-            $stmt->bind_param('iiiss', $patient_id, $doctor_id, $payment_id, $appointment_date, $appointment_time);
+            $stmt->bind_param('iiiss', $patient_id, $doctor_id, $payment_id, $appoinment_date, $appoinment_time);
 
             if ($stmt->execute()) {
                 $stmt->close();
-                mysqli_close($conn);
-
-                header('Location: submit_booking.php');
-                exit();
             } else {
                 echo "Error inserting appointment: " . $stmt->error;
             }
@@ -386,7 +379,7 @@ function getAmount($doctors_info, $doctor_id)
             </div>
 
             <!-- Form -->
-            <form id="bookingForm" method="POST" action="Booking.php">
+            <form id="bookingForm" method="POST" action="submit_booking.php">
 
                 <!-- Available Doctors -->
                 <div class="mb-6">
@@ -397,7 +390,7 @@ function getAmount($doctors_info, $doctor_id)
                         foreach ($doctors_info as $index => $doctor) {
                         ?>
                             <div class="doctor-card" data-specialization="<?php echo htmlspecialchars(strtolower($doctor['specialization'])); ?>" data-index="<?php echo $index; ?>">
-                                <input type="radio" id="<?php echo htmlspecialchars($doctor['doctor_id']); ?>" name="doctor" value="<?php echo htmlspecialchars($doctor['doctor_id']); ?>" required>
+                                <input type="radio" id="<?php echo htmlspecialchars($doctor['doctor_id']); ?>" name="doctor" value="<?php echo htmlspecialchars($doctor['name']); ?>" required>
                                 <label for="<?php echo htmlspecialchars($doctor['doctor_id']); ?>" class="flex items-center cursor-pointer">
                                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRripLcqGUKIBfgbtmux6U1UY9UkgezqzJzFw&s"
                                         alt="Doctor" class="w-12 h-12 rounded-full mr-4">
@@ -460,126 +453,122 @@ function getAmount($doctors_info, $doctor_id)
                 </div>
 
                 <!-- Book Now Button -->
-                <button type="button" id="bookNowBtn"
+                <button type="submit" id="bookNowBtn"
                     class="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800">Book Now</button>
-                <!-- </form> -->
+            </form>
 
-                <!-- Payment Modal -->
-                <div id="paymentModal" class="modal">
-                    <div class="modal-content">
-                        <div class="mb-4">
-                            <div class="payment-options">
-                                <input type="radio" id="card" name="payment_method" value="card" checked>
-                                <label for="card" class="flex items-center">
-                                    <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M3.5 10H20.5" stroke="#323232" stroke-width="2" stroke-linecap="round" />
-                                        <path d="M6 14H8" stroke="#323232" stroke-width="2" stroke-linecap="round" />
-                                        <path d="M11 14H13" stroke="#323232" stroke-width="2" stroke-linecap="round" />
-                                        <path
-                                            d="M3 9C3 7.11438 3 6.17157 3.58579 5.58579C4.17157 5 5.11438 5 7 5H12H17C18.8856 5 19.8284 5 20.4142 5.58579C21 6.17157 21 7.11438 21 9V12V15C21 16.8856 21 17.8284 20.4142 18.4142C19.8284 19 18.8856 19 17 19H12H7C5.11438 19 4.17157 19 3.58579 18.4142C3 17.8284 3 16.8856 3 15V12V9Z"
-                                            stroke="#323232" stroke-width="2" stroke-linejoin="round" />
-                                    </svg>
-                                    Card
-                                </label>
+            <!-- Payment Modal -->
+            <div id="paymentModal" class="modal">
+                <div class="modal-content">
+                    <div class="mb-4">
+                        <div class="payment-options">
+                            <input type="radio" id="card" name="payment_method" value="card" checked>
+                            <label for="card" class="flex items-center">
+                                <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3.5 10H20.5" stroke="#323232" stroke-width="2" stroke-linecap="round" />
+                                    <path d="M6 14H8" stroke="#323232" stroke-width="2" stroke-linecap="round" />
+                                    <path d="M11 14H13" stroke="#323232" stroke-width="2" stroke-linecap="round" />
+                                    <path
+                                        d="M3 9C3 7.11438 3 6.17157 3.58579 5.58579C4.17157 5 5.11438 5 7 5H12H17C18.8856 5 19.8284 5 20.4142 5.58579C21 6.17157 21 7.11438 21 9V12V15C21 16.8856 21 17.8284 20.4142 18.4142C19.8284 19 18.8856 19 17 19H12H7C5.11438 19 4.17157 19 3.58579 18.4142C3 17.8284 3 16.8856 3 15V12V9Z"
+                                        stroke="#323232" stroke-width="2" stroke-linejoin="round" />
+                                </svg>
+                                Card
+                            </label>
 
-                                <input type="radio" id="bkash" name="payment_method" value="bKash">
-                                <label for="bkash" class="flex items-center">
-                                    <svg class="w-5 h-5 mr-2" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                                        <defs>
-                                            <style>
-                                                .a {
-                                                    fill: none;
-                                                    stroke: #000000;
-                                                    stroke-linecap: round;
-                                                    stroke-linejoin: round;
-                                                }
-                                            </style>
-                                        </defs>
-                                        <path class="a"
-                                            d="M22.9814,8.6317s-4.1632,14.704-3.8089,14.704,16.4755,2.923,16.4755,2.923Z" />
-                                        <polyline class="a"
-                                            points="22.981 8.632 6.329 6.152 19.172 23.336 21.387 33.522 35.648 26.259 39.368 17.445 30.393 18.946" />
-                                        <polyline class="a" points="37.929 20.855 43 20.855 39.368 17.445" />
-                                        <polyline class="a"
-                                            points="21.387 33.522 21.741 35.427 13.725 41.848 19.172 23.336" />
-                                        <polyline class="a" points="35.648 26.259 35.117 29.138 22.848 32.778" />
-                                        <polyline class="a" points="8.455 8.997 5 8.997 16.044 19.15" />
-                                    </svg>
-                                    bKash
-                                </label>
+                            <input type="radio" id="bkash" name="payment_method" value="bkash">
+                            <label for="bkash" class="flex items-center">
+                                <svg class="w-5 h-5 mr-2" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <style>
+                                            .a {
+                                                fill: none;
+                                                stroke: #000000;
+                                                stroke-linecap: round;
+                                                stroke-linejoin: round;
+                                            }
+                                        </style>
+                                    </defs>
+                                    <path class="a"
+                                        d="M22.9814,8.6317s-4.1632,14.704-3.8089,14.704,16.4755,2.923,16.4755,2.923Z" />
+                                    <polyline class="a"
+                                        points="22.981 8.632 6.329 6.152 19.172 23.336 21.387 33.522 35.648 26.259 39.368 17.445 30.393 18.946" />
+                                    <polyline class="a" points="37.929 20.855 43 20.855 39.368 17.445" />
+                                    <polyline class="a"
+                                        points="21.387 33.522 21.741 35.427 13.725 41.848 19.172 23.336" />
+                                    <polyline class="a" points="35.648 26.259 35.117 29.138 22.848 32.778" />
+                                    <polyline class="a" points="8.455 8.997 5 8.997 16.044 19.15" />
+                                </svg>
+                                bKash
+                            </label>
 
-                                <input type="radio" id="nagad" name="payment_method" value="Nagad">
-                                <label for="nagad" class="flex items-center">
-                                    <svg class="w-5 h-5 mr-2" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                                        <defs>
-                                            <style>
-                                                .a {
-                                                    fill: none;
-                                                    stroke: #000000;
-                                                    stroke-linecap: round;
-                                                    stroke-linejoin: round;
-                                                }
-                                            </style>
-                                        </defs>
-                                        <path class="a" d="M18.8808,6.3975A19.3468,19.3468,0,1,0,42.3963,19.3847" />
-                                        <path class="a"
-                                            d="M14.9194,25.893C14.8584,21.68,17.4842,13.8021,26.4,9.955L22.7968,3.5432C17.4231,6.169,10.2174,15.2066,14.9194,25.893Z" />
-                                        <path class="a"
-                                            d="M22.136,12.4087a16.7784,16.7784,0,0,0-2.9215,8.8424c1.8394-3.7912,7.7259-9.6477,17.4192-9.0767l-.3362-7.347A17.9936,17.9936,0,0,0,25.6848,8.683" />
-                                        <path class="a"
-                                            d="M34.4651,12.1527A16.506,16.506,0,0,0,23.896,20.28c3.3473-2.56,11.238-5.1453,19.64-.2781l3.0022-6.7141a17.7464,17.7464,0,0,0-9.9239-1.5322" />
-                                        <path class="a" d="M13.4377,20.0692a11.6039,11.6039,0,1,0,19.0467-2.7711" />
-                                    </svg>
-                                    Nagad
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="block text-gray-700">Card number</label>
-                            <input type="text" name="card_number" placeholder="1234 1234 1234 1234" class="border-gray-300"
-                                required>
-                        </div>
-
-                        <div class="flex gap-4 mb-4">
-                            <div class="flex-1">
-                                <label class="block text-gray-700">Expiry</label>
-                                <input type="text" name="expiry" placeholder="12/25" class="border-gray-300" required>
-                            </div>
-                            <div class="flex-1">
-                                <label class="block text-gray-700">CVC</label>
-                                <input type="text" name="cvc" placeholder="123" class="border-gray-300" required>
-                            </div>
-                        </div>
-
-                        <div class="flex gap-4 mb-4">
-                            <div class="flex-1">
-                                <label class="block text-gray-700">Country</label>
-                                <select name="country" class="border-gray-300" required>
-                                    <option value="United States">United States</option>
-                                    <option value="Bangladesh">Bangladesh</option>
-                                    <!-- Add more countries as needed -->
-                                </select>
-                            </div>
-                            <div class="flex-1">
-                                <label class="block text-gray-700">Postal code</label>
-                                <input type="text" name="postal_code" placeholder="90210" class="border-gray-300" required>
-                            </div>
-                        </div>
-
-                        <div class="flex justify-end gap-2">
-                            <!-- <form action="Booking.php" method="post"> -->
-                            <button id="cancelBtn"
-                                class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">Cancel</button>
-
-                            <button type="submit" id="nextBtn"
-                                class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600" name="book_appointment">Next</button>
-
+                            <input type="radio" id="nagad" name="payment_method" value="nagad">
+                            <label for="nagad" class="flex items-center">
+                                <svg class="w-5 h-5 mr-2" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <style>
+                                            .a {
+                                                fill: none;
+                                                stroke: #000000;
+                                                stroke-linecap: round;
+                                                stroke-linejoin: round;
+                                            }
+                                        </style>
+                                    </defs>
+                                    <path class="a" d="M18.8808,6.3975A19.3468,19.3468,0,1,0,42.3963,19.3847" />
+                                    <path class="a"
+                                        d="M14.9194,25.893C14.8584,21.68,17.4842,13.8021,26.4,9.955L22.7968,3.5432C17.4231,6.169,10.2174,15.2066,14.9194,25.893Z" />
+                                    <path class="a"
+                                        d="M22.136,12.4087a16.7784,16.7784,0,0,0-2.9215,8.8424c1.8394-3.7912,7.7259-9.6477,17.4192-9.0767l-.3362-7.347A17.9936,17.9936,0,0,0,25.6848,8.683" />
+                                    <path class="a"
+                                        d="M34.4651,12.1527A16.506,16.506,0,0,0,23.896,20.28c3.3473-2.56,11.238-5.1453,19.64-.2781l3.0022-6.7141a17.7464,17.7464,0,0,0-9.9239-1.5322" />
+                                    <path class="a" d="M13.4377,20.0692a11.6039,11.6039,0,1,0,19.0467-2.7711" />
+                                </svg>
+                                Nagad
+                            </label>
                         </div>
                     </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700">Card number</label>
+                        <input type="text" name="card_number" placeholder="1234 1234 1234 1234" class="border-gray-300"
+                            required>
+                    </div>
+
+                    <div class="flex gap-4 mb-4">
+                        <div class="flex-1">
+                            <label class="block text-gray-700">Expiry</label>
+                            <input type="text" name="expiry" placeholder="12/25" class="border-gray-300" required>
+                        </div>
+                        <div class="flex-1">
+                            <label class="block text-gray-700">CVC</label>
+                            <input type="text" name="cvc" placeholder="123" class="border-gray-300" required>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 mb-4">
+                        <div class="flex-1">
+                            <label class="block text-gray-700">Country</label>
+                            <select name="country" class="border-gray-300" required>
+                                <option value="United States">United States</option>
+                                <option value="Bangladesh">Bangladesh</option>
+                                <!-- Add more countries as needed -->
+                            </select>
+                        </div>
+                        <div class="flex-1">
+                            <label class="block text-gray-700">Postal code</label>
+                            <input type="text" name="postal_code" placeholder="90210" class="border-gray-300" required>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end gap-2">
+                        <button id="cancelBtn"
+                            class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">Cancel</button>
+                        <button id="nextBtn"
+                            class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600" name="book_appointment">Next</button>
+                    </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 
