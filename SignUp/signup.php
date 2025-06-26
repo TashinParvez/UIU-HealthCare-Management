@@ -1,3 +1,113 @@
+<?php
+
+
+$first_name = $last_name = $email = $password = $confirm_password = '';
+$errors = array('first_name' => '', 'last_name' => '', 'email' => '', 'password' => '', 'confirm_password' => '');
+
+
+if (isset($_POST['sign_up'])) {
+
+
+    //...................... Database Connection ..............................
+    include '../Includes/Database_connection.php';
+
+
+
+    //................ Retrieve all data  from input field & escape sql chars ...............
+
+    $first_name = mysqli_real_escape_string($conn, $_POST['first_name'] ?? '');
+    $last_name = mysqli_real_escape_string($conn, $_POST['last_name'] ?? '');
+    $email = mysqli_real_escape_string($conn, $_POST['email'] ?? '');
+    $password = mysqli_real_escape_string($conn, $_POST['password'] ?? '');
+    $confirm_password = mysqli_real_escape_string($conn, $_POST['confirm_password'] ?? '');
+
+
+    //.............. All input field validation checking ...................
+    // check first name
+    if (empty($first_name)) {
+        $errors['first_name'] = 'This field cannot be empty!';
+    } else {
+        if (!preg_match('/^[a-zA-Z\s\.]+$/', $first_name)) {
+            $errors['first_name'] = 'This field contains letters and space only!';
+        }
+    }
+
+    // check last name
+    if (empty($last_name)) {
+        $errors['last_name'] = 'This field cannot be empty!';
+    } else {
+        if (!preg_match('/^[a-zA-Z0-9\s\.]+$/', $last_name)) {
+            $errors['last_name'] = 'This field contains letters and spaces only!';
+        }
+    }
+
+    // check email
+    if (empty($email)) {
+        $errors['email'] = 'This field cannot be empty!';
+    } else {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = 'Invalid email!';
+        } else {
+
+            // Duplication checking for email
+            $sql = "SELECT user_id FROM users WHERE email = '$email'";
+            $result = mysqli_query($conn, $sql);
+            if ($result && mysqli_num_rows($result) > 0) {
+                $errors['email'] = 'Sorry, this email is already registered!
+                                    Please use a different one';
+            }
+        }
+    }
+
+    // check password
+    if (empty($password)) {
+        $errors['password'] = 'This field cannot be empty!';
+    } else {
+        if (strlen($password) < 8) {
+            $errors['password'] = 'Password length(8-20)';
+        }
+    }
+
+    // check confirm password
+    if (!empty($password) && $confirm_password !== $password) {
+        $errors['confirm_password'] = "Password doesn't match!";
+    }
+
+
+    if (!array_filter($errors)) {
+
+        $sql = "SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1";
+        $result = mysqli_query($conn, $sql);
+
+        if ($row = $result->fetch_assoc()) {
+            $last_id = $row['user_id'];
+            $new_id = $last_id + 1;
+        } else {
+            $new_id = 1; // Table is empty, start from 1
+        }
+
+
+        // create sql
+        $sql = "INSERT INTO users(user_id, first_name, last_name, email, `password`)
+                VALUES('$new_id', '$first_name', '$last_name', '$email','$password')";
+
+        // save to db and check
+        if (mysqli_query($conn, $sql)) {
+            // success
+            header('Location: #');
+        } else {
+            echo 'query error: ' . mysqli_error($conn);
+        }
+
+        // close connection
+        mysqli_close($conn);
+    }
+} // end POST check
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -132,24 +242,24 @@
                 <img src="/Includes/Images/logo/logo-blue.png" alt="UIU Health Care Logo" class="mb-4"
                     style="width: 134px;">
                 <h2>Sign Up</h2>
-                <form>
+                <form action="signup.php" method="post">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <input type="text" class="form-control" placeholder="First Name" value="John" required>
+                            <input type="text" class="form-control" placeholder="First Name" value="<?php echo htmlspecialchars($first_name); ?>" name="first_name" required>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <input type="text" class="form-control" placeholder="Last Name" value="Smith" required>
+                            <input type="text" class="form-control" placeholder="Last Name" value="<?php echo htmlspecialchars($last_name); ?>" name="last_name" required>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <input type="email" class="form-control" placeholder="Email" value="johnsmith@gmail.com"
-                            required>
+                        <input type="email" class="form-control" placeholder="Email" value="<?php echo htmlspecialchars($email); ?>"
+                            name="email" required>
                     </div>
                     <div class="mb-3">
-                        <input type="password" class="form-control" placeholder="Password" required>
+                        <input type="password" class="form-control" placeholder="Password" name="password" required>
                     </div>
                     <div class="mb-3">
-                        <input type="password" class="form-control" placeholder="Confirm Password" required>
+                        <input type="password" class="form-control" placeholder="Confirm Password" name="confirm_password" required>
                     </div>
                     <div class="form-check mb-3">
                         <input type="checkbox" class="form-check-input" id="privacyPolicy" required>
@@ -158,10 +268,10 @@
                                 Policy</a>
                         </label>
                     </div>
-                    <button type="submit" class="btn btn-primary">Create Your Account</button>
+                    <button type="submit" class="btn btn-primary" name="sign_up">Create Your Account</button>
                 </form>
                 <div class="signin-link">
-                    <p>Already have an account? <a href="#">Sign In</a></p>
+                    <p>Already have an account? <a href="../logIn/login.php">Sign In</a></p>
                     <p>© 2025 IgnoreUs.</p>
                 </div>
             </div>
