@@ -314,34 +314,65 @@ foreach ($appointments_info as $appointment) {
                         <?php
                         // Sample appointment data (day => [type, details])
                         $appointments = [];
-
-                        foreach ($appointments_info as $appointment) {
-                            // Parse the date of the appointment
-                            $appointmentDate = strtotime($appointment['appointment_date']);
-                            $appointmentDay = (int)date('j', $appointmentDate);   // Day of month (1-31)
-                            $appointmentMonth = (int)date('n', $appointmentDate); // Numeric month (1-12)
-                            $appointmentYear = (int)date('Y', $appointmentDate);  // Full year
-
-                            // Filter only appointments in the current calendar view
-                            if ($appointmentMonth == $month && $appointmentYear == $year) {
-                                // Add appointment under the corresponding day
-                                if (!isset($appointments[$appointmentDay])) {
-                                    $appointments[$appointmentDay] = [
-                                        // 'type' => $appointment['type'],
-                                        'type' => 'CONSULTATION',
-                                        'details' => [],
-                                    ];
-                                }
-
-                                $appointments[$appointmentDay]['details'][] = [
-                                    'time' => $appointment['appointment_time'],
-                                    'doctor' => $appointment['name'],
-                                    'specialty' => $appointment['specialization'],
-                                    // 'location' => $appointment['location'],
-                                ];
-                            }
+                        if ($month == $currentMonth && $year == $currentYear) {
+                            $appointments = [
+                                7 => [
+                                    'type' => 'EMERGENCY',
+                                    'details' => [
+                                        ['time' => '09:00', 'doctor' => 'Dr. Mohammed Ismail', 'specialty' => 'Cardiologist', 'location' => 'Binever Mahallesi'],
+                                    ]
+                                ],
+                                8 => [
+                                    'type' => 'EXAMINATION',
+                                    'details' => [
+                                        ['time' => '10:00', 'doctor' => 'Dr. Nadia Fallah', 'specialty' => 'Cardiologist', 'location' => 'Binever Mahallesi'],
+                                    ]
+                                ],
+                                9 => [
+                                    'type' => 'CONSULTATION',
+                                    'details' => [
+                                        ['time' => '11:00', 'doctor' => 'Dr. Salih Ahmet', 'specialty' => 'Dermatologist', 'location' => 'Binever Mahallesi'],
+                                        ['time' => '14:00', 'doctor' => 'Dr. Mohammed Ismail', 'specialty' => 'Cardiologist', 'location' => 'Binever Mahallesi'],
+                                    ]
+                                ],
+                                10 => [
+                                    'type' => 'ROUTINE CHECKUP',
+                                    'details' => [
+                                        ['time' => '12:00', 'doctor' => 'Dr. Nadia Fallah', 'specialty' => 'Cardiologist', 'location' => 'Binever Mahallesi'],
+                                    ]
+                                ],
+                                11 => [
+                                    'type' => 'SICK VISIT',
+                                    'details' => [
+                                        ['time' => '13:00', 'doctor' => 'Dr. Mohammed Ismail', 'specialty' => 'Cardiologist', 'location' => 'Binever Mahallesi'],
+                                    ]
+                                ],
+                                14 => [
+                                    'type' => 'MALARIA FEVER',
+                                    'details' => [
+                                        ['time' => '15:00', 'doctor' => 'Dr. Salih Ahmet', 'specialty' => 'Dermatologist', 'location' => 'Binever Mahallesi'],
+                                    ]
+                                ],
+                                18 => [
+                                    'type' => 'HAND INFECTION',
+                                    'details' => [
+                                        ['time' => '16:00', 'doctor' => 'Dr. Nadia Fallah', 'specialty' => 'Cardiologist', 'location' => 'Binever Mahallesi'],
+                                    ]
+                                ],
+                                25 => [
+                                    'type' => 'SICK VISIT',
+                                    'details' => [
+                                        ['time' => '17:00', 'doctor' => 'Dr. Mohammed Ismail', 'specialty' => 'Cardiologist', 'location' => 'Binever Mahallesi'],
+                                    ]
+                                ],
+                                28 => [
+                                    'type' => 'CONSULTATION',
+                                    'details' => [
+                                        ['time' => '18:00', 'doctor' => 'Dr. Salih Ahmet', 'specialty' => 'Dermatologist', 'location' => 'Binever Mahallesi'],
+                                    ]
+                                ],
+                            ];
                         }
-
 
                         // Calculate the total number of cells needed (including empty days)
                         $firstDayOfWeek = $firstDay->format('N') - 1; // 0 (Monday) to 6 (Sunday)
@@ -384,9 +415,9 @@ foreach ($appointments_info as $appointment) {
                                 echo '</button>';
 
                                 // Show appointment dot
-                                // if ($hasAppointment) {
-                                //     echo '<div class="appointment-dot ' . $dotColor . '"></div>';
-                                // }
+                                if ($hasAppointment) {
+                                    echo '<div class="appointment-dot ' . $dotColor . '"></div>';
+                                }
 
                                 // Show appointment count if greater than 0
                                 if ($appointmentCount > 0) {

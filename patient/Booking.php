@@ -55,8 +55,6 @@ $doctors_info = $result->fetch_all(MYSQLI_ASSOC);
 
 if (isset($_POST['book_appointment'])) {
 
-    echo "success!";
-
     $patient_id = $_SESSION['user_id'] ?? '1002';
     $doctor_id = mysqli_real_escape_string($conn, $_POST['doctor'] ?? '');
     $appointment_date = mysqli_real_escape_string($conn, $_POST['day'] ?? '');
@@ -698,53 +696,94 @@ function getAmount($doctors_info, $doctor_id)
                     const todayDayIndex = days.indexOf(todayDay);
 
                     // Function to get next 5 days with format "Day, d Month"
+
                     function getNextFiveDays() {
                         const result = [];
-                        for (let i = 0; i < 5; i++) {
-                            const dayIndex = (todayDayIndex + i) % 7;
-                            const dayName = days[dayIndex];
-                            const dayNum = todayNum + i;
-                            const formattedDate = `${dayName}, ${dayNum} ${month}`;
+                        const today = new Date();
+
+                        for (let i = 0; result.length < 5; i++) {
+                            const date = new Date(today);
+                            date.setDate(today.getDate() + i);
+                            const dayName = days[date.getDay()];
                             if (availableDaysList.includes(dayName)) {
-                                result.push(formattedDate);
+                                const display = `${dayName}, ${date.getDate()} ${date.toLocaleString('default', { month: 'long' })}`;
+                                const value = date.toISOString().split('T')[0]; // e.g. "2025-07-24"
+                                result.push({
+                                    display,
+                                    value
+                                });
                             }
                         }
-                        // Ensure all 5 days from dataset are mapped, filling with "---" only if less than 5
-                        const allDays = doctor.available_days.split(',').map(day => day.trim());
-                        allDays.forEach(day => {
-                            const dayIndex = days.indexOf(day);
-                            if (dayIndex !== -1) {
-                                const dayNumAdjusted = todayNum + (dayIndex - todayDayIndex + (dayIndex < todayDayIndex ? 7 : 0));
-                                const formattedDate = `${day}, ${dayNumAdjusted} ${month}`;
-                                if (!result.includes(formattedDate)) {
-                                    result.push(formattedDate);
-                                }
-                            }
-                        });
-                        while (result.length < 5) {
-                            result.push('---');
-                        }
+
                         return result;
                     }
 
+
+                    // function getNextFiveDays() {
+                    //     const result = [];
+                    //     for (let i = 0; i < 5; i++) {
+                    //         const dayIndex = (todayDayIndex + i) % 7;
+                    //         const dayName = days[dayIndex];
+                    //         const dayNum = todayNum + i;
+                    //         const formattedDate = `${dayName}, ${dayNum} ${month}`;
+                    //         if (availableDaysList.includes(dayName)) {
+                    //             result.push(formattedDate);
+                    //         }
+                    //     }
+                    //     // Ensure all 5 days from dataset are mapped, filling with "---" only if less than 5
+                    //     const allDays = doctor.available_days.split(',').map(day => day.trim());
+                    //     allDays.forEach(day => {
+                    //         const dayIndex = days.indexOf(day);
+                    //         if (dayIndex !== -1) {
+                    //             const dayNumAdjusted = todayNum + (dayIndex - todayDayIndex + (dayIndex < todayDayIndex ? 7 : 0));
+                    //             const formattedDate = `${day}, ${dayNumAdjusted} ${month}`;
+                    //             if (!result.includes(formattedDate)) {
+                    //                 result.push(formattedDate);
+                    //             }
+                    //         }
+                    //     });
+                    //     while (result.length < 5) {
+                    //         result.push('---');
+                    //     }
+                    //     return result;
+                    // }
+
                     // Generate available days
                     const nextFiveDays = getNextFiveDays();
-                    nextFiveDays.forEach((day, index) => {
+
+                    nextFiveDays.forEach((dayObj, index) => {
                         const input = document.createElement('input');
                         input.type = 'radio';
                         input.id = `day${index + 1}`;
                         input.name = 'day';
-                        input.value = day;
+                        input.value = dayObj.value; // Save format: 2025-07-24
                         input.required = true;
 
                         const label = document.createElement('label');
                         label.htmlFor = `day${index + 1}`;
                         label.className = 'day-label';
-                        label.textContent = day;
+                        label.textContent = dayObj.display; // Show format: Friday, 24 July
 
                         daysContainer.appendChild(input);
                         daysContainer.appendChild(label);
                     });
+
+                    // nextFiveDays.forEach((day, index) => {
+                    //     const input = document.createElement('input');
+                    //     input.type = 'radio';
+                    //     input.id = `day${index + 1}`;
+                    //     input.name = 'day';
+                    //     input.value = day;
+                    //     input.required = true;
+
+                    //     const label = document.createElement('label');
+                    //     label.htmlFor = `day${index + 1}`;
+                    //     label.className = 'day-label';
+                    //     label.textContent = day;
+
+                    //     daysContainer.appendChild(input);
+                    //     daysContainer.appendChild(label);
+                    // });
 
                     // Function to generate half-hour slots from time ranges, limited to 7
                     function generateTimeSlots(hours) {
