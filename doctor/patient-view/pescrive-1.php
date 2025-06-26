@@ -228,7 +228,9 @@
                     <textarea placeholder="Chief Complaints"></textarea>
 
                     <!-- Submit Button -->
-                    <button class="btn-submit">Continue</button>
+                    <a href="\doctor\patient-view\pescrive-2.php">
+                        <button class="btn-submit">Continue</button>
+                    </a>
                 </div>
             </div>
         </div>
