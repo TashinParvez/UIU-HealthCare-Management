@@ -55,8 +55,6 @@ $doctors_info = $result->fetch_all(MYSQLI_ASSOC);
 
 if (isset($_POST['book_appointment'])) {
 
-    echo "success!";
-
     $patient_id = $_SESSION['user_id'] ?? '1002';
     $doctor_id = mysqli_real_escape_string($conn, $_POST['doctor'] ?? '');
     $appointment_date = mysqli_real_escape_string($conn, $_POST['day'] ?? '');
