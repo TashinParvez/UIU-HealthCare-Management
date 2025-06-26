@@ -1,3 +1,37 @@
+<?php
+
+include "../Includes/Database_connection.php";
+
+
+// ---------------ALL Patient---------------------
+
+$doctor_id = '1225';
+$sql = "SELECT 
+            u.first_name AS Name,
+            u.email AS Email,
+            a.appointment_date AS AppointmentDate,
+            a.appointment_time AS VisitTime
+        FROM 
+            appointments a
+        JOIN 
+            users u ON a.patient_id = u.user_id
+        WHERE 
+            a.doctor_id = '$doctor_id';";
+
+$allAppointments = mysqli_query($conn, $sql);
+$allAppointments = mysqli_fetch_all($allAppointments, MYSQLI_ASSOC);  // returns associative array
+
+
+// foreach ($allAppointments as $row) {
+//     print_r($row);
+//     echo   "<br><br>";
+// }
+
+
+
+// ===========================================================
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -167,130 +201,36 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr onclick="window.location.href='patient-info.html?patient=leslie-alexander';">
-                            <td><img src="/Includes/Images/happy-patient.jpg" alt="Leslie Alexander"> Leslie Alexander</td>
-                            <td>leslie.alexander@example.com</td>
-                            <td>10/10/2020</td>
-                            <td>09:15-09:45am</td>
-                            <td>Dr. Jacob Jones</td>
-                            <td>Mumps Stage II</td>
-                            <td class="action-icons">
-                                <a href="#"><i class="bi bi-pencil"></i></a>
-                                <a href="#"><i class="bi bi-trash"></i></a>
-                            </td>
-                        </tr>
-                        <tr onclick="window.location.href='patient-info.html?patient=ronald-richards';">
-                            <td><img src="/Includes/Images/happy-patient.jpg" alt="Ronald Richards"> Ronald Richards</td>
-                            <td>ronald.richards@example.com</td>
-                            <td>10/12/2020</td>
-                            <td>12:00-12:45pm</td>
-                            <td>Dr. Theresa Webb</td>
-                            <td>Depression</td>
-                            <td class="action-icons">
-                                <a href="#"><i class="bi bi-pencil"></i></a>
-                                <a href="#"><i class="bi bi-trash"></i></a>
-                            </td>
-                        </tr>
-                        <tr onclick="window.location.href='patient-info.html?patient=jane-cooper';">
-                            <td><img src="/Includes/Images/happy-patient.jpg" alt="Jane Cooper"> Jane Cooper</td>
-                            <td>jane.cooper@example.com</td>
-                            <td>10/13/2020</td>
-                            <td>01:15-01:45pm</td>
-                            <td>Dr. Jacob Jones</td>
-                            <td>Arthritis</td>
-                            <td class="action-icons">
-                                <a href="#"><i class="bi bi-pencil"></i></a>
-                                <a href="#"><i class="bi bi-trash"></i></a>
-                            </td>
-                        </tr>
-                        <tr onclick="window.location.href='patient-info.html?patient=robert-fox';">
-                            <td><img src="/Includes/Images/happy-patient.jpg" alt="Robert Fox"> Robert Fox</td>
-                            <td>robert.fox@gmail.com</td>
-                            <td>10/14/2020</td>
-                            <td>02:00-02:45pm</td>
-                            <td>Dr. Arlene McCoy</td>
-                            <td>Fracture</td>
-                            <td class="action-icons">
-                                <a href="#"><i class="bi bi-pencil"></i></a>
-                                <a href="#"><i class="bi bi-trash"></i></a>
-                            </td>
-                        </tr>
-                        <tr onclick="window.location.href='patient-info.html?patient=jenny-wilson';">
-                            <td><img src="/Includes/Images/happy-patient.jpg" alt="Jenny Wilson"> Jenny Wilson</td>
-                            <td>jenny.wilson@example.com</td>
-                            <td>10/15/2020</td>
-                            <td>12:00-12:45pm</td>
-                            <td>Dr. Esther Howard</td>
-                            <td>Depression</td>
-                            <td class="action-icons">
-                                <a href="#"><i class="bi bi-pencil"></i></a>
-                                <a href="#"><i class="bi bi-trash"></i></a>
-                            </td>
-                        </tr>
-                        <tr onclick="window.location.href='patient-info.html?patient=marshall-cook';">
-                            <td><img src="/Includes/Images/happy-patient.jpg" alt="Marshall Cook"> Marshall Cook</td>
-                            <td>marshall.cook@example.com</td>
-                            <td>10/17/2020</td>
-                            <td>01:15-01:45pm</td>
-                            <td>Dr. Jacob Jones</td>
-                            <td>Dyslexia</td>
-                            <td class="action-icons">
-                                <a href="#"><i class="bi bi-pencil"></i></a>
-                                <a href="#"><i class="bi bi-trash"></i></a>
-                            </td>
-                        </tr>
-                        <tr onclick="window.location.href='patient-info.html?patient=stephanie-cook';">
-                            <td><img src="/Includes/Images/happy-patient.jpg" alt="Stephanie Cook"> Stephanie Cook</td>
-                            <td>stephanie.cook@exzmple.com</td>
-                            <td>10/17/2020</td>
-                            <td>02:00-02:45pm</td>
-                            <td>Dr. Theresa Webb</td>
-                            <td>Hypothermia</td>
-                            <td class="action-icons">
-                                <a href="#"><i class="bi bi-pencil"></i></a>
-                                <a href="#"><i class="bi bi-trash"></i></a>
-                            </td>
-                        </tr>
-                        <tr onclick="window.location.href='patient-info.html?patient=marion-james';">
-                            <td><img src="/Includes/Images/happy-patient.jpg" alt="Marion James"> Marion James</td>
-                            <td>marion.james@example.com</td>
-                            <td>10/18/2020</td>
-                            <td>09:15-09:45am</td>
-                            <td>Dr. Esther Howard</td>
-                            <td>Sunburn</td>
-                            <td class="action-icons">
-                                <a href="#"><i class="bi bi-pencil"></i></a>
-                                <a href="#"><i class="bi bi-trash"></i></a>
-                            </td>
-                        </tr>
-                        <tr onclick="window.location.href='patient-info.html?patient=teresa-holland';">
-                            <td><img src="/Includes/Images/happy-patient.jpg" alt="Teresa Holland"> Teresa Holland</td>
-                            <td>teresa.holland@example.com</td>
-                            <td>10/19/2020</td>
-                            <td>12:00-12:45pm</td>
-                            <td>Dr. Arlene McCoy</td>
-                            <td>Diarrhoea</td>
-                            <td class="action-icons">
-                                <a href="#"><i class="bi bi-pencil"></i></a>
-                                <a href="#"><i class="bi bi-trash"></i></a>
-                            </td>
-                        </tr>
-                        <tr onclick="window.location.href='patient-info.html?patient=zachary-marshall';">
-                            <td><img src="/Includes/Images/happy-patient.jpg" alt="Zachary Marshall"> Zachary Marshall</td>
-                            <td>zachary.marshall@example.com</td>
-                            <td>10/20/2020</td>
-                            <td>09:15-09:45am</td>
-                            <td>Dr. Arlene McCoy</td>
-                            <td>Arthritis</td>
-                            <td class="action-icons">
-                                <a href="#"><i class="bi bi-pencil"></i></a>
-                                <a href="#"><i class="bi bi-trash"></i></a>
-                            </td>
-                        </tr>
+
+                        <?php
+                        foreach ($allAppointments as $row) {
+                        ?>
+                            <tr onclick="window.location.href='patient-info.html?patient=leslie-alexander';">
+                                <td><img src="/Includes/Images/happy-patient.jpg" alt="Leslie Alexander">
+                                    <?php echo $row['Name']; ?>
+                                </td>
+
+                                <td> <?php echo $row['Email']; ?></td>
+                                <td> <?php echo $row['AppointmentDate']; ?></td>
+                                <td> <?php echo $row['VisitTime']; ?></td>
+
+                                <td>DOCTORNAME </td>
+                                <td>CONDITION</td>
+
+                                <td class="action-icons">
+                                    <a href="#"><i class="bi bi-pencil"></i></a>
+                                    <a href="#"><i class="bi bi-trash"></i></a>
+                                </td>
+
+                            </tr>
+                        <?php
+                        }
+                        ?>
+
                     </tbody>
                 </table>
 
-                <!-- Pagination -->
+                <!----------------------------- Pagination ----------------------------->
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
                         <li class="page-item">
@@ -308,6 +248,7 @@
                         </li>
                     </ul>
                 </nav>
+
             </div>
         </div>
     </div>

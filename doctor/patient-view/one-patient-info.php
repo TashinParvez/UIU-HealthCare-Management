@@ -1,3 +1,129 @@
+<?php
+
+include "../../Includes/Database_connection.php";
+
+
+// --------------- BasicInfo ---------------------
+
+$patient_id = '2010';
+
+$sql = "SELECT 
+  u.user_id,
+  CONCAT(u.first_name, ' ', u.last_name) AS full_name,
+  u.email,
+  u.phone,
+  p.date_of_birth,
+  p.gender,
+  p.address,
+  p.blood_group,
+  p.medical_history,
+  p.allergies,
+  p.insurance_details
+FROM 
+  users u
+JOIN 
+  patients p ON u.user_id = p.patient_id
+WHERE 
+  u.user_id = '$patient_id';
+";
+
+$basicInfo = mysqli_query($conn, $sql);
+$basicInfo = mysqli_fetch_all($basicInfo, MYSQLI_ASSOC);  // returns associative array
+
+
+// foreach ($basicInfo as $row) {
+//     print_r($row);
+//     echo   "<br><br>";
+// }
+
+
+// --------------- appointpents ---------------------
+
+$sql = "SELECT 
+  a.appointment_id,
+  a.appointment_date,
+  a.appointment_time,
+  a.status,
+  a.appointment_type,
+  a.doctor_id
+FROM 
+  appointments a
+WHERE 
+  a.patient_id = '$patient_id';
+";
+
+$appointments = mysqli_query($conn, $sql);
+$appointments = mysqli_fetch_all($appointments, MYSQLI_ASSOC);  // returns associative array
+
+
+// --------------- prescription ---------------------
+
+$sql = "SELECT 
+  prescription_id,
+  appointment_id,
+  doctor_id,
+  medicines,
+  dosage,
+  test_name,
+  instructions,
+  created_at
+FROM 
+  prescriptions
+WHERE 
+    patient_id = '$patient_id'; 
+";
+
+$prescription = mysqli_query($conn, $sql);
+$prescription = mysqli_fetch_all($prescription, MYSQLI_ASSOC);  // returns associative array
+
+
+
+// --------------- medical_records ---------------------
+
+$sql = "SELECT 
+  record_id,
+  test_title,
+  document_type,
+  file_path,
+  uploaded_at
+FROM 
+  medical_records
+WHERE 
+  patient_id = '$patient_id'; 
+";
+
+$medical_records = mysqli_query($conn, $sql);
+$medical_records = mysqli_fetch_all($medical_records, MYSQLI_ASSOC);  // returns associative array
+
+
+// --------------- medical_records ---------------------
+
+$sql = "SELECT 
+  record_id,
+  test_title,
+  document_type,
+  file_path,
+  uploaded_at
+FROM 
+  medical_records
+WHERE 
+  patient_id = '$patient_id';";
+
+$medical_records = mysqli_query($conn, $sql);
+$medical_records = mysqli_fetch_all($medical_records, MYSQLI_ASSOC);  // returns associative array
+
+
+
+
+
+
+
+
+
+// ===========================================================
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
