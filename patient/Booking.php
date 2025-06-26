@@ -50,18 +50,6 @@ $doctors_info = $result->fetch_all(MYSQLI_ASSOC);
 // Example usage:
 // echo $doctors_info[0]['doctor_id'];
 
-$patient_id = $_SESSION['user_id'] ?? '1002';
-$doctor_id = mysqli_real_escape_string($conn, $_POST['doctor'] ?? '');
-$appointment_date = mysqli_real_escape_string($conn, $_POST['day'] ?? '');
-$appointment_time = mysqli_real_escape_string($conn, $_POST['time'] ?? '');
-
-echo "success!";
-echo $patient_id;
-echo $doctor_id;
-echo $appointment_date;
-echo $appointment_time;
-
-
 
 // ................ Book an Appointment .....................
 
