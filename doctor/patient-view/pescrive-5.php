@@ -149,7 +149,9 @@
                     <textarea placeholder="Referral Notes"></textarea>
 
                     <!-- Submit Button -->
-                    <button class="btn-submit">Continue</button>
+                    <a href="\doctor\patient-view\pescrive-6.php">
+                        <button class="btn-submit">Continue</button>
+                    </a>
                 </div>
             </div>
         </div>

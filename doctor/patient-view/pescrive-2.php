@@ -197,7 +197,9 @@
                     </div>
 
                     <!-- Submit Button -->
-                    <button class="btn-submit">Continue</button>
+                    <a href="\doctor\patient-view\pescrive-3.php">
+                        <button class="btn-submit">Continue</button>
+                    </a>
                 </div>
             </div>
         </div>
