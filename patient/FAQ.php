@@ -29,8 +29,10 @@ $all_blogs = mysqli_fetch_all($all_blogs, MYSQLI_ASSOC);  // returns associative
 // print_r($all_blogs);
 // echo $all_blogs['blog_name'] . "<br>";
 
-// ===========================================================
 
+
+
+// ========================   SEARCH ===================================
 
 $search = '';
 if (isset($_GET['search'])) {

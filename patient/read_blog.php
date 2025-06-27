@@ -1,5 +1,7 @@
 <?php
 
+// header('Content-Type: application/json'); // For JSON response
+
 include "../Includes/Database_connection.php";
 
 if (isset($_GET['blog_id'])) {
@@ -8,10 +10,10 @@ if (isset($_GET['blog_id'])) {
     // Handle the case where blog_id is not set, e.g., redirect or show error
     die('Blog ID not specified.');
 }
- 
+
 // $blog_id = 2;
 
- 
+
 // --------------- DOCTOR INFO ---------------------
 $sql = "SELECT 
             b.blog_id,
@@ -40,7 +42,7 @@ $blog_info = $blog_info[0];
 
 
 
-// ========================  TASHIN  =================================
+// ========================  FOR Suggestions  =================================
 
 $current_blog_id = $blog_info['blog_id'];
 $tags = explode(',', $blog_info['blog_tags']);
@@ -78,7 +80,31 @@ if (count($related_blogs) < 1) {
 // print_r($related_blogs);
 
 
-// ===========================================================
+// =========================== FOR LIKE ================================
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['blog_id'])) {
+    $blog_id = intval($_POST['blog_id']);
+
+    // Check if the blog exists first (optional but good for safety)
+    $check = mysqli_query($conn, "SELECT blog_id FROM blogs WHERE blog_id = $blog_id");
+    if (mysqli_num_rows($check) === 0) {
+        echo json_encode(['success' => false, 'error' => 'Blog not found']);
+        exit;
+    }
+
+    // Update the likes count
+    $update_sql = "UPDATE blogs SET likes_count = likes_count + 1 WHERE blog_id = $blog_id";
+
+    if (mysqli_query($conn, $update_sql)) {
+        $result = mysqli_query($conn, "SELECT likes_count FROM blogs WHERE blog_id = $blog_id");
+        $row = mysqli_fetch_assoc($result);
+        echo json_encode(['success' => true, 'new_likes' => $row['likes_count']]);
+    } else {
+        echo json_encode(['success' => false, 'error' => 'Update failed']);
+    }
+} else {
+    echo json_encode(['success' => false, 'error' => 'Invalid Request']);
+}
 
 
 ?>
@@ -322,12 +348,24 @@ if (count($related_blogs) < 1) {
 
             <p><?php echo $blog_info['blog_description']; ?></p>
 
-            <button class="like-btn"
+            <!----------------------- TASHIN : this working but backend not added  ----------------------->
+            <!-- <button class="like-btn"
                 onclick="this.classList.toggle('liked'); let span = this.querySelector('span'); span.textContent = parseInt(span.textContent) + (this.classList.contains('liked') ? 1 : -1);">
-                ❤️ <span> <?php echo $blog_info['likes_count']; ?> </span> Likes
-            </button> <br>
+                ❤️ <span> <?php
+                            // echo $blog_info['likes_count'];
+                            ?> </span> Likes
+            </button> <br> -->
 
-            <!-- Comment Section -->
+
+
+            <!--======================= Button inside read_blog.php =======================-->
+            <button class="like-btn" onclick="likeBlog(<?php echo $blog_info['blog_id']; ?>)">
+                ❤️ <span id="like-count"><?php echo $blog_info['likes_count']; ?></span> Likes
+            </button>
+
+
+            
+            <!------------------------------- Comment Section ------------------------------->
             <!-- <div class="comment-section mt-5">
                 <h4 class="mb-3">Comments</h4>
 
@@ -391,6 +429,33 @@ if (count($related_blogs) < 1) {
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-------------------- Script for like btn -------------------->
+
+    <script>
+        function likeBlog(blogId) {
+            fetch('like_blog.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'blog_id=' + blogId
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); // Debug print
+                    if (data.success) {
+                        document.getElementById('like-count').textContent = data.new_likes;
+                    } else {
+                        alert('Failed to like the blog: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
 
 </body>
 
