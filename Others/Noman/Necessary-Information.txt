@@ -8,3 +8,7 @@
 - Patient-view folder and read_blog doesn't work accordingly
 
 - Booking.php -> appointment_date store with all zeros
+
+- stay signin remove
+
+- after signin navigate
