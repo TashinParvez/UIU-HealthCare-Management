@@ -94,7 +94,11 @@ if (isset($_POST['sign_up'])) {
         // save to db and check
         if (mysqli_query($conn, $sql)) {
             // success
-            header('Location: #');
+
+            session_start();
+            $_SESSION['user_id'] = $user_id;
+
+            header('Location: signup-second.php');
         } else {
             echo 'query error: ' . mysqli_error($conn);
         }

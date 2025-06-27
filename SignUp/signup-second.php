@@ -136,8 +136,8 @@
 
                 <h2>Welcome!</h2>
                 <p>Now continue you have to:</p>
-                <a href="#" class="btn btn-outline-secondary">Go To Homepage</a>
-                <a href="#" class="btn btn-primary">Update Your Profile</a> <p>© 2025 IgnoreUs.</p>
+                <a href="../patient/Patient.php" class="btn btn-outline-secondary">Go To Homepage</a>
+                <a href="../patient/Patient-profile/PatientProfile.php" class="btn btn-primary">Update Your Profile</a> <p>© 2025 IgnoreUs.</p>
             </div>
         </div>
     </div>

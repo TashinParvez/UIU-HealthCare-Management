@@ -807,7 +807,7 @@ imagedestroy($image);
 
 <!-- For editting profile photo -->
 <script>
-    let editMode = false;
+    // let editMode = false;
 
     // Toggle edit mode when edit icon is clicked
     document.getElementById('edit-icon').addEventListener('click', function() {
