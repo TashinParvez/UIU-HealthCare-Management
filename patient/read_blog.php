@@ -1,3 +1,114 @@
+<?php
+
+// header('Content-Type: application/json'); // For JSON response
+
+include "../Includes/Database_connection.php";
+
+if (isset($_GET['blog_id'])) {
+    $blog_id = intval($_GET['blog_id']); // Use intval to sanitize input
+} else {
+    // Handle the case where blog_id is not set, e.g., redirect or show error
+    die('Blog ID not specified.');
+}
+
+// $blog_id = 2;
+
+
+// --------------- DOCTOR INFO ---------------------
+$sql = "SELECT 
+            b.blog_id,
+            b.blog_name,
+            b.blog_tags,
+            b.blog_description,
+            b.likes_count,
+            b.created_at,
+            CONCAT(u.first_name, ' ', u.last_name) AS doctor_name
+        FROM 
+            blogs b
+        JOIN 
+            doctors d ON b.doctor_id = d.doctor_id
+        JOIN 
+            users u ON d.doctor_id = u.user_id
+        WHERE 
+            b.blog_id = '$blog_id';";
+
+$blog_info = mysqli_query($conn, $sql);
+$blog_info = mysqli_fetch_all($blog_info, MYSQLI_ASSOC);  // returns associative array
+
+$blog_info = $blog_info[0];
+
+// print_r($blog_info);
+// echo $blog_info['blog_name'] . "<br>";
+
+
+
+// ========================  FOR Suggestions  =================================
+
+$current_blog_id = $blog_info['blog_id'];
+$tags = explode(',', $blog_info['blog_tags']);
+
+// Clean & format tags for SQL LIKE search
+$tag_conditions = [];
+foreach ($tags as $tag) {
+    $tag = trim($tag);
+    $tag_conditions[] = "blog_tags LIKE '%" . mysqli_real_escape_string($conn, $tag) . "%'";
+}
+
+$tag_query = implode(' OR ', $tag_conditions);
+
+$sql = "
+    SELECT * FROM blogs 
+    WHERE blog_id != $current_blog_id AND ($tag_query)
+    ORDER BY RAND()
+    LIMIT 3
+";
+
+$result = mysqli_query($conn, $sql);
+$related_blogs = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+if (count($related_blogs) < 1) {
+    $sql_fallback = "
+        SELECT * FROM blogs 
+        WHERE blog_id != $current_blog_id
+        ORDER BY RAND()
+        LIMIT 3
+    ";
+    $result = mysqli_query($conn, $sql_fallback);
+    $related_blogs = mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+
+// print_r($related_blogs);
+
+
+// =========================== FOR LIKE ================================
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['blog_id'])) {
+    $blog_id = intval($_POST['blog_id']);
+
+    // Check if the blog exists first (optional but good for safety)
+    $check = mysqli_query($conn, "SELECT blog_id FROM blogs WHERE blog_id = $blog_id");
+    if (mysqli_num_rows($check) === 0) {
+        echo json_encode(['success' => false, 'error' => 'Blog not found']);
+        exit;
+    }
+
+    // Update the likes count
+    $update_sql = "UPDATE blogs SET likes_count = likes_count + 1 WHERE blog_id = $blog_id";
+
+    if (mysqli_query($conn, $update_sql)) {
+        $result = mysqli_query($conn, "SELECT likes_count FROM blogs WHERE blog_id = $blog_id");
+        $row = mysqli_fetch_assoc($result);
+        echo json_encode(['success' => true, 'new_likes' => $row['likes_count']]);
+    } else {
+        echo json_encode(['success' => false, 'error' => 'Update failed']);
+    }
+} else {
+    echo json_encode(['success' => false, 'error' => 'Invalid Request']);
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -211,46 +322,51 @@
 <body>
 
 
-    <?php include '..\Includes\Sidebar.php'; ?>
+    <?php
+    include '..\Includes\Sidebar.php';
+    ?>
 
     <div class="main-content container-fluid">
 
-        <!-- Blog Section -->
+        <!--------------------- Blog Section --------------------->
         <div class="blog-section">
-            <h1>5 Home Remedies for Headaches</h1>
+
+
+            <h1> <?php echo $blog_info['blog_name']; ?> </h1>
 
             <div class="tags mb-4">
-                <span class="badge">Headache</span>
-                <span class="badge">Home Remedies</span>
+                <?php
+
+                $tags = explode(',', $blog_info['blog_tags']);
+
+                foreach ($tags as $tag) {
+                    $cleanTag = trim($tag); // remove extra space
+                    echo '<span class="badge">' . htmlspecialchars($cleanTag) . '</span> ';
+                }
+                ?>
             </div>
 
-            <p>Headaches can disrupt your day. While medications help, natural remedies offer gentle relief. Here are
-                five you can try when a headache strikes:</p>
+            <p><?php echo $blog_info['blog_description']; ?></p>
 
-            <p><strong>1. Stay Hydrated:</strong> Dehydration is a common cause. Aim for at least 8 glasses of water
-                daily, more if active or in heat.</p>
-
-            <p><strong>2. Apply a Cold Compress:</strong> Applying a cold pack to your forehead or neck for 15 minutes
-                helps reduce inflammation and numb pain.</p>
-
-            <p><strong>3. Take a Break and Rest:</strong> Stress-induced headaches can improve by resting in a dark,
-                quiet room for 20–30 minutes with deep breathing.</p>
-
-            <p><strong>4. Try Ginger Tea:</strong> Ginger’s anti-inflammatory properties can relieve headaches. Boil
-                fresh slices, strain, and sip — honey optional!</p>
-
-            <p><strong>5. Massage Your Temples:</strong> Light, circular massages on your temples or neck base improve
-                blood flow and ease tension.</p>
-
-            <p>If headaches persist or worsen, always consult a healthcare professional.</p>
-
-            <button class="like-btn"
+            <!----------------------- TASHIN : this working but backend not added  ----------------------->
+            <!-- <button class="like-btn"
                 onclick="this.classList.toggle('liked'); let span = this.querySelector('span'); span.textContent = parseInt(span.textContent) + (this.classList.contains('liked') ? 1 : -1);">
-                ❤️ <span>10</span> Likes
+                ❤️ <span> <?php
+                            // echo $blog_info['likes_count'];
+                            ?> </span> Likes
+            </button> <br> -->
+
+
+
+            <!--======================= Button inside read_blog.php =======================-->
+            <button class="like-btn" onclick="likeBlog(<?php echo $blog_info['blog_id']; ?>)">
+                ❤️ <span id="like-count"><?php echo $blog_info['likes_count']; ?></span> Likes
             </button>
 
-            <!-- Comment Section -->
-            <div class="comment-section mt-5">
+
+            
+            <!------------------------------- Comment Section ------------------------------->
+            <!-- <div class="comment-section mt-5">
                 <h4 class="mb-3">Comments</h4>
 
                 <div class="mb-3">
@@ -271,33 +387,41 @@
                         <small>Posted on April 24, 2025</small>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
-            <a href="blog.html" class="back-link">← Back to Blog</a>
+            <a href="/patient/FAQ.php" class="back-link">← Back to Blog</a>
 
         </div>
 
-        <!-- Suggested Section -->
+        <!-------------------------- Suggested Section -------------------------->
         <div class="suggested-section">
             <h4 class="mb-4">You Might Also Like</h4>
 
-            <div class="suggested-blog-card">
-                <h5>Managing Period Cramps</h5>
-                <p>Ease menstrual discomfort naturally with heat therapy and diet tips.</p>
-                <a href="#" class="back-link">Read More →</a>
-            </div>
+            <?php
+            foreach ($related_blogs as $row) {
+            ?>
 
-            <div class="suggested-blog-card">
-                <h5>Dealing with Acne Naturally</h5>
-                <p>Gentle skincare tips for tackling acne without harsh chemicals.</p>
-                <a href="#" class="back-link">Read More →</a>
-            </div>
+                <div class="suggested-blog-card">
+                    <h5><?php echo $row['blog_name']; ?></h5>
 
-            <div class="suggested-blog-card">
-                <h5>Stress Management for Students</h5>
-                <p>Mindfulness and exercise techniques to reduce student stress.</p>
-                <a href="#" class="back-link">Read More →</a>
-            </div>
+                    <p><?PHP
+                        $shortName = substr($row['blog_description'], 0, 70);
+                        echo $shortName;
+                        ?>
+                    </p>
+
+                    <!-- $row[blog_id] -->
+                    <!-- <a href="#" class="back-link">Read More →</a> -->
+                    <a href="read_blog.php?blog_id=<?php echo $row['blog_id']; ?>" class="back-link">Read More →</a>
+
+
+                </div>
+
+            <?php
+            }
+            ?>
+
+            <!-- see here in $row[blog_id] i have blogno so by clicking read more i want to call this page read_blog.php and there i want to pass $row[blog_id], in read_log.php page have a varable called -->
 
         </div>
 
@@ -305,6 +429,33 @@
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-------------------- Script for like btn -------------------->
+
+    <script>
+        function likeBlog(blogId) {
+            fetch('like_blog.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'blog_id=' + blogId
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); // Debug print
+                    if (data.success) {
+                        document.getElementById('like-count').textContent = data.new_likes;
+                    } else {
+                        alert('Failed to like the blog: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
 
 </body>
 

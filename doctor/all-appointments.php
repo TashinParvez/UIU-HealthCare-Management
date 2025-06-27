@@ -28,7 +28,6 @@ $allAppointments = mysqli_fetch_all($allAppointments, MYSQLI_ASSOC);  // returns
 // }
 
 
-
 // ===========================================================
 ?>
 
