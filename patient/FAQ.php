@@ -32,6 +32,27 @@ $all_blogs = mysqli_fetch_all($all_blogs, MYSQLI_ASSOC);  // returns associative
 // ===========================================================
 
 
+$search = '';
+if (isset($_GET['search'])) {
+    $search = trim($_GET['search']);
+    $search = mysqli_real_escape_string($conn, $search);
+
+    $query = "SELECT * 
+            FROM blogs 
+            WHERE blog_name LIKE '%$search%' OR 
+                blog_tags LIKE '%$search%' OR 
+                blog_description LIKE '%$search%' 
+            ORDER BY blog_id DESC";
+} else {
+    $query = "SELECT * 
+                FROM blogs 
+                ORDER BY blog_id DESC";
+}
+
+$result = mysqli_query($conn, $query);
+$all_blogs = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -54,17 +75,20 @@ $all_blogs = mysqli_fetch_all($all_blogs, MYSQLI_ASSOC);  // returns associative
     <div class="flex-grow p-8 ml-16">
         <div class="container mx-auto max-w-6xl">
 
-
-            <!-- Search Bar -->
+            <!------------------------- Search Bar ------------------------->
             <div class="relative mb-8">
-                <input type="text" placeholder="Search blog posts..."
-                    class="w-full rounded-lg pl-10 pr-4 py-3 bg-white border border-gray-200 focus:ring-2 focus:ring-blue-400 focus:border-transparent focus:outline-none text-gray-700 placeholder-gray-400 transition">
-                <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none"
-                    stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
+                <form method="GET" action="">
+                    <input type="text" name="search" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>"
+                        placeholder="Search blog posts..."
+                        class="w-full rounded-lg pl-10 pr-4 py-3 bg-white border border-gray-200 focus:ring-2 focus:ring-blue-400 focus:border-transparent focus:outline-none text-gray-700 placeholder-gray-400 transition">
+                    <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </form>
             </div>
+
 
 
             <!-- Blog Posts -->
@@ -114,25 +138,6 @@ $all_blogs = mysqli_fetch_all($all_blogs, MYSQLI_ASSOC);  // returns associative
                 <?php
                 }
                 ?>
-
-
-                <!--    <?php
-                        // echo $row['specialization']; 
-                        ?>
-                    $cleanTag = trim($tag); // remove extra space
-                    echo '<span class="badge">' . htmlspecialchars($cleanTag) . '</span> ';
-                }
-                ?>
--->
-
-
-
-                <!-- Single Blog Card -->
-
-
-
-
-
 
             </div>
 
