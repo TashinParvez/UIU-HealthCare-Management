@@ -1,3 +1,39 @@
+<?php
+
+include "../Includes/Database_connection.php";
+
+
+// --------------- BLOG INFO ---------------------
+$sql = "SELECT 
+            b.blog_id,
+            b.blog_name,
+            b.blog_tags,
+            b.blog_description,
+            b.likes_count,
+            b.created_at,
+            CONCAT(u.first_name, ' ', u.last_name) AS doctor_name
+        FROM 
+            blogs b
+        JOIN 
+            doctors d ON b.doctor_id = d.doctor_id
+        JOIN 
+            users u ON d.doctor_id = u.user_id
+        ORDER BY 
+            b.created_at ASC;
+";
+
+$all_blogs = mysqli_query($conn, $sql);
+$all_blogs = mysqli_fetch_all($all_blogs, MYSQLI_ASSOC);  // returns associative array
+
+
+// print_r($all_blogs);
+// echo $all_blogs['blog_name'] . "<br>";
+
+// ===========================================================
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,67 +70,70 @@
             <!-- Blog Posts -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
+
+                <?php
+                foreach ($all_blogs as $row) { ?>
+
+                    <div
+                        class="bg-white p-6 rounded-lg border border-gray-100 hover:border-gray-200 hover:shadow-lg transition">
+                        <h5 class="text-xl font-semibold text-gray-800 mb-3"> <?php echo $row['blog_name']; ?></h5>
+                        <p class="text-gray-600 text-sm mb-4">
+
+                            <?php
+                            $Short_description = substr($row['blog_description'], 0, 70);
+                            echo $Short_description;
+                            ?>
+                        </p>
+
+                        <!-- TAGS -->
+
+                        <div class="tags mb-4">
+                            <?php
+
+                            $tags = explode(',', $row['blog_tags']);
+
+                            foreach ($tags as $tag) {
+                                $cleanTag = trim($tag);
+                            ?>
+                                <span
+                                    class="bg-blue-100 text-blue-600 text-xs font-medium rounded-full px-2.5 py-1">
+                                    <?php echo $cleanTag; ?>
+                                </span>
+
+                            <?php
+                            }
+                            ?>
+                        </div>
+
+
+                        <a href="read_blog.php?blog_id=<?php echo $row['blog_id']; ?>"
+                            class="text-blue-500 text-sm font-medium hover:text-blue-600 transition">Read More →</a>
+
+                    </div>
+
+                <?php
+                }
+                ?>
+
+
+                <!--    <?php
+                        // echo $row['specialization']; 
+                        ?>
+                    $cleanTag = trim($tag); // remove extra space
+                    echo '<span class="badge">' . htmlspecialchars($cleanTag) . '</span> ';
+                }
+                ?>
+-->
+
+
+
                 <!-- Single Blog Card -->
-                <div
-                    class="bg-white p-6 rounded-lg border border-gray-100 hover:border-gray-200 hover:shadow-lg transition">
-                    <h5 class="text-xl font-semibold text-gray-800 mb-3">5 Home Remedies for Headaches</h5>
-                    <p class="text-gray-600 text-sm mb-4">Learn simple at-home solutions to relieve mild headaches,
-                        including hydration and rest.</p>
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span
-                            class="bg-blue-100 text-blue-600 text-xs font-medium rounded-full px-2.5 py-1">Headache</span>
-                        <span class="bg-blue-100 text-blue-600 text-xs font-medium rounded-full px-2.5 py-1">Home
-                            Remedies</span>
-                    </div>
-                    <a href="/patient/read_blog.php"
-                        class="text-blue-500 text-sm font-medium hover:text-blue-600 transition">Read More</a>
 
-                </div>
 
-                <!-- Managing Period Cramps -->
-                <div
-                    class="bg-white p-6 rounded-lg border border-gray-100 hover:border-gray-200 hover:shadow-lg transition">
-                    <h5 class="text-xl font-semibold text-gray-800 mb-3">Managing Period Cramps</h5>
-                    <p class="text-gray-600 text-sm mb-4">Tips for girls to ease menstrual discomfort naturally with
-                        heat therapy and diet.</p>
-                    <div class="flex-associated with flex-wrap gap-2 mb-4">
-                        <span class="bg-blue-100 text-blue-600 text-xs font-medium rounded-full px-2.5 py-1">Women
-                            Health</span>
-                        <span class="bg-blue-100 text-blue-600 text-xs font-medium rounded-full px-2.5 py-1">Period
-                            Pain</span>
-                    </div>
-                    <a href="/patient/read_blog.php"
-                        class="text-blue-500 text-sm font-medium hover:text-blue-600 transition">Read More</a>
-                </div>
 
-                <!-- Dealing with Acne Naturally -->
-                <div
-                    class="bg-white p-6 rounded-lg border border-gray-100 hover:border-gray-200 hover:shadow-lg transition">
-                    <h5 class="text-xl font-semibold text-gray-800 mb-3">Dealing with Acne Naturally</h5>
-                    <p class="text-gray-600 text-sm mb-4">Skincare tips for all ages to manage acne without harsh
-                        chemicals.</p>
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span
-                            class="bg-blue-100 text-blue-600 text-xs font-medium rounded-full px-2.5 py-1">Skincare</span>
-                        <span class="bg-blue-100 text-blue-600 text-xs font-medium rounded-full px-2.5 py-1">Acne</span>
-                    </div>
-                    <a href="#" class="text-blue-500 text-sm font-medium hover:text-blue-600 transition">Read More</a>
-                </div>
 
-                <!-- Stress Management for Students -->
-                <div
-                    class="bg-white p-6 rounded-lg border border-gray-100 hover:border-gray-200 hover:shadow-lg transition">
-                    <h5 class="text-xl font-semibold text-gray-800 mb-3">Stress Management for Students</h5>
-                    <p class="text-gray-600 text-sm mb-4">Practical advice to reduce stress with mindfulness and
-                        exercise.</p>
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span class="bg-blue-100 text-blue-600 text-xs font-medium rounded-full px-2.5 py-1">Mental
-                            Health</span>
-                        <span
-                            class="bg-blue-100 text-blue-600 text-xs font-medium rounded-full px-2.5 py-1">Students</span>
-                    </div>
-                    <a href="#" class="text-blue-500 text-sm font-medium hover:text-blue-600 transition">Read More</a>
-                </div>
+
+
             </div>
 
             <!-- More to View Button -->
