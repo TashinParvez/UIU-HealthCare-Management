@@ -89,7 +89,8 @@
     }
 
     .modal {
-        --bs-modal-bg: transparent;
+        --bs-modal-bg: rgba(0, 0, 0, 0.5);
+        /* Fixed transparent backdrop */
     }
 
     .modal-dialog {
@@ -309,13 +310,45 @@
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
     }
+
+    .modal-footer {
+        border-top: none;
+        padding: 0 24px 24px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .modal-footer .btn-back {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        padding: 10px 40px;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .modal-footer .btn-back:hover {
+        background-color: #5a6268;
+        transform: translateY(-2px);
+    }
     </style>
 </head>
 
 <body>
     <div class="d-flex min-vh-100">
-        <!-- Include Sidebar -->
-        <?php include '../../Includes/Sidebar.php'; ?>
+        <!-- Sidebar Placeholder (Assuming Sidebar.php exists) -->
+        <div class="sidebar">
+            <?php
+            // Check if Sidebar.php exists to avoid errors
+            if (file_exists('../../Includes/Sidebar.php')) {
+                include '../../Includes/Sidebar.php';
+            } else {
+                echo '<div class="alert alert-warning">Sidebar.php not found.</div>';
+            }
+            ?>
+        </div>
 
         <!-- Main Content -->
         <div class="content">
@@ -338,7 +371,7 @@
                             <div class="card">
                                 <div class="step-indicator">
                                     <div class="step active">1</div>
-                                    <div class="line active"></div>
+                                    <div class="line"></div>
                                     <div class="step">2</div>
                                     <div class="line"></div>
                                     <div class="step">3</div>
@@ -350,16 +383,22 @@
                                     <div class="step">6</div>
                                 </div>
                                 <h5>Chief Complaints</h5>
-                                <div class="complaint-tags">
-                                    <span class="badge">Headache <i class="bi bi-x"></i></span>
-                                    <span class="badge">Insomnia <i class="bi bi-x"></i></span>
-                                    <span class="badge">Tiredness <i class="bi bi-x"></i></span>
-                                    <span class="badge">Another Complaint <i class="bi bi-x"></i></span>
-                                    <span class="badge">Typhoid <i class="bi bi-x"></i></span>
+                                <div class="complaint-tags" id="complaintTags">
+                                    <span class="badge" data-value="Headache">Headache <i
+                                            class="bi bi-x remove-tag"></i></span>
+                                    <span class="badge" data-value="Insomnia">Insomnia <i
+                                            class="bi bi-x remove-tag"></i></span>
+                                    <span class="badge" data-value="Tiredness">Tiredness <i
+                                            class="bi bi-x remove-tag"></i></span>
+                                    <span class="badge" data-value="Another Complaint">Another Complaint <i
+                                            class="bi bi-x remove-tag"></i></span>
+                                    <span class="badge" data-value="Typhoid">Typhoid <i
+                                            class="bi bi-x remove-tag"></i></span>
                                 </div>
-                                <textarea placeholder="Chief Complaints"></textarea>
-                                <button class="btn-submit" data-bs-dismiss="modal"
-                                    onclick="openNextModal('medicineModal')">Continue</button>
+                                <textarea id="complaintNotes" placeholder="Enter additional chief complaints"
+                                    aria-label="Chief Complaints Notes"></textarea>
+                                <button class="btn-submit"
+                                    onclick="saveAndContinue('complaintsModal', 'medicineModal')">Continue</button>
                             </div>
                         </div>
                     </div>
@@ -381,7 +420,7 @@
                                     <div class="step active">1</div>
                                     <div class="line active"></div>
                                     <div class="step active">2</div>
-                                    <div class="line active"></div>
+                                    <div class="line"></div>
                                     <div class="step">3</div>
                                     <div class="line"></div>
                                     <div class="step">4</div>
@@ -391,48 +430,27 @@
                                     <div class="step">6</div>
                                 </div>
                                 <h5>Medicine</h5>
-                                <div class="medicine-row">
-                                    <input type="text" placeholder="Medicine Name">
-                                    <input type="number" value="1">
-                                    <select>
-                                        <option>Before Meal</option>
-                                        <option>After Meal</option>
-                                    </select>
-                                    <input type="text" value="10 Days">
-                                </div>
-                                <div class="medicine-row">
-                                    <input type="text" placeholder="Medicine Name">
-                                    <input type="number" value="1">
-                                    <select>
-                                        <option>Before Meal</option>
-                                        <option>After Meal</option>
-                                    </select>
-                                    <input type="text" value="10 Days">
-                                </div>
-                                <div class="medicine-row">
-                                    <input type="text" placeholder="Medicine Name">
-                                    <input type="number" value="1">
-                                    <select>
-                                        <option>Before Meal</option>
-                                        <option>After Meal</option>
-                                    </select>
-                                    <input type="text" value="10 Days">
-                                </div>
-                                <div class="medicine-row">
-                                    <input type="text" placeholder="Medicine Name">
-                                    <input type="number" value="1">
-                                    <select>
-                                        <option>Before Meal</option>
-                                        <option>After Meal</option>
-                                    </select>
-                                    <input type="text" value="10 Days">
+                                <div id="medicineRows">
+                                    <div class="medicine-row">
+                                        <input type="text" placeholder="Medicine Name" aria-label="Medicine Name">
+                                        <input type="number" min="1" value="1" aria-label="Dosage">
+                                        <select aria-label="Meal Timing">
+                                            <option>Before Meal</option>
+                                            <option>After Meal</option>
+                                        </select>
+                                        <input type="text" value="10 Days" aria-label="Duration">
+                                    </div>
                                 </div>
                                 <div class="add-more">
-                                    <a href="#"><i class="bi bi-plus-circle me-1"></i>Add More</a>
+                                    <a href="#" onclick="addMedicineRow()">Add More <i
+                                            class="bi bi-plus-circle me-1"></i></a>
                                 </div>
-                                <button class="btn-submit" data-bs-dismiss="modal"
-                                    onclick="openNextModal('testsModal')">Continue</button>
+                                <button class="btn-submit"
+                                    onclick="saveAndContinue('medicineModal', 'testsModal')">Continue</button>
                             </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn-back" onclick="goBack('medicineModal', 'complaintsModal')">Back</button>
                         </div>
                     </div>
                 </div>
@@ -454,7 +472,7 @@
                                     <div class="step active">2</div>
                                     <div class="line active"></div>
                                     <div class="step active">3</div>
-                                    <div class="line active"></div>
+                                    <div class="line"></div>
                                     <div class="step">4</div>
                                     <div class="line"></div>
                                     <div class="step">5</div>
@@ -462,18 +480,24 @@
                                     <div class="step">6</div>
                                 </div>
                                 <h5>Diagnosis</h5>
-                                <div class="test-tags">
-                                    <span class="badge">X Ray <i class="bi bi-x"></i></span>
-                                    <span class="badge">ECG <i class="bi bi-x"></iAt></span>
-                                    <span class="badge">Cholesterol <i class="bi bi-x"></i></span>
-                                    <span class="badge">RCB <i class="bi bi-x"></i></span>
-                                    <span class="badge">Another Complain <i class="bi bi-x"></i></span>
-                                    <span class="badge">Typhoid <i class="bi bi-x"></i></span>
+                                <div class="test-tags" id="testTags">
+                                    <span class="badge" data-value="X Ray">X Ray <i
+                                            class="bi bi-x remove-tag"></i></span>
+                                    <span class="badge" data-value="ECG">ECG <i class="bi bi-x remove-tag"></i></span>
+                                    <span class="badge" data-value="Cholesterol">Cholesterol <i
+                                            class="bi bi-x remove-tag"></i></span>
+                                    <span class="badge" data-value="RCB">RCB <i class="bi bi-x remove-tag"></i></span>
+                                    <span class="badge" data-value="Typhoid">Typhoid <i
+                                            class="bi bi-x remove-tag"></i></span>
                                 </div>
-                                <textarea placeholder="Diagnosis"></textarea>
-                                <button class="btn-submit" data-bs-dismiss="modal"
-                                    onclick="openNextModal('adviceModal')">Continue</button>
+                                <textarea id="testNotes" placeholder="Enter additional diagnosis notes"
+                                    aria-label="Diagnosis Notes"></textarea>
+                                <button class="btn-submit"
+                                    onclick="saveAndContinue('testsModal', 'adviceModal')">Continue</button>
                             </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn-back" onclick="goBack('testsModal', 'medicineModal')">Back</button>
                         </div>
                     </div>
                 </div>
@@ -495,19 +519,23 @@
                                     <div class="line active"></div>
                                     <div class="step active">2</div>
                                     <div class="line active"></div>
-                                    <div class="step6 active">3</div>
+                                    <div class="step active">3</div>
                                     <div class="line active"></div>
                                     <div class="step active">4</div>
-                                    <div class="line active"></div>
+                                    <div class="line"></div>
                                     <div class="step">5</div>
                                     <div class="line"></div>
                                     <div class="step">6</div>
                                 </div>
                                 <h5>Advice</h5>
-                                <textarea placeholder="Advice"></textarea>
-                                <button class="btn-submit" data-bs-dismiss="modal"
-                                    onclick="openNextModal('specialistModal')">Continue</button>
+                                <textarea id="adviceNotes" placeholder="Enter advice for the patient"
+                                    aria-label="Advice Notes"></textarea>
+                                <button class="btn-submit"
+                                    onclick="saveAndContinue('adviceModal', 'specialistModal')">Continue</button>
                             </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn-back" onclick="goBack('adviceModal', 'testsModal')">Back</button>
                         </div>
                     </div>
                 </div>
@@ -534,20 +562,28 @@
                                     <div class="step active">4</div>
                                     <div class="line active"></div>
                                     <div class="step active">5</div>
-                                    <div class="line active"></div>
+                                    <div class="line"></div>
                                     <div class="step">6</div>
                                 </div>
                                 <h5>Refer to Specialist</h5>
-                                <div class="specialist-tags">
-                                    <span class="badge">Neurologist <i class="bi bi-x"></i></span>
-                                    <span class="badge">Cardiologist <i class="bi bi-x"></i></span>
-                                    <span class="badge">Oncologist <i class="bi bi-x"></i></span>
-                                    <span class="badge">Orthopedic Surgeon <i class="bi bi-x"></i></span>
+                                <div class="specialist-tags" id="specialistTags">
+                                    <span class="badge" data-value="Neurologist">Neurologist <i
+                                            class="bi bi-x remove-tag"></i></span>
+                                    <span class="badge" data-value="Cardiologist">Cardiologist <i
+                                            class="bi bi-x remove-tag"></i></span>
+                                    <span class="badge" data-value="Oncologist">Oncologist <i
+                                            class="bi bi-x remove-tag"></i></span>
+                                    <span class="badge" data-value="Orthopedic Surgeon">Orthopedic Surgeon <i
+                                            class="bi bi-x remove-tag"></i></span>
                                 </div>
-                                <textarea placeholder="Referral Notes"></textarea>
-                                <button class="btn-submit" data-bs-dismiss="modal"
-                                    onclick="openNextModal('followupModal')">Continue</button>
+                                <textarea id="specialistNotes" placeholder="Enter referral notes"
+                                    aria-label="Referral Notes"></textarea>
+                                <button class="btn-submit"
+                                    onclick="saveAndContinue('specialistModal', 'followupModal')">Continue</button>
                             </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn-back" onclick="goBack('specialistModal', 'adviceModal')">Back</button>
                         </div>
                     </div>
                 </div>
@@ -579,12 +615,16 @@
                                 </div>
                                 <h5>Schedule Follow-Up</h5>
                                 <div class="followup-row">
-                                    <input type="date" value="2025-04-26">
-                                    <input type="time" value="09:00">
+                                    <input type="date" id="followupDate" value="2025-04-26" aria-label="Follow-Up Date">
+                                    <input type="time" id="followupTime" value="09:00" aria-label="Follow-Up Time">
                                 </div>
-                                <textarea placeholder="Follow-Up Notes"></textarea>
-                                <button class="btn-submit" data-bs-dismiss="modal">Submit</button>
+                                <textarea id="followupNotes" placeholder="Enter follow-up notes"
+                                    aria-label="Follow-Up Notes"></textarea>
+                                <button class="btn-submit" onclick="submitPrescription()">Submit</button>
                             </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn-back" onclick="goBack('followupModal', 'specialistModal')">Back</button>
                         </div>
                     </div>
                 </div>
@@ -597,12 +637,255 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
     <script>
-    function openNextModal(modalId) {
-        const nextModal = new bootstrap.Modal(document.getElementById(modalId), {
+    // Store prescription data
+    let prescriptionData = {
+        complaints: {
+            tags: [],
+            notes: ''
+        },
+        medicines: [],
+        tests: {
+            tags: [],
+            notes: ''
+        },
+        advice: '',
+        specialists: {
+            tags: [],
+            notes: ''
+        },
+        followup: {
+            date: '',
+            time: '',
+            notes: ''
+        }
+    };
+
+    // Initialize tag removal listeners
+    document.addEventListener('DOMContentLoaded', () => {
+        ['complaintTags', 'testTags', 'specialistTags'].forEach(tagContainerId => {
+            const container = document.getElementById(tagContainerId);
+            if (container) {
+                container.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('remove-tag')) {
+                        const tag = e.target.parentElement;
+                        const value = tag.dataset.value;
+                        tag.remove();
+                        updateTags(tagContainerId, value);
+                    }
+                });
+            }
+        });
+    });
+
+    // Update tags in prescriptionData
+    function updateTags(containerId, removedValue) {
+        if (containerId === 'complaintTags') {
+            prescriptionData.complaints.tags = prescriptionData.complaints.tags.filter(tag => tag !== removedValue);
+        } else if (containerId === 'testTags') {
+            prescriptionData.tests.tags = prescriptionData.tests.tags.filter(tag => tag !== removedValue);
+        } else if (containerId === 'specialistTags') {
+            prescriptionData.specialists.tags = prescriptionData.specialists.tags.filter(tag => tag !== removedValue);
+        }
+    }
+
+    // Add new medicine row
+    function addMedicineRow() {
+        const medicineRows = document.getElementById('medicineRows');
+        const newRow = document.createElement('div');
+        newRow.className = 'medicine-row';
+        newRow.innerHTML = `
+                <input type="text" placeholder="Medicine Name" aria-label="Medicine Name">
+                <input type="number" min="1" value="1" aria-label="Dosage">
+                <select aria-label="Meal Timing">
+                    <option>Before Meal</option>
+                    <option>After Meal</option>
+                </select>
+                <input type="text" value="10 Days" aria-label="Duration">
+            `;
+        medicineRows.appendChild(newRow);
+    }
+
+    // Save data and continue to next modal
+    function saveAndContinue(currentModalId, nextModalId) {
+        // Validate and save data based on current modal
+        if (currentModalId === 'complaintsModal') {
+            const tags = Array.from(document.querySelectorAll('#complaintTags .badge')).map(tag => tag.dataset.value);
+            const notes = document.getElementById('complaintNotes').value.trim();
+            if (tags.length === 0 && !notes) {
+                alert('Please add at least one complaint or note.');
+                return;
+            }
+            prescriptionData.complaints.tags = tags;
+            prescriptionData.complaints.notes = notes;
+        } else if (currentModalId === 'medicineModal') {
+            const rows = document.querySelectorAll('#medicineRows .medicine-row');
+            const medicines = Array.from(rows).map(row => ({
+                name: row.children[0].value.trim(),
+                dosage: row.children[1].value,
+                timing: row.children[2].value,
+                duration: row.children[3].value.trim()
+            }));
+            if (medicines.every(med => !med.name)) {
+                alert('Please add at least one medicine.');
+                return;
+            }
+            prescriptionData.medicines = medicines.filter(med => med.name);
+        } else if (currentModalId === 'testsModal') {
+            const tags = Array.from(document.querySelectorAll('#testTags .badge')).map(tag => tag.dataset.value);
+            const notes = document.getElementById('testNotes').value.trim();
+            prescriptionData.tests.tags = tags;
+            prescriptionData.tests.notes = notes;
+        } else if (currentModalId === 'adviceModal') {
+            const advice = document.getElementById('adviceNotes').value.trim();
+            prescriptionData.advice = advice;
+        } else if (currentModalId === 'specialistModal') {
+            const tags = Array.from(document.querySelectorAll('#specialistTags .badge')).map(tag => tag.dataset.value);
+            const notes = document.getElementById('specialistNotes').value.trim();
+            prescriptionData.specialists.tags = tags;
+            prescriptionData.specialists.notes = notes;
+        }
+
+        // Open next modal
+        const currentModal = bootstrap.Modal.getInstance(document.getElementById(currentModalId));
+        currentModal.hide();
+        const nextModal = new bootstrap.Modal(document.getElementById(nextModalId), {
             backdrop: 'static',
             keyboard: false
         });
         nextModal.show();
+    }
+
+    // Go back to previous modal
+    function goBack(currentModalId, previousModalId) {
+        const currentModal = bootstrap.Modal.getInstance(document.getElementById(currentModalId));
+        currentModal.hide();
+        const previousModal = new bootstrap.Modal(document.getElementById(previousModalId), {
+            backdrop: 'static',
+            keyboard: false
+        });
+        previousModal.show();
+    }
+
+    // Submit prescription
+    function submitPrescription() {
+        const date = document.getElementById('followupDate').value;
+        const time = document.getElementById('followupTime').value;
+        const notes = document.getElementById('followupNotes').value.trim();
+
+        if (!date || !time) {
+            alert('Please specify follow-up date and time.');
+            return;
+        }
+
+        prescriptionData.followup = {
+            date,
+            time,
+            notes
+        };
+
+        // Log data to console (replace with actual backend submission)
+        console.log('Prescription Data:', prescriptionData);
+
+        // Example: Send to backend (uncomment and configure as needed)
+        /*
+        fetch('/api/prescription', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(prescriptionData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('Prescription submitted successfully!');
+            resetForm();
+        })
+        .catch(error => alert('Error submitting prescription: ' + error));
+        */
+
+        // For demo, show alert and reset
+        alert('Prescription submitted successfully!');
+        resetForm();
+
+        const modal = bootstrap.Modal.getInstance(document.getElementById('followupModal'));
+        modal.hide();
+    }
+
+    // Reset form data and UI
+    function resetForm() {
+        prescriptionData = {
+            complaints: {
+                tags: [],
+                notes: ''
+            },
+            medicines: [],
+            tests: {
+                tags: [],
+                notes: ''
+            },
+            advice: '',
+            specialists: {
+                tags: [],
+                notes: ''
+            },
+            followup: {
+                date: '',
+                time: '',
+                notes: ''
+            }
+        };
+
+        // Reset Complaints Modal
+        document.getElementById('complaintNotes').value = '';
+        const complaintTags = document.getElementById('complaintTags');
+        complaintTags.innerHTML = `
+                <span class="badge" data-value="Headache">Headache <i class="bi bi-x remove-tag"></i></span>
+                <span class="badge" data-value="Insomnia">Insomnia <i class="bi bi-x remove-tag"></i></span>
+                <span class="badge" data-value="Tiredness">Tiredness <i class="bi bi-x remove-tag"></i></span>
+                <span class="badge" data-value="Another Complaint">Another Complaint <i class="bi bi-x remove-tag"></i></span>
+                <span class="badge" data-value="Typhoid">Typhoid <i class="bi bi-x remove-tag"></i></span>
+            `;
+
+        // Reset Medicine Modal
+        const medicineRows = document.getElementById('medicineRows');
+        medicineRows.innerHTML = `
+                <div class="medicine-row">
+                    <input type="text" placeholder="Medicine Name" aria-label="Medicine Name">
+                    <input type="number" min="1" value="1" aria-label="Dosage">
+                    <select aria-label="Meal Timing">
+                        <option>Before Meal</option>
+                        <option>After Meal</option>
+                    </select>
+                    <input type="text" value="10 Days" aria-label="Duration">
+                </div>
+            `;
+
+        // Reset Tests Modal
+        document.getElementById('testNotes').value = '';
+        const testTags = document.getElementById('testTags');
+        testTags.innerHTML = `
+                <span class="badge" data-value="X Ray">X Ray <i class="bi bi-x remove-tag"></i></span>
+                <span class="badge" data-value="ECG">ECG <i class="bi bi-x remove-tag"></i></span>
+                <span class="badge" data-value="Cholesterol">Cholesterol <i class="bi bi-x remove-tag"></i></span>
+                <span class="badge" data-value="RCB">RCB <i class="bi bi-x remove-tag"></i></span>
+                <span class="badge" data-value="Typhoid">Typhoid <i class="bi bi-x remove-tag"></i></span>
+            `;
+
+        // Reset Advice Modal
+        document.getElementById('adviceNotes').value = '';
+
+        // Reset Specialist Modal
+        document.getElementById('specialistNotes').value = '';
+        const specialistTags = document.getElementById('specialistTags');
+        specialistTags.innerHTML = `
+                <span class="badge" data-value="Neurologist">Neurologist <i class="bi bi-x remove-tag"></i></span>
+                <span class="badge" data-value="Cardiologist">Cardiologist <i class="bi bi-x remove-tag"></i></span>
+                <span class="badge" data-value="Oncologist">Oncologist <i class="bi bi-x remove-tag"></i></span>
+                <span class="badge" data-value="Orthopedic Surgeon">Orthopedic Surgeon <i class="bi bi-x remove-tag"></i></span>
+            `;
+
+        // Reset Follow-Up Modal
+        document.getElementById('followupDate').value = '2025-04-26';
+        document.getElementById('followupTime').value = '09:00';
+        document.getElementById('followupNotes').value = '';
     }
     </script>
 </body>

@@ -382,6 +382,12 @@ function getAmount($doctors_info, $doctor_id)
 
                 </select>
             </div>
+            <div class="mb-6">
+                <label class="block text-red-600 font-semibold mb-2">Condition</label>
+                <input type="text" name="specialist" id="specialist"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter condition">
+            </div>
 
             <!-- Form -->
             <form id="bookingForm" method="POST" action="Booking.php">
