@@ -2,9 +2,16 @@
 
 include "../Includes/Database_connection.php";
 
+if (isset($_GET['blog_id'])) {
+    $blog_id = intval($_GET['blog_id']); // Use intval to sanitize input
+} else {
+    // Handle the case where blog_id is not set, e.g., redirect or show error
+    die('Blog ID not specified.');
+}
+ 
+// $blog_id = 2;
 
-$blog_id = 2;
-
+ 
 // --------------- DOCTOR INFO ---------------------
 $sql = "SELECT 
             b.blog_id,
@@ -366,13 +373,17 @@ if (count($related_blogs) < 1) {
                     </p>
 
                     <!-- $row[blog_id] -->
-                    <a href="#" class="back-link">Read More →</a>
+                    <!-- <a href="#" class="back-link">Read More →</a> -->
+                    <a href="read_blog.php?blog_id=<?php echo $row['blog_id']; ?>" class="back-link">Read More →</a>
+
 
                 </div>
 
             <?php
             }
             ?>
+
+            <!-- see here in $row[blog_id] i have blogno so by clicking read more i want to call this page read_blog.php and there i want to pass $row[blog_id], in read_log.php page have a varable called -->
 
         </div>
 
