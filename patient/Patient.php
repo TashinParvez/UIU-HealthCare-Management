@@ -177,7 +177,6 @@
                             Book Now
                         </button>
                     </a>
-
                 </div>
             </div>
             <!-- Medicine Section -->
