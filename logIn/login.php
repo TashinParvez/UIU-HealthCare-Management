@@ -10,101 +10,101 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Custom CSS -->
     <style>
-    body {
-        background-color: #f8f9fa;
-    }
+        body {
+            background-color: #f8f9fa;
+        }
 
-    .login-container {
-        min-height: 90vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+        .login-container {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    .login-section {
-        background: white;
-        border-radius: 15px;
-        overflow: hidden;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    }
+        .login-section {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
 
-    .illustration-side {
-        background: #e6f0fa;
-        padding: 30px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
+        .illustration-side {
+            background: #e6f0fa;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
 
-    .illustration-side h1 {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #333;
-    }
+        .illustration-side h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #333;
+        }
 
-    .illustration-side img {
-        max-width: 100%;
-        height: auto;
-    }
+        .illustration-side img {
+            max-width: 100%;
+            height: auto;
+        }
 
-    .login-side {
-        padding: 50px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
+        .login-side {
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-    .login-side h2 {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 20px;
-    }
+        .login-side h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
 
-    .login-side .btn {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 15px;
-        border-radius: 25px;
-    }
+        .login-side .btn {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 25px;
+        }
 
-    .login-side .btn-primary {
-        background-color: #007bff;
-        border: none;
-    }
+        .login-side .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
 
-    .login-side .btn-outline-secondary {
-        border-color: #6c757d;
-        color: #6c757d;
-    }
+        .login-side .btn-outline-secondary {
+            border-color: #6c757d;
+            color: #6c757d;
+        }
 
-    .login-side .btn-outline-secondary img {
-        width: 20px;
-        margin-right: 10px;
-    }
+        .login-side .btn-outline-secondary img {
+            width: 20px;
+            margin-right: 10px;
+        }
 
-    .login-side .signup-link {
-        text-align: center;
-        margin-top: 20px;
-    }
+        .login-side .signup-link {
+            text-align: center;
+            margin-top: 20px;
+        }
 
-    .login-side .signup-link a {
-        color: #007bff;
-        text-decoration: none;
-    }
+        .login-side .signup-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
 
-    .login-side .signup-link a:hover {
-        text-decoration: underline;
-    }
+        .login-side .signup-link a:hover {
+            text-decoration: underline;
+        }
 
-    .footer-text {
-        text-align: center;
-        margin-top: 20px;
-        color: #6c757d;
-        font-size: 0.9rem;
-    }
+        .footer-text {
+            text-align: center;
+            margin-top: 20px;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 
@@ -146,7 +146,7 @@
                     Log in with Google
                 </button>
                 <div class="signup-link">
-                    <p>Don't have an account? <a href="#">Sign Up</a></p>
+                    <p>Don't have an account? <a href="../SignUp/signup.php">Sign Up</a></p>
                 </div>
             </div>
         </div>
