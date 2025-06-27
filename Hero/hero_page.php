@@ -1,0 +1,588 @@
+<?php
+
+include "../Includes/Database_connection.php";
+
+
+// --------------- DOCTOR INFO ---------------------
+$sql = "SELECT 
+            CONCAT(u.first_name, ' ', u.last_name) AS full_name,
+            d.specialization
+        FROM 
+            users u
+        JOIN 
+            doctors d 
+        ON u.user_id = d.doctor_id;";
+
+$allDoctors = mysqli_query($conn, $sql);
+$allDoctors = mysqli_fetch_all($allDoctors, MYSQLI_ASSOC);  // returns associative array
+
+
+// --------------- Cardiologist ---------------------
+
+$sql = "SELECT 
+            CONCAT(u.first_name, ' ', u.last_name) AS full_name,
+            d.specialization
+        FROM 
+            users u
+        JOIN 
+            doctors d ON u.user_id = d.doctor_id
+        WHERE 
+            LOWER(d.specialization) = 'cardiologist';";
+
+$cardiologist = mysqli_query($conn, $sql);
+$cardiologist = mysqli_fetch_all($cardiologist, MYSQLI_ASSOC);  // returns associative array
+
+// print_r($cardiologist);
+
+
+// --------------- orthopedist ---------------------
+
+$sql = "SELECT 
+            CONCAT(u.first_name, ' ', u.last_name) AS full_name,
+            d.specialization
+        FROM 
+            users u
+        JOIN 
+            doctors d ON u.user_id = d.doctor_id
+        WHERE 
+            LOWER(d.specialization) = 'orthopedist';";
+
+$orthopedist = mysqli_query($conn, $sql);
+$orthopedist = mysqli_fetch_all($orthopedist, MYSQLI_ASSOC);  // returns associative array
+
+// print_r($orthopedist);
+
+
+// --------------- headache ---------------------
+
+$sql = "SELECT 
+            CONCAT(u.first_name, ' ', u.last_name) AS full_name,
+            d.specialization
+        FROM 
+            users u
+        JOIN 
+            doctors d ON u.user_id = d.doctor_id
+        WHERE 
+            LOWER(d.specialization) = 'headache';";
+
+$headache = mysqli_query($conn, $sql);
+$headache = mysqli_fetch_all($headache, MYSQLI_ASSOC);  // returns associative array
+
+// print_r($headache);
+
+
+// --------------- eyecare ---------------------
+
+$sql = "SELECT 
+            CONCAT(u.first_name, ' ', u.last_name) AS full_name,
+            d.specialization
+        FROM 
+            users u
+        JOIN 
+            doctors d ON u.user_id = d.doctor_id
+        WHERE 
+            LOWER(d.specialization) = 'eyecare';";
+
+$eyecare = mysqli_query($conn, $sql);
+$eyecare = mysqli_fetch_all($eyecare, MYSQLI_ASSOC);  // returns associative array
+
+// print_r($eyecare);
+
+
+// --------------- nutritionist ---------------------
+
+$sql = "SELECT 
+            CONCAT(u.first_name, ' ', u.last_name) AS full_name,
+            d.specialization
+        FROM 
+            users u
+        JOIN 
+            doctors d ON u.user_id = d.doctor_id
+        WHERE 
+            LOWER(d.specialization) = 'nutritionist';";
+
+$nutritionist = mysqli_query($conn, $sql);
+$nutritionist = mysqli_fetch_all($nutritionist, MYSQLI_ASSOC);  // returns associative array
+
+// print_r($nutritionist);
+
+
+
+//  --------------------- Our Patients’ Feedback  ---------------------
+
+$sql = "SELECT 
+            CONCAT(u.first_name, ' ', u.last_name) AS patient_name,
+            pf.feedback_text
+        FROM 
+            patient_feedback pf
+        JOIN 
+            users u ON pf.patient_id = u.user_id
+        ORDER BY 
+            RAND()
+        LIMIT 5;";
+
+$pFeedback = mysqli_query($conn, $sql);
+$pFeedback = mysqli_fetch_all($pFeedback, MYSQLI_ASSOC);  // returns associative array
+
+// print_r($pFeedback);
+
+
+
+
+
+
+
+
+// ===========================================================
+
+
+// foreach ($result as $row) {
+//     echo "Doctor Name: " . $row['full_name'] . "<br>";
+//     echo "Specialization: " . $row['specialization'] . "<br><br>";
+// }
+
+// $firstName = $userInfo[0][1];
+// $lastName = $userInfo[0][2];
+// $email  = $userInfo[0][3];
+// $phone = $userInfo[0][4];
+// $role = $userInfo[0][5];
+
+// echo $firstName . "<br>";
+// echo $result[0] . "<br>";
+
+?>
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UIU Health Care</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 font-sans">
+    <!-- Navigation Bar -->
+    <?php include($_SERVER['DOCUMENT_ROOT'] . '/Hero/heroNav.php'); ?>
+
+
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-12 bg-gradient-to-b from-gray-50 to-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row items-center">
+                <div class="lg:w-1/2 mb-8 lg:mb-0">
+                    <h1 class="text-4xl lg:text-5xl font-bold text-gray-800 mb-4">Health Care Now<br>Simplified For
+                        Everyone</h1>
+                    <p class="text-gray-600 mb-6">Health carely offers free tools to get health insurance quotes, based
+                        on donations rather than restrictive health plan networks.</p>
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Start Your Health Journey Here</h2>
+                    <div class="flex space-x-4">
+                        <button class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition">Book
+                            Consultation Now</button>
+                        <button
+                            class="border border-blue-500 text-blue-500 px-6 py-3 rounded-lg hover:bg-blue-50 transition">Learn
+                            More</button>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 relative">
+                    <img src="/Includes/Images/HeroPage/hero_img.png" alt="Doctors" class="w-full rounded-lg">
+                    <div class="absolute bottom-4 left-4 bg-white p-4 rounded-lg shadow-lg">
+                        <h5 class="text-lg font-semibold text-gray-800">870+ Doctors</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Steps Section -->
+    <section class="py-12 bg-gradient-to-r from-blue-50 to-white">
+        <div class="container mx-auto px-4">
+            <h3 class="text-center text-blue-500 font-semibold mb-2">Fast Solutions</h3>
+            <h2 class="text-center text-3xl font-bold text-gray-800 mb-8">Step by Step to Your Solutions</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full mb-4"></div>
+                    <h5 class="text-lg font-semibold text-gray-800 mb-2">Check Health Complaints</h5>
+                    <p class="text-gray-600 text-sm">Easily identify your condition to choose the right specialist.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full mb-4"></div>
+                    <h5 class="text-lg font-semibold text-gray-800 mb-2">Choose a Specialist</h5>
+                    <p class="text-gray-600 text-sm">Select a doctor based on your specific health needs.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full mb-4"></div>
+                    <h5 class="text-lg font-semibold text-gray-800 mb-2">Make a Schedule</h5>
+                    <p class="text-gray-600 text-sm">Book a consultation with your chosen specialist.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full mb-4"></div>
+                    <h5 class="text-lg font-semibold text-gray-800 mb-2">Get Your Solutions</h5>
+                    <p class="text-gray-600 text-sm">Receive tailored treatment plans from our experts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ratings Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h3 class="text-center text-blue-500 font-semibold mb-2">Our Rating</h3>
+            <h2 class="text-center text-3xl font-bold text-gray-800 mb-8">Employee Benefits at 7500+ Hospitals</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="text-center">
+                    <h3 class="text-4xl font-bold text-gray-800 mb-2">900+</h3>
+                    <p class="text-lg font-semibold text-gray-800">Verified Specialists</p>
+                    <p class="text-gray-500 text-sm">Highly Verified</p>
+                </div>
+                <div class="text-center">
+                    <h3 class="text-4xl font-bold text-gray-800 mb-2">45000+</h3>
+                    <p class="text-lg font-semibold text-gray-800">Happy Customers</p>
+                    <p class="text-gray-500 text-sm">High Performance</p>
+                </div>
+                <div class="text-center">
+                    <h3 class="text-4xl font-bold text-gray-800 mb-2">99.7%</h3>
+                    <p class="text-lg font-semibold text-gray-800">Positive Feedback</p>
+                    <p class="text-gray-500 text-sm">Customer Approved</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!----------------------------- Departments Section ----------------------------->
+
+
+    <section class="py-12 bg-white" id="departments">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Our Departments</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+
+                <!-- Department Card Example -->
+                <div
+                    class="bg-blue-50 rounded-lg p-6 flex flex-col items-center text-center shadow-sm hover:shadow-lg transition">
+                    <!-- Icon placeholder -->
+                    <div
+                        class="bg-blue-200 text-blue-600 rounded-full p-4 mb-4 inline-flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 14l9-5-9-5-9 5 9 5z" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 14l6.16-3.422a12.083 12.083 0 01.34 6.374L12 20.5l-6.5-3.548a12.083 12.083 0 01.34-6.374L12 14z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Cardiology</h3>
+                    <p class="text-gray-600 text-sm">Heart health and treatment by expert cardiologists.</p>
+                </div>
+
+                <div
+                    class="bg-green-50 rounded-lg p-6 flex flex-col items-center text-center shadow-sm hover:shadow-lg transition">
+                    <div
+                        class="bg-green-200 text-green-600 rounded-full p-4 mb-4 inline-flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9 12l2 2 4-4" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 14l9-5-9-5-9 5 9 5z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Orthopedics</h3>
+                    <p class="text-gray-600 text-sm">Bone and joint care from specialized orthopedic doctors.</p>
+                </div>
+
+                <div
+                    class="bg-purple-50 rounded-lg p-6 flex flex-col items-center text-center shadow-sm hover:shadow-lg transition">
+                    <div
+                        class="bg-purple-200 text-purple-600 rounded-full p-4 mb-4 inline-flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Neurology</h3>
+                    <p class="text-gray-600 text-sm">Diagnosis and treatment for headache and brain disorders.</p>
+                </div>
+
+                <div
+                    class="bg-yellow-50 rounded-lg p-6 flex flex-col items-center text-center shadow-sm hover:shadow-lg transition">
+                    <div
+                        class="bg-yellow-200 text-yellow-600 rounded-full p-4 mb-4 inline-flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14v7" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Eye Care</h3>
+                    <p class="text-gray-600 text-sm">Comprehensive eye exams and treatments by specialists.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ----------------------------- -->
+
+
+
+
+
+    <!-- Book an Appointment Section -->
+    <section id="appointment" class="py-12 bg-gradient-to-l from-blue-50 to-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Book an Appointment</h2>
+
+            <!-- Buttons with data-category -->
+            <div class="flex flex-wrap gap-3 mb-6">
+                <button data-category="all"
+                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition filter-btn">All</button>
+                <button data-category="cardiologist"
+                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition filter-btn">Cardiologist</button>
+                <button data-category="orthopedist"
+                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition filter-btn">Orthopedist</button>
+                <button data-category="headache"
+                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition filter-btn">Headache</button>
+                <button data-category="eyecare"
+                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition filter-btn">Eye Care</button>
+                <button data-category="nutritionist"
+                    class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition filter-btn">Nutritionist</button>
+            </div>
+
+            <!-- Doctors container with ID -->
+            <div id="doctorsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <?php
+                // Initially show all doctors with your original PHP loop
+                foreach ($allDoctors as $row) {
+                ?>
+                    <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                        <img src="/Includes/male-doctors-white-medical.jpg" alt="Doctor"
+                            class="w-full h-40 object-cover rounded-lg mb-3">
+
+                        <h5 class="text-lg font-semibold text-gray-800">
+                            <?php echo $row['full_name']; ?>
+                        </h5>
+                        <p class="text-gray-600 text-sm">
+                            <?php echo $row['specialization']; ?>
+                        </p>
+                    </div>
+                <?php
+                }
+                ?>
+            </div>
+        </div>
+    </section>
+
+    <!-- Patient Caring Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h5 class="text-blue-500 font-semibold mb-2">Helping Patients Globally</h5>
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Patient <span class="text-blue-500">Caring</span></h2>
+            <div class="flex flex-col lg:flex-row items-center">
+                <div class="lg:w-1/2 mb-6 lg:mb-0">
+                    <p class="text-gray-600 mb-4">Our mission is to provide courteous, respectful, and compassionate
+                        care. Let us be your first choice for healthcare.</p>
+                    <ul class="list-none space-y-2">
+                        <li class="text-gray-600">• Stay Updated About Your Health</li>
+                        <li class="text-gray-600">• Check Your Results Online</li>
+                        <li class="text-gray-600">• Manage Your Appointments</li>
+                    </ul>
+                </div>
+                <div class="lg:w-1/2">
+                    <img src="/Includes/Images/HeroPage/patient-care.jpeg" alt="Patient Care" class="w-full rounded-lg">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Consult Section -->
+    <section class="py-12 bg-gradient-to-r from-blue-50 to-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Quick Consult For</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
+                <div class="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <img src="/Includes/Images/Quick Consult/heart.png" alt="Heart" class="h-10 mx-auto mb-2">
+                    <p class="text-gray-600 text-sm">Heart</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <img src="/Includes/Images/Quick Consult/heart.png" alt="Asthma" class="h-10 mx-auto mb-2">
+                    <p class="text-gray-600 text-sm">Asthma</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <img src="/Includes/Images/Quick Consult/heart.png" alt="Lungs" class="h-10 mx-auto mb-2">
+                    <p class="text-gray-600 text-sm">Lungs</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <img src="/Includes/Images/Quick Consult/heart.png" alt="Oxygen" class="h-10 mx-auto mb-2">
+                    <p class="text-gray-600 text-sm">Oxygen</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <img src="/Includes/Images/Quick Consult/heart.png" alt="Diabetics" class="h-10 mx-auto mb-2">
+                    <p class="text-gray-600 text-sm">Diabetics</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <img src="/Includes/Images/Quick Consult/heart.png" alt="Prescribe" class="h-10 mx-auto mb-2">
+                    <p class="text-gray-600 text-sm">Prescribe</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!--------------------- Our Patients’ Feedback Section --------------------->
+
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-center text-3xl font-bold text-gray-800 mb-8">Our Patients’ Feedback</h2>
+
+            <!-- Feedback slider container -->
+            <div class="relative">
+                <!-- Left button -->
+                <button id="prevBtn"
+                    class="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-lg border border-gray-300 text-blue-500 hover:text-white hover:bg-blue-500 p-3 rounded-full transition duration-300 z-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+
+                <!-- Feedbacks wrapper -->
+                <div id="feedbackContainer" class="grid grid-cols-2 gap-6 overflow-hidden">
+                    <!-- Feedback cards will be rendered here by JS -->
+                </div>
+
+                <!-- Right button -->
+                <button id="nextBtn"
+                    class="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-lg border border-gray-300 text-blue-500 hover:text-white hover:bg-blue-500 p-3 rounded-full transition duration-300 z-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!---------------------------------- Footer Section ---------------------------------->
+    <?php include '../Includes/footer.php'; ?>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+    </script>
+
+
+    <!-------------------- FOR THE DOCTOR Appointment SECTION script-------------------->
+
+    <script>
+        // Pass PHP arrays as JS objects
+        const doctorsData = {
+            all: <?php echo json_encode($allDoctors); ?>,
+            cardiologist: <?php echo json_encode($cardiologist); ?>,
+            orthopedist: <?php echo json_encode($orthopedist); ?>,
+            headache: <?php echo json_encode($headache); ?>,
+            eyecare: <?php echo json_encode($eyecare); ?>,
+            nutritionist: <?php echo json_encode($nutritionist); ?>
+        };
+
+        // Render doctors keeping your exact card format and styles
+        function renderDoctors(doctors) {
+            const container = document.getElementById('doctorsContainer');
+            container.innerHTML = ''; // clear existing
+
+            doctors.forEach(doc => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition";
+
+                card.innerHTML = `
+                <img src="/Includes/male-doctors-white-medical.jpg" alt="Doctor"
+                    class="w-full h-40 object-cover rounded-lg mb-3">
+                <h5 class="text-lg font-semibold text-gray-800">${doc.full_name}</h5>
+                <p class="text-gray-600 text-sm">${doc.specialization}</p>
+            `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // Add click listeners to buttons
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const category = button.getAttribute('data-category');
+                renderDoctors(doctorsData[category]);
+            });
+        });
+    </script>
+
+    <!-------------------- FOR Our Patients’ Feedback script-------------------->
+
+    <script>
+        // Pass PHP feedback array to JS
+        const feedbacks = <?php echo json_encode($pFeedback); ?>;
+
+        // Current index to track which feedbacks are visible
+        let currentIndex = 0;
+
+        // Render function to display 2 feedback cards starting from currentIndex
+        function renderFeedbacks() {
+            const container = document.getElementById('feedbackContainer');
+            container.innerHTML = '';
+
+            // Show 2 feedbacks at a time, cycle around if needed
+            for (let i = 0; i < 2; i++) {
+                const idx = (currentIndex + i) % feedbacks.length;
+                const fb = feedbacks[idx];
+
+                const card = document.createElement('div');
+                card.className = "bg-white p-6 rounded-lg shadow-sm flex space-x-4 hover:shadow-md transition";
+
+                card.innerHTML = `
+                <img src="/Includes/Images/happy-patient.jpg" alt="Patient" class="h-32 w-32 object-cover rounded-lg">
+                <div>
+                    <p class="text-gray-600 mb-3">"${fb.feedback_text}"</p>
+                    <h5 class="text-lg font-semibold text-gray-800">${fb.patient_name}</h5>
+                    <p class="text-gray-500 text-sm">Patient</p>
+                </div>
+            `;
+
+                container.appendChild(card);
+            }
+        }
+
+        // Event listeners for buttons
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            currentIndex = (currentIndex - 2 + feedbacks.length) % feedbacks.length; // Move backward by 2
+            renderFeedbacks();
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            currentIndex = (currentIndex + 2) % feedbacks.length; // Move forward by 2
+            renderFeedbacks();
+        });
+
+        // Initial render on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFeedbacks();
+        });
+    </script>
+
+    <!-- ================================================================================ -->
+    <!-- ================================  BODY END ===================================== -->
+    <!-- ================================================================================ -->
+
+</body>
+
+</html>

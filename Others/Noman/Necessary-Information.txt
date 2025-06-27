@@ -1,0 +1,10 @@
+-Need to add card holder name
+-Need to delete country, postal code
+
+-Need to drop 'gender', 'address' and 'date_of_birth' from 'patient' table. And add them to 'users' table
+
+- Message 
+
+- Patient-view folder and read_blog doesn't work accordingly
+
+- Booking.php -> appointment_date store with all zeros

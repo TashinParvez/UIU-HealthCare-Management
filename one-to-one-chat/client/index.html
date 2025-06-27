@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: #1d6cbb;
+            /* Light gray background */
+            overflow: hidden;
+            margin: 0;
+            /* Already present, but ensuring no margin */
+            padding: 0;
+            /* Already present, but ensuring no padding */
+        }
+
+        .container {
+            transition: all 0.3s ease-in-out;
+            max-width: 100vw;
+            /* Full viewport width */
+            height: 100vh;
+            /* Full viewport height */
+            display: flex;
+        }
+
+        .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            width: 30%;
+            /* Adjusted for full width layout */
+        }
+
+        .contact {
+            transition: all 0.2s ease;
+            border-radius: 8px;
+            background: #ffffff;
+        }
+
+        .contact:hover {
+            transform: translateX(3px);
+            background: #e5e7eb;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .contact img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .chat-window {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            flex: 1;
+            /* Takes remaining space */
+        }
+
+        .chat-header {
+            background: #ffffff;
+            border-bottom: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+
+        .message {
+            border-radius: 12px;
+            padding: 10px 14px;
+            transition: all 0.2s ease;
+            animation: slideIn 0.3s ease-out;
+            color: white;
+            max-width: 50%;
+            word-wrap: break-word;
+            /* Ensure text wraps */
+            min-height: 40px;
+            /* Minimum height */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .message.sent {
+            background: #0288d1;
+            /* Material Blue 600 */
+        }
+
+        .message.received {
+            background: #388e3c;
+            /* Material Green 600 */
+        }
+
+        .message:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-input {
+            background: rgba(255, 255, 255, 0.95);
+            border-top: none;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.03);
+        }
+
+        .chat-input input {
+            background: #f1f5f9;
+            border: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input input:focus {
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(2, 136, 209, 0.2);
+        }
+
+        .chat-input button {
+            background: #0288d1;
+            /* Material Blue 600 */
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(2, 136, 209, 0.3);
+        }
+
+        .login-overlay {
+            background: rgba(0, 0, 0, 0.7);
+            transition: opacity 0.3s ease;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            animation: popIn 0.4s ease-out forwards;
+        }
+
+        .login-box input {
+            background: #f1f5f9;
+            border: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .login-box input:focus {
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(2, 136, 209, 0.2);
+        }
+
+        .login-box button {
+            background: #0288d1;
+            /* Material Blue 600 */
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .login-box button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(2, 136, 209, 0.3);
+        }
+
+        .right-sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.05);
+            width: 20%;
+            /* Adjusted for full width */
+        }
+
+        .search-bar {
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            /* Added shadow */
+            border-radius: 10px;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(2, 136, 209, 0.3);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(2, 136, 209, 0.5);
+        }
+
+        #chat-container {
+            margin: 0;
+            /* Remove any potential margin */
+            padding: 0;
+            /* Remove any potential padding */
+            width: 100vw;
+            /* Ensure full viewport width */
+            height: 100vh;
+            /* Ensure full viewport height */
+            display: flex;
+            /* Already present, but ensuring flex layout */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        *:focus {
+            outline: none;
+            box-shadow: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Login overlay -->
+    <div id="login-overlay" class="login-overlay fixed inset-0 flex items-center justify-center">
+        <div class="login-box p-6 max-w-sm w-full">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Welcome</h2>
+            <input id="username-input" type="text" placeholder="Enter username" class="w-full p-3 mb-4">
+            <button onclick="login()" class="w-full text-white p-3">Join Chat</button>
+        </div>
+    </div>
+
+    <!-- Main chat container -->
+    <div id="chat-container" class="flex" style="display: none;">
+        <!-- Left Sidebar -->
+        <div class="sidebar w-1/4 p-5 overflow-y-auto">
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Chats</h2>
+            <div id="current-username" class="text-sm text-gray-600 mb-3"></div>
+            <input id="search-bar" type="text" placeholder="Search chats..." class="w-full p-3 mb-5 search-bar">
+            <div id="contact-list" class="space-y-2"></div>
+        </div>
+
+        <!-- Chat window -->
+        <div class="chat-window w-1/2 flex flex-col">
+            <div class="chat-header p-5 flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <h3 id="chat-with" class="text-lg font-semibold text-gray-800">Select a user</h3>
+                    <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                </div>
+            </div>
+
+            <div id="chat-messages" class="flex-1 p-5 overflow-y-auto">
+                <p id="chat-placeholder" class="text-gray-600 text-lg text-center">
+                    There's nothing to show.<br>Please select a chat.
+                </p>
+            </div>
+
+            <div class="chat-input p-5 flex space-x-3">
+                <input id="message-input" type="text" placeholder="Type a message..." class="flex-1 p-3">
+                <button onclick="sendMessage()" class="text-white px-5 py-3">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M9.50929 4.23013L18.0693 8.51013C21.9093 10.4301 21.9093 13.5701 18.0693 15.4901L9.50929 19.7701C3.74929 22.6501 1.39929 20.2901 4.27929 14.5401L5.14929 12.8101C5.36929 12.3701 5.36929 11.6401 5.14929 11.2001L4.27929 9.46013C1.39929 3.71013 3.75929 1.35013 9.50929 4.23013Z"
+                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path opacity="0.34" d="M5.43945 12H10.8395" stroke="white" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="right-sidebar w-1/4 p-5 overflow-y-auto flex flex-col items-center">
+            <h2 class="text-xl font-bold text-gray-800 mb-5">User Details</h2>
+            <div class="space-y-4 text-center">
+                <div>
+                    <img src="https://cdn-icons-png.flaticon.com/512/5996/5996455.png" alt="Profile"
+                        class="w-24 h-24 rounded-full mx-auto">
+                    <p id="user-detail-name" class="text-lg font-semibold text-gray-800 mt-3">Select a user</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Online Status</p>
+                    <p class="text-sm text-gray-800 mt-1"><span
+                            class="w-2 h-2 bg-green-500 rounded-full inline-block mr-2"></span>Online</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const socket = io('http://localhost:4000');
+        let currentUser = null;
+        let currentChat = null;
+        let latestMessages = {};
+        let allUsers = [];
+        let unreadMessages = {};
+
+        function login() {
+            const usernameInput = document.getElementById('username-input');
+            const username = usernameInput.value.trim();
+            if (username === '') return;
+
+            currentUser = username;
+            socket.emit('login', username);
+
+            document.getElementById('login-overlay').style.display = 'none';
+            document.getElementById('chat-container').style.display = 'flex';
+            document.getElementById('current-username').textContent = `Logged in as: ${currentUser}`;
+        }
+
+        function updateContactList(users) {
+            const contactList = document.getElementById('contact-list');
+            contactList.innerHTML = '';
+
+            users.forEach((user) => {
+                if (user !== currentUser) {
+                    const contactDiv = document.createElement('div');
+                    contactDiv.classList.add('contact', 'flex', 'items-center', 'p-3', 'cursor-pointer');
+                    contactDiv.onclick = () => openChat(user);
+                    contactDiv.innerHTML = `
+                        <img src="https://cdn-icons-png.flaticon.com/512/5996/5996455.png" alt="Profile">
+                        <div class="flex-1 flex items-center">
+                            ${unreadMessages[user] ? '<span class="w-2 h-2 bg-red-500 rounded-full mr-2"></span>' : ''}
+                            <p class="font-semibold text-gray-800">${user}</p>
+                        </div>
+                        <p class="text-sm text-gray-600">${(latestMessages[user]?.length > 20 ? latestMessages[user].substring(0, 20) + '...' : latestMessages[user]) || 'No messages yet'}</p>
+                    `;
+                    contactList.appendChild(contactDiv);
+                }
+            });
+        }
+
+        socket.on('updateUsers', (users) => {
+            allUsers = users;
+            updateContactList(users);
+        });
+
+        function openChat(contactName) {
+            currentChat = contactName;
+            document.getElementById('chat-with').textContent = contactName;
+            document.getElementById('user-detail-name').textContent = contactName;
+            delete unreadMessages[contactName];
+            updateContactList(allUsers);
+            socket.emit('joinRoom', { fromUser: currentUser, toUser: contactName });
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('message-input');
+            const messageText = input.value.trim();
+            if (messageText === '' || !currentChat) return;
+
+            socket.emit('sendMessage', {
+                fromUser: currentUser,
+                toUser: currentChat,
+                message: messageText,
+            });
+
+            input.value = '';
+        }
+
+        socket.on('loadMessages', (messages) => {
+            const chatMessages = document.getElementById('chat-messages');
+            chatMessages.innerHTML = '<div class="text-center my-3"><span class="bg-white text-gray-600 text-xs px-3 py-1 rounded-full shadow">Today</span></div>';
+
+            messages.forEach((msg) => {
+                const messageDiv = document.createElement('div');
+                const isSent = msg.sender === currentUser;
+                messageDiv.classList.add('flex', 'mb-3', isSent ? 'justify-end' : 'justify-start');
+                messageDiv.innerHTML = `
+                    <div class="message ${isSent ? 'sent' : 'received'}">
+                        <p>${msg.text}</p>
+                        <small class="text-xs opacity-75">${msg.time}</small>
+                    </div>
+                `;
+                chatMessages.appendChild(messageDiv);
+
+                const contact = isSent ? currentChat : msg.sender;
+                latestMessages[contact] = msg.text;
+            });
+
+            updateContactList(allUsers);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
+
+        socket.on('receiveMessage', (msg) => {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            const isSent = msg.sender === currentUser;
+            messageDiv.classList.add('flex', 'mb-3', isSent ? 'justify-end' : 'justify-start');
+            messageDiv.innerHTML = `
+                <div class="message ${isSent ? 'sent' : 'received'}">
+                    <p>${msg.text}</p>
+                    <small class="text-xs opacity-75">${msg.time}</small>
+                </div>
+            `;
+            chatMessages.appendChild(messageDiv);
+
+            const contact = isSent ? currentChat : msg.sender;
+            latestMessages[contact] = msg.text;
+
+            if (!isSent && contact !== currentChat) {
+                unreadMessages[contact] = true;
+            }
+
+            updateContactList(allUsers);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
+
+        document.getElementById('message-input').addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+
+        const searchBar = document.getElementById('search-bar');
+        searchBar.addEventListener('input', (event) => {
+            const searchTerm = event.target.value.trim().toLowerCase();
+            const filteredUsers = allUsers.filter(user => user.toLowerCase().includes(searchTerm));
+            updateContactList(filteredUsers);
+        });
+    </script>
+</body>
+
+</html>
