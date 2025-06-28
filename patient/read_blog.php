@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['blog_id'])) {
         echo json_encode(['success' => false, 'error' => 'Update failed']);
     }
 } else {
-    echo json_encode(['success' => false, 'error' => 'Invalid Request']);
+    // echo json_encode(['success' => false, 'error' => 'Invalid Request']);
 }
 
 
@@ -124,126 +124,126 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['blog_id'])) {
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-    body {
-        font-family: 'Inter', 'Segoe UI', sans-serif;
-        background-color: #f5f7fa;
-        margin: 0;
-        min-height: 100vh;
-        display: flex;
-    }
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+        }
 
-    .main-content {
-        flex: 1;
-        margin-left: 80px;
-        /* Collapsed sidebar (64px) + 16px gap */
-        padding: 2rem 3rem;
-        width: calc(100% - 80px);
-        /* Full width minus sidebar and gap */
-        transition: margin-left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-    }
+        .main-content {
+            flex: 1;
+            margin-left: 80px;
+            /* Collapsed sidebar (64px) + 16px gap */
+            padding: 2rem 3rem;
+            width: calc(100% - 80px);
+            /* Full width minus sidebar and gap */
+            transition: margin-left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
 
-    .sidebar:hover+.main-content {
-        margin-left: 272px;
-        /* Expanded sidebar (256px) + 16px gap */
-        width: calc(100% - 272px);
-    }
+        .sidebar:hover+.main-content {
+            margin-left: 272px;
+            /* Expanded sidebar (256px) + 16px gap */
+            width: calc(100% - 272px);
+        }
 
-    .blog-section,
-    .suggested-section {
-        background: #ffffff;
-        border-radius: 1rem;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-        padding: 2rem;
-    }
+        .blog-section,
+        .suggested-section {
+            background: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+        }
 
-    .blog-section {
-        flex: 2;
-        min-width: 0;
-    }
+        .blog-section {
+            flex: 2;
+            min-width: 0;
+        }
 
-    .suggested-section {
-        flex: 1;
-        min-width: 300px;
-        height: fit-content;
-        position: sticky;
-        top: 2rem;
-    }
+        .suggested-section {
+            flex: 1;
+            min-width: 300px;
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
 
-    h1,
-    h4 {
-        color: #111827;
-    }
+        h1,
+        h4 {
+            color: #111827;
+        }
 
-    p {
-        font-size: 1.05rem;
-        line-height: 1.7;
-        color: #374151;
-        margin-bottom: 1.2rem;
-    }
+        p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #374151;
+            margin-bottom: 1.2rem;
+        }
 
-    .like-btn {
-        background: #f0f0f0;
-        border: none;
-        border-radius: 30px;
-        padding: 0.6rem 1.2rem;
-        font-size: 0.95rem;
-        color: #555;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        margin-top: 1.5rem;
-        transition: background 0.3s, color 0.3s;
-    }
+        .like-btn {
+            background: #f0f0f0;
+            border: none;
+            border-radius: 30px;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.95rem;
+            color: #555;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 1.5rem;
+            transition: background 0.3s, color 0.3s;
+        }
 
-    .like-btn:hover {
-        background: #e2e8f0;
-    }
+        .like-btn:hover {
+            background: #e2e8f0;
+        }
 
-    .like-btn.liked {
-        background: #fee2e2;
-        color: #dc2626;
-    }
+        .like-btn.liked {
+            background: #fee2e2;
+            color: #dc2626;
+        }
 
-    textarea {
-        border-radius: 8px;
-        resize: none;
-    }
+        textarea {
+            border-radius: 8px;
+            resize: none;
+        }
 
-    .suggested-blog-card {
-        background: #fafafa;
-        padding: 1rem;
-        border-radius: 1rem;
-        margin-bottom: 1rem;
-        transition: box-shadow 0.3s;
-    }
+        .suggested-blog-card {
+            background: #fafafa;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            transition: box-shadow 0.3s;
+        }
 
-    .suggested-blog-card:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
+        .suggested-blog-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
 
-    .suggested-blog-card h5 {
-        font-size: 1rem;
-        font-weight: 600;
-        margin-bottom: 0.4rem;
-        color: #111827;
-    }
+        .suggested-blog-card h5 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: #111827;
+        }
 
-    .suggested-blog-card p {
-        font-size: 0.9rem;
-        color: #666;
-    }
+        .suggested-blog-card p {
+            font-size: 0.9rem;
+            color: #666;
+        }
 
-    .back-link {
-        display: inline-block;
-        margin-top: 2rem;
-        font-size: 0.95rem;
-        color: #3b82f6;
-        text-decoration: none;
-    }
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            font-size: 0.95rem;
+            color: #3b82f6;
+            text-decoration: none;
+        }
 
-    .back-link:hover {
-        text-decoration: underline;
-    }
+        .back-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -252,13 +252,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['blog_id'])) {
     <?php include '../Includes/Sidebar.php'; ?>
 
 
-    <!-- Main Content -->
+    <!--===================================== Main Content =====================================-->
     <div class="main-content">
         <!-- Blog Section -->
         <div class="blog-section">
-            <h1 class="text-3xl font-bold mb-6">5 Home Remedies for Headaches</h1>
+            <h1 class="text-3xl font-bold mb-6"> <?php echo $blog_info['blog_name']; ?></h1>
 
-            <h1> <?php echo $blog_info['blog_name']; ?> </h1>
+            <!-- <h1> <?php
+                        // echo $blog_info['blog_name'];
+                        ?> 
+            </h1> -->
 
             <div class="tags mb-4">
                 <?php
@@ -266,10 +269,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['blog_id'])) {
                 $tags = explode(',', $blog_info['blog_tags']);
 
                 foreach ($tags as $tag) {
-                    $cleanTag = trim($tag); // remove extra space
-                    echo '<span class="badge">' . htmlspecialchars($cleanTag) . '</span> ';
+                    $cleanTag = trim($tag);
+                ?>
+                    <span
+                        class="bg-blue-100 text-blue-600 text-xs font-medium rounded-full px-2.5 py-1">
+                        <?php echo $cleanTag; ?>
+                    </span>
+
+                <?php
                 }
                 ?>
+
+                <!-- tashin here  -->
+                <!-- tashin here  -->
+
+
+
+
+
+
+                <!-- tashin here  -->
+                <!-- tashin here  -->
+
+
+
+
             </div>
 
             <p><?php echo $blog_info['blog_description']; ?></p>
@@ -290,13 +314,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['blog_id'])) {
             </button>
 
             <!-- Comment Section -->
-            <div class="comment-section mt-5">
+            <!-- <div class="comment-section mt-5">
                 <h4 class="text-xl font-semibold mb-3">Comments</h4>
 
 
                 <div class="mb-3">
                     <form action="/patient/post_comment.php" method="POST">
-                        <input type="hidden" name="blog_id" value="1"> <!-- Assuming blog ID for this post -->
+                        <input type="hidden" name="blog_id" value="1">
                         <textarea class="form-control mb-2" rows="3" name="comment" placeholder="Write your comment..."
                             required></textarea>
                         <button type="submit"
@@ -321,34 +345,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['blog_id'])) {
             </div> -->
 
 
-            <a href="/patient/health_blog.php" class="back-link">← Back to Blog</a>
+            <a href="/patient/FAQ.php" class=" back-link"> ← Back to Blog </a>
+
         </div>
         <br>
-        <!-- Suggested Section -->
+        <!--================================== Suggested Section================================== -->
+
+
 
         <div class="suggested-section">
-            <h4 class="text-xl font-semibold mb-4">You Might Also Like</h4>
+            <h4 class="mb-4">You Might Also Like</h4>
+
+            <?php
+            foreach ($related_blogs as $row) {
+            ?>
+
+                <div class="suggested-blog-card">
+                    <h5><?php echo $row['blog_name']; ?></h5>
+
+                    <p><?PHP
+                        $shortName = substr($row['blog_description'], 0, 70);
+                        echo $shortName;
+                        ?>
+                    </p>
+
+                    <!-- $row[blog_id] -->
+                    <!-- <a href="#" class="back-link">Read More →</a> -->
+                    <a href="read_blog.php?blog_id=<?php echo $row['blog_id']; ?>" class="back-link">Read More →</a>
 
 
-            <div class="suggested-blog-card">
-                <h5>Managing Period Cramps</h5>
-                <p>Ease menstrual discomfort naturally with heat therapy and diet tips.</p>
-                <a href="/patient/read_blog.php?blog_id=2" class="back-link">Read More →</a>
-            </div>
+                </div>
 
-            <div class="suggested-blog-card">
-                <h5>Dealing with Acne Naturally</h5>
-                <p>Gentle skincare tips for tackling acne without harsh chemicals.</p>
-                <a href="/patient/read_blog.php?blog_id=3" class="back-link">Read More →</a>
-            </div>
+            <?php
+            }
+            ?>
 
-            <div class="suggested-blog-card">
-                <h5>Stress Management for Students</h5>
-                <p>Mindfulness and exercise techniques to reduce student stress.</p>
-                <a href="/patient/read_blog.php?blog_id=4" class="back-link">Read More →</a>
-            </div>
+            <!-- see here in $row[blog_id] i have blogno so by clicking read more i want to call this page read_blog.php and there i want to pass $row[blog_id], in read_log.php page have a varable called -->
 
         </div>
+
+
     </div>
 
     <!-- Bootstrap JS Bundle -->
@@ -357,18 +393,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['blog_id'])) {
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const likeBtn = document.getElementById('likeBtn');
-        if (likeBtn) {
-            likeBtn.addEventListener('click', function() {
-                this.classList.toggle('liked');
-                const span = this.querySelector('span');
-                const currentLikes = parseInt(span.textContent);
-                span.textContent = this.classList.contains('liked') ? currentLikes + 1 : currentLikes -
-                    1;
-            });
-        }
-    });
+        document.addEventListener('DOMContentLoaded', function() {
+            const likeBtn = document.getElementById('likeBtn');
+            if (likeBtn) {
+                likeBtn.addEventListener('click', function() {
+                    this.classList.toggle('liked');
+                    const span = this.querySelector('span');
+                    const currentLikes = parseInt(span.textContent);
+                    span.textContent = this.classList.contains('liked') ? currentLikes + 1 : currentLikes -
+                        1;
+                });
+            }
+        });
     </script>
 
 </body>
