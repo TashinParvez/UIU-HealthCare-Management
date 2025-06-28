@@ -162,8 +162,12 @@
         <!-- Main Content -->
         <div class="flex-1 p-6 content">
             <div class="flex justify-between items-center mb-6">
-                <h1 class="text-3xl font-bold text-blue-900">Appointments</h1>
-                <a href="booking.php" class="book-new-btn">Book New Appointment</a>
+                <h1 class="text-3xl font-bold text-blue-900">All Appointments</h1>
+                <div>
+
+                    <a href="AppointmentDashboard.php" class="book-new-btn">Appointments Timeline</a>
+                    <a href="booking.php" class="book-new-btn">Book New Appointment</a>
+                </div>
             </div>
 
             <!-- Appointments Table -->
