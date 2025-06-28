@@ -248,17 +248,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_appointment'])) {
         <?php include '../Includes/Sidebar_Doctor.php'; ?>
         <div class="content">
             <div class="max-w-7xl mx-auto py-8 flex gap-8">
-                <!-- Main Content -->
+
+                <!--==================================== Main Content ====================================-->
+
                 <div class="flex-1">
                     <h1 class="text-2xl font-semibold text-gray-800 mb-6">Appointments</h1>
+
+
+
+
+                    <!------------------------------- tashin added ----------------------------- -->
                     <div class="space-y-4">
                         <?php foreach ($allAppointments as $index => $row) { ?>
                             <div class="appointment-card bg-white rounded-xl p-6 flex items-center justify-between gap-6 border border-gray-100 cursor-pointer"
+
                                 data-id="<?php echo $row['appointment_id']; ?>"
                                 data-name="<?php echo htmlspecialchars($row['Name']); ?>"
                                 data-email="<?php echo htmlspecialchars($row['Email']); ?>"
                                 data-date="<?php echo $row['AppointmentDate']; ?>"
                                 data-time="<?php echo $row['VisitTime']; ?>">
+
                                 <div class="flex items-center gap-4">
                                     <img src="/Includes/Images/happy-patient.jpg" alt="<?php echo htmlspecialchars($row['Name']); ?>" class="w-12 h-12 rounded-full object-cover">
                                     <div>
@@ -266,10 +275,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_appointment'])) {
                                         <p class="text-sm text-gray-500"><?php echo htmlspecialchars($row['Email']); ?></p>
                                     </div>
                                 </div>
+
                                 <div class="text-sm text-gray-600"><?php echo $row['AppointmentDate']; ?></div>
                                 <div class="text-sm text-gray-600"><?php echo $row['VisitTime']; ?></div>
                                 <div class="text-sm text-gray-600">DOCTORNAME</div>
                                 <div class="text-sm text-gray-600">CONDITION</div>
+
                                 <div class="flex gap-4">
                                     <a href="#" class="action-icon text-gray-500 hover:text-blue-600"><i class="bi bi-pencil"></i></a>
                                     <a href="#" class="action-icon text-gray-500 hover:text-red-600"><i class="bi bi-trash"></i></a>
@@ -277,6 +288,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_appointment'])) {
                             </div>
                         <?php } ?>
                     </div>
+
+
+
                     <nav aria-label="Page navigation" class="mt-8 flex justify-center gap-2">
                         <a href="#" class="pagination-btn px-4 py-2 rounded-lg bg-white border border-gray-200 text-blue-600 hover:bg-blue-50">«</a>
                         <a href="#" class="pagination-btn px-4 py-2 rounded-lg bg-white border border-gray-200 text-blue-600 active">1</a>
@@ -285,7 +299,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_appointment'])) {
                         <a href="#" class="pagination-btn px-4 py-2 rounded-lg bg-white border border-gray-200 text-blue-600">»</a>
                     </nav>
                 </div>
-                <!-- Right Panel -->
+
+
+
+                <!--========================================= Right Panel =========================================-->
                 <div class="w-80 space-y-6 right-panel">
                     <!-- Patient Summary Widget -->
                     <div class="bg-white rounded-xl p-4 shadow-lg">
@@ -372,7 +389,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_appointment'])) {
         document.getElementById('search-input').addEventListener('input', function() {
             setTimeout(() => this.form.submit(), 500); // Debounce and submit form
         });
+
     </script>
+
+
+
 </body>
 
 </html>
