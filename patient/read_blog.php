@@ -204,7 +204,7 @@
         </div>
         <br>
         <!-- Suggested Section -->
-        <div class="suggested-section ">
+        <div class="suggested-section">
             <h4 class="text-xl font-semibold mb-4">You Might Also Like</h4>
 
             <div class="suggested-blog-card">
