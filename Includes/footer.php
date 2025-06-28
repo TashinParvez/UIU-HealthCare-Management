@@ -4,122 +4,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Footer - UIU Health Care</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- Custom CSS -->
+    <title>Footer - UIU Medical Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        footer {
-            background-color: #007bff;
-            color: white;
-            padding: 40px 0;
-        }
+    /* UIU Branding Colors */
+    .uiu-blue {
+        background-color: #003087;
+        /* UIU primary blue */
+    }
 
-        footer h5 {
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
+    .uiu-blue-text {
+        color: #003087;
+    }
 
-        footer ul {
-            list-style: none;
-            padding: 0;
-        }
+    .uiu-accent {
+        background-color: #F5A623;
+        /* UIU accent gold */
+    }
 
-        footer ul li {
-            margin-bottom: 10px;
-        }
+    /* Footer-specific styles */
+    footer a {
+        color: #ffffff;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
 
-        footer ul li a {
-            color: white;
-            text-decoration: none;
-        }
+    footer a:hover {
+        color: #F5A623;
+        /* UIU accent color on hover */
+        text-decoration: underline;
+    }
 
-        footer ul li a:hover {
-            text-decoration: underline;
-        }
+    .footer-logo img {
+        height: 40px;
+        margin-bottom: 10px;
+    }
 
-        .footer-logo img {
-            height: 40px;
-            margin-bottom: 10px;
-        }
+    .contact-icons img {
+        width: 20px;
+        margin-right: 10px;
+    }
 
-        .contact-icons img {
-            width: 20px;
-            margin-right: 10px;
-        }
-
-        .border-top {
-            border-color: rgba(255, 255, 255, 0.2) !important;
-        }
+    .border-top {
+        border-color: rgba(255, 255, 255, 0.2) !important;
+    }
     </style>
 </head>
 
 <body>
-    <footer>
-        <div class="container">
-            <div class="row">
+    <footer class="bg-[rgb(0,48,135)] text-white py-10">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <!-- Logo and Tagline -->
-                <div class="col-md-3">
+                <div>
                     <div class="footer-logo">
-                        <img src="/Includes/Images/logo/logo-blue.png" alt="UIU Health Care">
-                        <p>Your trusted healthcare partner on campus.</p>
-                        <p>United City, Madani AVE, Dhaka 1212</p>
-                        <div class="contact-icons">
-                            <img src="/Includes/Images/footer/phone-outgoing-svgrepo-com.svg" alt="Phone">
-                            <img src="/Includes/Images/footer/facebook-svgrepo-com.svg" alt="Facebook">
-                            <img src="/Includes/Images/footer/whatsapp-svgrepo-com.svg" alt="WhatsApp">
+                        <img src="/Includes/Images/logo/logo-blue.png" alt="UIU Medical Center" class="mb-4">
+                        <p class="text-sm">Your trusted healthcare partner on campus.</p>
+                        <p class="text-sm">United City, Madani Avenue, Dhaka 1212</p>
+                        <div class="contact-icons flex mt-4">
+                            <a href="tel:+8809966875892" aria-label="Phone">
+                                <img src="/Includes/Images/footer/phone-outgoing-svgrepo-com.svg" alt="Phone">
+                            </a>
+                            <a href="https://www.facebook.com/uiu.ac" target="_blank" aria-label="Facebook">
+                                <img src="/Includes/Images/footer/facebook-svgrepo-com.svg" alt="Facebook">
+                            </a>
+                            <a href="https://wa.me/+8809966875892" target="_blank" aria-label="WhatsApp">
+                                <img src="/Includes/Images/footer/whatsapp-svgrepo-com.svg" alt="WhatsApp">
+                            </a>
                         </div>
                     </div>
                 </div>
                 <!-- Services -->
-                <div class="col-md-2">
-                    <h5>Services</h5>
-                    <ul>
-                        <li><a href="#">Appointment</a></li>
-                        <li><a href="#">Blood Bank</a></li>
-                        <li><a href="#">Emergency Care</a></li>
-                        <li><a href="#">Pharmacy</a></li>
+                <div>
+                    <h5 class="text-lg font-semibold mb-4">Services</h5>
+                    <ul class="list-none space-y-2">
+                        <li><a href="/Hero/Booking.php">Appointment Booking</a></li>
+                        <li><a href="/services/blood-bank">Blood Bank</a></li>
+                        <li><a href="/services/emergency">Emergency Care</a></li>
+                        <li><a href="/services/pharmacy">Pharmacy</a></li>
                     </ul>
                 </div>
-                <!-- Quick Link -->
-                <div class="col-md-2">
-                    <h5>Quick Link</h5>
-                    <ul>
-                        <li><a href="#">UIU Website</a></li>
-                        <li><a href="#">United Medical College</a></li>
-                        <li><a href="#">Careers</a></li>
-                    </ul>
-                </div>
-                <!-- Support -->
-                <div class="col-md-2">
-                    <h5>Support</h5>
-                    <ul>
-                        <li><a href="#">Getting started</a></li>
-                        <li><a href="#">Help center</a></li>
-                        <li><a href="#">Server status</a></li>
-                        <li><a href="#">Report a bug</a></li>
-                        <li><a href="#">Chat support</a></li>
+                <!-- Quick Links -->
+                <div>
+                    <h5 class="text-lg font-semibold mb-4">Quick Links</h5>
+                    <ul class="list-none space-y-2">
+                        <li><a href="https://www.uiu.ac.bd" target="_blank">UIU Official Website</a></li>
+                        <li><a href="https://www.uiu.ac.bd/medical-center" target="_blank">UIU Medical Center</a></li>
+                        <li><a href="/careers">Careers</a></li>
                     </ul>
                 </div>
                 <!-- Contact Us -->
-                <div class="col-md-3">
-                    <h5>Contact us</h5>
-                    <p>📧 <a href="mailto:health@uiu.ac.bd" style="color: white;">health@uiu.ac.bd</a></p>
-                    <p>📞 (996) 687 - 5892</p>
-                    <p>📍 United City, Madani AVENUE, Badda, Dhaka 1212</p>
+                <div>
+                    <h5 class="text-lg font-semibold mb-4">Contact Us</h5>
+                    <p class="text-sm mb-2">📧 <a href="mailto:medical@uiu.ac.bd"
+                            class="underline-hover">medical@uiu.ac.bd</a></p>
+                    <p class="text-sm mb-2">📞 <a href="tel:+8809966875892">+880 996 687 5892</a></p>
+                    <p class="text-sm">📍 United City LillCity, Madani Avenue, Dhaka 1212</p>
                 </div>
             </div>
-            <hr class="border-top">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <p>Copyright © Team Ignore US 2025</p>
-                </div>
+            <hr class="border-top my-6">
+            <div class="text-center">
+                <p class="text-sm">Copyright © UIU Medical Center 2025</p>
             </div>
         </div>
     </footer>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
 </html>

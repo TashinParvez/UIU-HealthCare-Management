@@ -72,7 +72,7 @@
 <body>
     <div class="flex min-h-screen">
         <!-- Include Sidebar -->
-        <?php include '../Includes/Sidebar.php'; ?>
+        <?php include '../Includes/Sidebar_Doctor.php'; ?>
 
         <!-- Main Content -->
         <div class="content">
