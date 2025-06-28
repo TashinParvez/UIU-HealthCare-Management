@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_appointment'])) {
     $patient_id = mysqli_real_escape_string($conn, $_POST['patient_id']);
     $appointment_date = mysqli_real_escape_string($conn, $_POST['appointment_date']);
     $appointment_time = mysqli_real_escape_string($conn, $_POST['appointment_time']);
-    
+
     $insert_sql = "INSERT INTO appointments (patient_id, doctor_id, appointment_date, appointment_time) 
                    VALUES ('$patient_id', '$doctor_id', '$appointment_date', '$appointment_time')";
     if (mysqli_query($conn, $insert_sql)) {
@@ -86,6 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_appointment'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -111,23 +112,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_appointment'])) {
             width: calc(100% - 64px);
         }
 
-        .sidebar:hover + .content {
+        .sidebar:hover+.content {
             margin-left: 256px;
             width: calc(100% - 256px);
         }
 
         @keyframes slideInRight {
-            from { transform: translateX(50px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from {
+                transform: translateX(50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
         @keyframes scaleHover {
-            to { transform: scale(1.02); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); }
+            to {
+                transform: scale(1.02);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            }
         }
 
         @keyframes iconPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
         }
 
         .appointment-card {
@@ -224,22 +242,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_appointment'])) {
         }
     </style>
 </head>
+
 <body>
     <div class="d-flex min-vh-100">
         <?php include '../Includes/Sidebar.php'; ?>
         <div class="content">
             <div class="max-w-7xl mx-auto py-8 flex gap-8">
-                <!-- Main Content -->
+
+                <!--==================================== Main Content ====================================-->
+
                 <div class="flex-1">
                     <h1 class="text-2xl font-semibold text-gray-800 mb-6">Appointments</h1>
+
+
+
+
+                    <!------------------------------- tashin added ----------------------------- -->
                     <div class="space-y-4">
                         <?php foreach ($allAppointments as $index => $row) { ?>
-                            <div class="appointment-card bg-white rounded-xl p-6 flex items-center justify-between gap-6 border border-gray-100 cursor-pointer" 
-                                 data-id="<?php echo $row['appointment_id']; ?>" 
-                                 data-name="<?php echo htmlspecialchars($row['Name']); ?>" 
-                                 data-email="<?php echo htmlspecialchars($row['Email']); ?>" 
-                                 data-date="<?php echo $row['AppointmentDate']; ?>"
-                                 data-time="<?php echo $row['VisitTime']; ?>">
+                            <div class="appointment-card bg-white rounded-xl p-6 flex items-center justify-between gap-6 border border-gray-100 cursor-pointer"
+                                data-appointment-id="<?php echo $row['appointment_id']; ?>">
+
+                                <!-- Left content -->
                                 <div class="flex items-center gap-4">
                                     <img src="/Includes/Images/happy-patient.jpg" alt="<?php echo htmlspecialchars($row['Name']); ?>" class="w-12 h-12 rounded-full object-cover">
                                     <div>
@@ -247,10 +271,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_appointment'])) {
                                         <p class="text-sm text-gray-500"><?php echo htmlspecialchars($row['Email']); ?></p>
                                     </div>
                                 </div>
+
                                 <div class="text-sm text-gray-600"><?php echo $row['AppointmentDate']; ?></div>
                                 <div class="text-sm text-gray-600"><?php echo $row['VisitTime']; ?></div>
                                 <div class="text-sm text-gray-600">DOCTORNAME</div>
                                 <div class="text-sm text-gray-600">CONDITION</div>
+
                                 <div class="flex gap-4">
                                     <a href="#" class="action-icon text-gray-500 hover:text-blue-600"><i class="bi bi-pencil"></i></a>
                                     <a href="#" class="action-icon text-gray-500 hover:text-red-600"><i class="bi bi-trash"></i></a>
@@ -258,6 +284,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_appointment'])) {
                             </div>
                         <?php } ?>
                     </div>
+
+
+
                     <nav aria-label="Page navigation" class="mt-8 flex justify-center gap-2">
                         <a href="#" class="pagination-btn px-4 py-2 rounded-lg bg-white border border-gray-200 text-blue-600 hover:bg-blue-50">«</a>
                         <a href="#" class="pagination-btn px-4 py-2 rounded-lg bg-white border border-gray-200 text-blue-600 active">1</a>
@@ -266,7 +295,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_appointment'])) {
                         <a href="#" class="pagination-btn px-4 py-2 rounded-lg bg-white border border-gray-200 text-blue-600">»</a>
                     </nav>
                 </div>
-                <!-- Right Panel -->
+
+
+
+                <!--========================================= Right Panel =========================================-->
                 <div class="w-80 space-y-6 right-panel">
                     <!-- Patient Summary Widget -->
                     <div class="bg-white rounded-xl p-4 shadow-lg">
@@ -278,15 +310,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_appointment'])) {
                     <!-- Quick Actions Panel -->
                     <div class="bg-white rounded-xl p-4 shadow-lg">
                         <h3 class="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h3>
-                        <button class="w-full py-2 mb-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 hover:scale-105 transition-all" 
-                                onclick="document.getElementById('add-appointment-modal').classList.remove('hidden')">Add Appointment</button>
+                        <button class="w-full py-2 mb-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 hover:scale-105 transition-all"
+                            onclick="document.getElementById('add-appointment-modal').classList.remove('hidden')">Add Appointment</button>
                         <form id="filter-form" method="GET" action="appointments.php">
                             <select name="date_filter" class="w-full p-2 mb-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" onchange="this.form.submit()">
                                 <option value="all" <?php echo $date_filter === 'all' ? 'selected' : ''; ?>>All Dates</option>
                                 <option value="today" <?php echo $date_filter === 'today' ? 'selected' : ''; ?>>Today</option>
                                 <option value="week" <?php echo $date_filter === 'week' ? 'selected' : ''; ?>>This Week</option>
                             </select>
-                            
+
                         </form>
                     </div>
                     <!-- Patient Details Preview -->
@@ -318,8 +350,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_appointment'])) {
                         </div>
                         <div class="flex gap-4">
                             <button type="submit" name="add_appointment" class="py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Save</button>
-                            <button type="button" class="py-2 px-4 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300" 
-                                    onclick="document.getElementById('add-appointment-modal').classList.add('hidden')">Cancel</button>
+                            <button type="button" class="py-2 px-4 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300"
+                                onclick="document.getElementById('add-appointment-modal').classList.add('hidden')">Cancel</button>
                         </div>
                     </form>
                 </div>
@@ -353,7 +385,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_appointment'])) {
         document.getElementById('search-input').addEventListener('input', function() {
             setTimeout(() => this.form.submit(), 500); // Debounce and submit form
         });
-
     </script>
+
+
+
+    <!-- tashin -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const cards = document.querySelectorAll(".appointment-card");
+
+            cards.forEach(card => {
+                card.addEventListener("click", function() {
+                    const appointmentId = this.getAttribute("data-appointment-id");
+                    if (appointmentId) {
+                        window.location.href = `/doctor/patient-view/one-patient-info-revised.php?appointment_id=${appointmentId}`;
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
 </body>
+
 </html>
