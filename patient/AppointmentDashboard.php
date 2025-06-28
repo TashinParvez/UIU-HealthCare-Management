@@ -447,11 +447,10 @@ foreach ($appointments_info as $appointment) {
                             <div class="flex gap-2 mt-2">
                                 <button
                                     class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600">View</button>
-                                <button
-                                    class="bg-gray-300 text-gray-700 px-3 py-1 rounded-lg hover:bg-gray-400">Cancel</button>
+                                
                             </div>
                         </div>
-                        <a href="#" class="text-blue-500 text-sm hover:underline">More</a>
+                        <a href="AppointmentRecords.php" class="text-blue-500 text-sm hover:underline">More</a>
                     </div>
 
                     <!-- Previous Appointments -->
@@ -474,7 +473,7 @@ foreach ($appointments_info as $appointment) {
                                     class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600">View</button>
                             </div>
                         </div>
-                        <a href="#" class="text-blue-500 text-sm hover:underline">More</a>
+                        <a href="AppointmentRecords.php" class="text-blue-500 text-sm hover:underline">More</a>
                     </div>
                 </div>
             </div>

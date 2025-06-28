@@ -1,7 +1,9 @@
 - Signup page role add
 
-- Booking.php -> after Aranya's work -> card Holder's name & conditions
-- AppointmentDashboard.php -> view, cancel, and more button
+- Booking.php -> after Aranya's work -> conditions &
+after click outside of modal, it doesn't close
+
+- AppointmentDashboard.php -> view, and more button
 - AppointmentRecords.php -> add a button all records download
 - read_blog -> after creating_blog page 
 
