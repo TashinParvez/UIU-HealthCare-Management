@@ -22,10 +22,10 @@ if (isset($_POST['login'])) {
         $error = 'Please Enter email or password.';
     } else {
 
-        $stmt = $conn->prepare('SELECT user_id, password FROM users WHERE email = ? LIMIT 1');
+        $stmt = $conn->prepare('SELECT user_id, `password`, `role` FROM users WHERE email = ? LIMIT 1');
         $stmt->bind_param('s', $email);
         $stmt->execute();
-        $stmt->bind_result($user_id, $stored_password);
+        $stmt->bind_result($user_id, $stored_password, $role);
 
         if ($stmt->fetch()) {
 
@@ -36,7 +36,18 @@ if (isset($_POST['login'])) {
 
                 $stmt->close();
                 mysqli_close($conn);
-                header('Location: ../patient/Patient.php');
+
+                if ($role === 'ADMIN') {
+
+                    header('Location: ../admin/admin-dashboard.php');
+                } elseif ($role === 'DOCTOR') {
+
+                    header('Location: ../doctor/DoctorDashboard.php');
+                } else {
+
+                    header('Location: ../patient/Patient.php');
+                }
+
                 exit();
             } else {
                 $error = "Invalid email or password.";
