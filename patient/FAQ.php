@@ -66,28 +66,28 @@ $all_blogs = mysqli_fetch_all($result, MYSQLI_ASSOC);
     <title>Health Blog - UIU Health Care</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-    body {
-        font-family: 'Inter', sans-serif;
-        background-color: #f8fafc;
-        margin: 0;
-    }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+        }
 
-    .content {
-        margin-left: 64px;
-        /* Collapsed sidebar width */
-        padding: 2rem 3rem;
-        /* Spacious padding */
-        width: calc(100% - 64px - 3rem);
-        /* Adjust for right padding */
-        min-height: 100vh;
-        transition: margin-left 0.3s ease, width 0.3s ease;
-    }
+        .content {
+            margin-left: 64px;
+            /* Collapsed sidebar width */
+            padding: 2rem 3rem;
+            /* Spacious padding */
+            width: calc(100% - 64px - 3rem);
+            /* Adjust for right padding */
+            min-height: 100vh;
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
 
-    .sidebar:hover+.content {
-        margin-left: 256px;
-        /* Expanded sidebar width */
-        width: calc(100% - 256px - 3rem);
-    }
+        .sidebar:hover+.content {
+            margin-left: 256px;
+            /* Expanded sidebar width */
+            width: calc(100% - 256px - 3rem);
+        }
     </style>
 </head>
 
@@ -110,8 +110,61 @@ $all_blogs = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 </svg>
             </div>
 
-            <!-- Blog Posts -->
+            <!--======================================== Blog Posts ========================================-->
             <div id="blogPosts" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+
+                <?php
+                foreach ($all_blogs as $row) { ?>
+
+                    <!-- Single Blog Card -->
+                    <div
+                        class="blog-card bg-white p-6 rounded-lg border border-gray-100 hover:border-gray-200 hover:shadow-lg transition">
+                        <h5 class="text-xl font-semibold text-gray-800 mb-3"><?php echo $row['blog_name']; ?></h5>
+                        <p class="text-gray-600 text-sm mb-4">
+                            <?php
+                            $Short_description = substr($row['blog_description'], 0, 70);
+                            echo $Short_description;
+                            ?>
+                        </p>
+
+                        <!-- TAGS -->
+
+                        <div class="tags mb-4">
+                            <?php
+
+                            $tags = explode(',', $row['blog_tags']);
+
+                            foreach ($tags as $tag) {
+                                $cleanTag = trim($tag);
+                            ?>
+                                <span
+                                    class="bg-blue-100 text-blue-600 text-xs font-medium rounded-full px-2.5 py-1">
+                                    <?php echo $cleanTag; ?>
+                                </span>
+
+                            <?php
+                            }
+                            ?>
+                        </div>
+
+                        
+                        <a href="read_blog.php?blog_id=<?php echo $row['blog_id']; ?>"
+                            class="text-blue-500 text-sm font-medium hover:text-blue-600 transition">Read More</a>
+                    </div>
+
+
+                <?php
+                }
+                ?>
+
+
+
+
+
+
+
+
                 <!-- Single Blog Card -->
                 <div
                     class="blog-card bg-white p-6 rounded-lg border border-gray-100 hover:border-gray-200 hover:shadow-lg transition">
@@ -122,6 +175,7 @@ $all_blogs = mysqli_fetch_all($result, MYSQLI_ASSOC);
                         class="text-blue-500 text-sm font-medium hover:text-blue-600 transition">Read More</a>
                 </div>
 
+                <!-- ==================================================================================================== -->
                 <!-- Managing Period Cramps -->
                 <div
                     class="blog-card bg-white p-6 rounded-lg border border-gray-100 hover:border-gray-200 hover:shadow-lg transition">
@@ -151,40 +205,41 @@ $all_blogs = mysqli_fetch_all($result, MYSQLI_ASSOC);
                     <a href="/patient/read_blog.php"
                         class="text-blue-500 text-sm font-medium hover:text-blue-600 transition">Read More</a>
                 </div>
-
+                <!-- ==================================================================================================== -->
             </div>
 
             <!-- More to View Button -->
-            <div class="text-center mt-10">
+            <!-- <div class="text-center mt-10">
                 <a href="/patient/more_blogs.php"
                     class="inline-block bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium py-2.5 px-6 rounded-lg transition">
                     More to View
                 </a>
-            </div>
+            </div> -->
+
         </div>
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('searchInput');
-        const blogPostsContainer = document.getElementById('blogPosts');
-        const blogCards = blogPostsContainer.getElementsByClassName('blog-card');
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const blogPostsContainer = document.getElementById('blogPosts');
+            const blogCards = blogPostsContainer.getElementsByClassName('blog-card');
 
-        searchInput.addEventListener('input', function() {
-            const query = searchInput.value.trim().toLowerCase();
+            searchInput.addEventListener('input', function() {
+                const query = searchInput.value.trim().toLowerCase();
 
-            Array.from(blogCards).forEach(card => {
-                const title = card.querySelector('h5').textContent.toLowerCase();
-                const description = card.querySelector('p').textContent.toLowerCase();
+                Array.from(blogCards).forEach(card => {
+                    const title = card.querySelector('h5').textContent.toLowerCase();
+                    const description = card.querySelector('p').textContent.toLowerCase();
 
-                if (title.includes(query) || description.includes(query)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
+                    if (title.includes(query) || description.includes(query)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
             });
         });
-    });
     </script>
 </body>
 
