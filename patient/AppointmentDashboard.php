@@ -23,7 +23,9 @@ $date = $bdDateTime->format('j F'); // Output format 26 June
 
 $stmt = $conn->prepare('
     SELECT 
+
         a.appointment_id
+
         d.doctor_id,
         CONCAT(u.first_name, " ", u.last_name) AS name,
         d.specialization,
@@ -428,7 +430,7 @@ foreach ($appointments_info as $appointment) {
                     </div>
                 </div>
 
-                <!-- Upcoming and Previous Appointments -->
+                <!--============================== Upcoming and Previous Appointments ==============================-->
                 <div class="w-full lg:w-1/3 flex flex-col gap-6">
                     <!-- Upcoming Appointments -->
                     <div class="bg-white p-4 rounded-lg shadow">
@@ -446,19 +448,36 @@ foreach ($appointments_info as $appointment) {
                                 Binever Mahallesi
                             </p>
                             <div class="flex gap-2 mt-2">
-                                <button
-                                    class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600">View</button>
-                                
+                                <!-- <button
+                                    class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600">View
+                                </button> -->
+
+                                <?php
+                                $appointment_id = htmlspecialchars($most_upcoming_appointment['appointment_id']);
+                                $patient_id = $user_id; // or whatever your patient/user ID variable is
+                                ?>
+
+                                <a href="/doctor/patient-view/one-patient-info.php?patient_id=<?php echo $patient_id; ?>&appointment_id=<?php echo $appointment_id; ?>"
+                                    class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 inline-block text-center">
+                                    View
+                                </a>
+
+
                             </div>
                         </div>
                         <a href="AppointmentRecords.php" class="text-blue-500 text-sm hover:underline">More</a>
                     </div>
 
+
                     <!--------------------- Previous Appointments --------------------->
                     <div class="bg-white p-4 rounded-lg shadow">
                         <h2 class="text-lg font-semibold mb-4">Previous Appointments</h2>
                         <div class="appointment-card">
-                            <h3 class="text-red-600 font-semibold"><?php echo htmlspecialchars($most_recent_appointment['name'] . ' - ' . $most_recent_appointment['specialization']); ?></h3>
+                            <h3 class="text-red-600 font-semibold">
+                                <?php
+                                echo htmlspecialchars($most_recent_appointment['name'] . ' - ' . $most_recent_appointment['specialization']);
+                                ?>
+                            </h3>
                             <p class="text-gray-600 text-sm"><?php echo htmlspecialchars($most_recent_appointment['appointment_date'] . ' - ' . substr($most_recent_appointment['appointment_time'], 0, 5)); ?></p>
                             <p class="text-gray-600 text-sm flex items-center">
                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -470,15 +489,29 @@ foreach ($appointments_info as $appointment) {
                                 Binever Mahallesi
                             </p>
                             <div class="mt-2">
-                                <button
-                                    class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600">View</button>
+                                <!-- <button
+                                    class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600">View
+                                </button> -->
+
+                                <?php
+                                $appointment_id = htmlspecialchars($most_recent_appointment['appointment_id']);
+                                $patient_id = $user_id; // or whatever your patient/user ID variable is
+                                ?>
+
+                                <a href="/doctor/patient-view/one-patient-info.php?patient_id=<?php echo $patient_id; ?>&appointment_id=<?php echo $appointment_id; ?>"
+                                    class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 inline-block text-center">
+                                    View
+                                </a>
+
+
                             </div>
                         </div>
                         <a href="AppointmentRecords.php" class="text-blue-500 text-sm hover:underline">More</a>
                     </div>
 
 
-                    <!-- BTN -->
+
+                    <!--=========================== BTN ===========================-->
                     <div class="flex justify-center my-6">
                         <a href="/patient/AppointmentRecords.php"
                             class="bg-blue-500 hover:bg-purple-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 ease-in-out">
