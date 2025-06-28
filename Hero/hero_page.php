@@ -3,6 +3,29 @@
 include "../Includes/Database_connection.php";
 
 
+// --------------- Visits count ---------------------
+session_start();
+
+if (!isset($_SESSION['has_visited'])) {
+    $today = date('Y-m-d');
+
+    // Try to update today's visit count
+    $stmt = $conn->prepare("UPDATE visit_counts SET visit_count = visit_count + 1 WHERE visit_date = ?");
+    $stmt->bind_param('s', $today);
+    $stmt->execute();
+
+    // If no rows updated, insert new row
+    if ($stmt->affected_rows === 0) {
+        $stmt = $conn->prepare("INSERT INTO visit_counts (visit_date, visit_count) VALUES (?, 1)");
+        $stmt->bind_param('s', $today);
+        $stmt->execute();
+    }
+
+    $_SESSION['has_visited'] = true;
+}
+
+
+
 // --------------- DOCTOR INFO ---------------------
 $sql = "SELECT 
             CONCAT(u.first_name, ' ', u.last_name) AS full_name,
