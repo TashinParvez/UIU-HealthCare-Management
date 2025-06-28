@@ -11,6 +11,10 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Custom CSS -->
+
+</head>
+
+<body>
     <style>
     body {
         background-color: #f4f6f9;
@@ -334,9 +338,6 @@
         transform: translateY(-2px);
     }
     </style>
-</head>
-
-<body>
     <div class="d-flex min-vh-100">
         <!-- Sidebar Placeholder (Assuming Sidebar.php exists) -->
         <div class="sidebar">

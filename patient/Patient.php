@@ -338,7 +338,7 @@ if (!isset($_SESSION['has_visited'])) {
                     time: "8:30AM - 12:00AM",
                     duration: "2 Month",
                     start_date: "05 Oct 2024",
-                    total_doses: 120,
+                    total_doses: 7,
                     doses_taken: 0
                 }
             ];
