@@ -565,7 +565,7 @@ mysqli_close($conn);
                             <h3 class="text-sm font-semibold text-gray-900 mb-4">Medications</h3>
                             <p class="text-sm text-gray-500">
                                 <?php echo htmlspecialchars($medications); ?>
- 
+
                             </p>
 
                         </div>
@@ -606,11 +606,13 @@ mysqli_close($conn);
                             <button type="button"
                                 class="btn bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 w-full sm:w-auto"
                                 data-bs-toggle="modal" data-bs-target="#rescheduleModal">Reschedule Appointment</button>
-                            
-                                <button type="button"
+
+                            <!-- modal call here  -->
+                            <button type="button"
                                 class="btn bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 w-full sm:w-auto"
                                 data-bs-toggle="modal" data-bs-target="#complaintsModal">Start Prescription
                             </button>
+
                         </div>
                     </div>
 
@@ -686,7 +688,11 @@ mysqli_close($conn);
                 </div>
             </div>
 
-            <!-- Complaints Modal -->
+            <!--===================================================== Complaints Modal =====================================================-->
+            <!--===================================================== TASHIN =====================================================-->
+            <!--===================================================== TASHIN =====================================================-->
+
+
             <div class="modal fade" id="complaintsModal" tabindex="-1" aria-labelledby="complaintsModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
@@ -711,7 +717,8 @@ mysqli_close($conn);
                                     <div class="step">6</div>
                                 </div>
                                 <h5>Chief Complaints</h5>
-                                <div class="complaint-tags" id="complaintTags">
+
+                                <!-- <div class="complaint-tags" id="complaintTags">
                                     <span class="badge" data-value="Headache">Headache <i
                                             class="bi bi-x remove-tag"></i></span>
                                     <span class="badge" data-value="Insomnia">Insomnia <i
@@ -723,9 +730,12 @@ mysqli_close($conn);
                                     <span class="badge" data-value="Typhoid">Typhoid <i
                                             class="bi bi-x remove-tag"></i></span>
                                 </div>
+                                 -->
+
                                 <textarea id="complaintNotes" name="complaint_notes"
                                     placeholder="Enter additional chief complaints"
                                     aria-label="Chief Complaints Notes"></textarea>
+
                                 <button class="btn-submit"
                                     onclick="saveAndContinue('complaintsModal', 'medicineModal')">Continue</button>
                             </div>
@@ -759,6 +769,7 @@ mysqli_close($conn);
                                     <div class="step">6</div>
                                 </div>
                                 <h5>Medicine</h5>
+
                                 <div id="medicineRows">
                                     <div class="medicine-row">
                                         <input type="text" name="medicines[]" placeholder="Medicine Name"
@@ -771,10 +782,12 @@ mysqli_close($conn);
                                         <input type="text" name="durations[]" value="10 Days" aria-label="Duration">
                                     </div>
                                 </div>
+
                                 <div class="add-more">
                                     <a href="#" onclick="addMedicineRow()">Add More <i
                                             class="bi bi-plus-circle me-1"></i></a>
                                 </div>
+
                                 <button class="btn-submit"
                                     onclick="saveAndContinue('medicineModal', 'testsModal')">Continue</button>
                             </div>
@@ -810,7 +823,8 @@ mysqli_close($conn);
                                     <div class="step">6</div>
                                 </div>
                                 <h5>Diagnosis</h5>
-                                <div class="test-tags" id="testTags">
+
+                                <!-- <div class="test-tags" id="testTags">
                                     <span class="badge" data-value="X Ray">X Ray <i
                                             class="bi bi-x remove-tag"></i></span>
                                     <span class="badge" data-value="ECG">ECG <i class="bi bi-x remove-tag"></i></span>
@@ -819,7 +833,8 @@ mysqli_close($conn);
                                     <span class="badge" data-value="RCB">RCB <i class="bi bi-x remove-tag"></i></span>
                                     <span class="badge" data-value="Typhoid">Typhoid <i
                                             class="bi bi-x remove-tag"></i></span>
-                                </div>
+                                </div> -->
+
                                 <textarea id="testNotes" name="test_notes"
                                     placeholder="Enter additional diagnosis notes"
                                     aria-label="Diagnosis Notes"></textarea>
@@ -897,7 +912,8 @@ mysqli_close($conn);
                                     <div class="step">6</div>
                                 </div>
                                 <h5>Refer to Specialist</h5>
-                                <div class="specialist-tags" id="specialistTags">
+
+                                <!-- <div class="specialist-tags" id="specialistTags">
                                     <span class="badge" data-value="Neurologist">Neurologist <i
                                             class="bi bi-x remove-tag"></i></span>
                                     <span class="badge" data-value="Cardiologist">Cardiologist <i
@@ -906,7 +922,8 @@ mysqli_close($conn);
                                             class="bi bi-x remove-tag"></i></span>
                                     <span class="badge" data-value="Orthopedic Surgeon">Orthopedic Surgeon <i
                                             class="bi bi-x remove-tag"></i></span>
-                                </div>
+                                </div> -->
+
                                 <textarea id="specialistNotes" name="specialist_notes"
                                     placeholder="Enter referral notes" aria-label="Referral Notes"></textarea>
                                 <button class="btn-submit"
@@ -970,7 +987,7 @@ mysqli_close($conn);
                 </div>
             </div>
 
-            <!-- Send Message Modal -->
+            <!---=================================== Send Message Modal -===================================-->
             <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
