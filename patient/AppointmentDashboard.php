@@ -453,7 +453,7 @@ foreach ($appointments_info as $appointment) {
                         <a href="AppointmentRecords.php" class="text-blue-500 text-sm hover:underline">More</a>
                     </div>
 
-                    <!-- Previous Appointments -->
+                    <!--------------------- Previous Appointments --------------------->
                     <div class="bg-white p-4 rounded-lg shadow">
                         <h2 class="text-lg font-semibold mb-4">Previous Appointments</h2>
                         <div class="appointment-card">
@@ -475,6 +475,18 @@ foreach ($appointments_info as $appointment) {
                         </div>
                         <a href="AppointmentRecords.php" class="text-blue-500 text-sm hover:underline">More</a>
                     </div>
+
+
+                    <!-- BTN -->
+                    <div class="flex justify-center my-6">
+                        <a href="/patient/AppointmentRecords.php"
+                            class="bg-blue-500 hover:bg-purple-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 ease-in-out">
+                            All Appointments
+                        </a>
+                    </div>
+
+
+
                 </div>
             </div>
 
