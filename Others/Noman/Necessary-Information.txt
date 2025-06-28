@@ -1,20 +1,8 @@
-- Signup page role add
-
-- Booking.php -> after Aranya's work -> conditions &
-after click outside of modal, it doesn't close
-
-- AppointmentDashboard.php -> view, and more button
-- AppointmentRecords.php -> add a button all records download
-- read_blog -> after creating_blog page 
-
-- Message
-
-
-
-
-
-Done
---------------------------
-- Login navigation ROLE based
-- Booking.php -> after Aranya's work -> card Holder's name
-- 
+grettings
+d.name
+total_number patient need to see today
+old and new
+patient list- name
+	      condition
+patient.php
+one-patientview

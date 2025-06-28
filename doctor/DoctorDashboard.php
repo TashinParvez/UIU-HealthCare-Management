@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-$doctor_id = $_SESSION['user_id'] ?? '11';
+$doctor_id = $_SESSION['user_id'] ?? '3001';
 
 include "../Includes/Database_connection.php";
 
@@ -16,7 +16,7 @@ $current_time = $bdDateTime->format('H:i:s'); // Output format 10:25:45
 $date = $bdDateTime->format('j F'); // Output format 26 June
 
 
-// ............... Taking Necessary Information Blue Part ..........................
+// ............... Fetching Necessary Information Blue Part ..........................
 
 $stmt = $conn->prepare("
     SELECT 
@@ -74,14 +74,15 @@ $blues_info = $result->fetch_assoc();
 
 
 
-// ............... Taking Today's Patients Informations ..........................
+// ............... Fetching Today's Patients Informations ..........................
 
 $stmt = $conn->prepare("
     SELECT 
         a.patient_id,
         CONCAT(u.first_name, ' ', u.last_name) AS name,
         a.conditions,
-        a.appointment_time
+        a.appointment_time,
+        a.appointment_id
     FROM appointments a
     JOIN users u ON u.user_id = a.patient_id
     WHERE a.appointment_date = CURDATE()
@@ -101,7 +102,40 @@ $today_patients = $result->fetch_all(MYSQLI_ASSOC);
 //     [name] => John Doe
 //     [conditions] => Fever, Cough
 //     [appointment_time] => 09:30:00
+//     [patient_id] => 1001
 // ]
+
+
+
+//  ............... Fetching next 7 days’ appointments (excluding today) ..........................
+
+$stmt = $conn->prepare("
+    SELECT 
+        p.patient_id,
+        CONCAT(u.first_name, ' ', u.last_name) AS name,
+        a.conditions,
+        a.appointment_id
+    FROM appointments a
+    JOIN patients p ON a.patient_id = p.patient_id
+    JOIN users u ON u.user_id = p.patient_id
+    WHERE a.doctor_id = ?
+    AND a.appointment_date > CURDATE()
+    AND a.appointment_date <= DATE_ADD(CURDATE(), INTERVAL 7 DAY)
+    ORDER BY a.appointment_date ASC, a.appointment_time ASC;
+");
+$stmt->bind_param("i", $doctor_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$upcoming_patients_data = $result->fetch_all(MYSQLI_ASSOC);
+
+
+// Example usage:
+// [
+//   ['id' => 6, 'name' => 'Raihan Rahman', 'visit' => 'Follow-up', 'avatar_color' => 'bg-blue-500'],
+//   ['id' => 7, 'name' => 'Mithila Alam', 'visit' => 'Check-up', 'avatar_color' => 'bg-red-500'],
+//   ...
+// ]
+
 ?>
 
 
@@ -185,21 +219,39 @@ $today_patients = $result->fetch_all(MYSQLI_ASSOC);
         <!-- Main Content -->
         <div class="content">
             <?php
-                    // Simulated database data
-                    $colors = ['bg-blue-500', 'bg-red-500', 'bg-green-500', 'bg-yellow-500', 'bg-purple-500', 'bg-pink-500'];
-                    $patients = [];
+            // Simulated database data
+            $colors = ['bg-blue-500', 'bg-red-500', 'bg-green-500', 'bg-yellow-500', 'bg-purple-500', 'bg-pink-500'];
+            $patients = [];
 
-                    foreach ($today_patients as $index => $row) {
-                        $patients[] = [
-                            'id' => $row['patient_id'],
-                            'name' => $row['name'],
-                            'visit' => $row['conditions'],
-                            'avatar_color' => $colors[$index % count($colors)]  // Rotate through available colors
-                        ];
-                    }
+            foreach ($today_patients as $index => $row) {
+
+                if ($index >= 4) break;
+
+                $patients[] = [
+                    'id' => $row['patient_id'],
+                    'name' => $row['name'],
+                    'visit' => $row['conditions'],
+                    'avatar_color' => $colors[$index % count($colors)],  // Rotate through available colors
+                    'appointment_id' => $row['appointment_id'],
+                ];
+            }
+
+            $colors = ['bg-blue-500', 'bg-red-500', 'bg-green-500', 'bg-yellow-500', 'bg-purple-500'];
+            $upcoming_week_patients = [];
+
+            foreach (array_slice($upcoming_patients_data, 0, 4) as $index => $row) {
+
+                $upcoming_week_patients[] = [
+                    'id' => $row['patient_id'],
+                    'name' => $row['name'],
+                    'visit' => $row['conditions'],
+                    'avatar_color' => $colors[$index % count($colors)],
+                    'appointment_id' => $row['appointment_id'],
+                ];
+            }
 
 
-                    $consultations = [
+            $consultations = [
                 [
                     'name' => 'Aranya Das',
                     'gender' => 'Male',
@@ -267,7 +319,7 @@ $today_patients = $result->fetch_all(MYSQLI_ASSOC);
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Patient List -->
                 <div class="bg-white rounded-xl p-6 shadow-sm">
-                    <h2 class="text-lg font-semibold mb-4">Patient List</h2>
+                    <h2 class="text-lg font-semibold mb-4">Today's Patients List</h2>
                     <?php foreach ($patients as $patient): ?>
                         <div class="flex items-center py-3 border-b last:border-b-0">
                             <div class="avatar <?php echo $patient['avatar_color']; ?>">
@@ -277,14 +329,33 @@ $today_patients = $result->fetch_all(MYSQLI_ASSOC);
                                 <p class="font-semibold mb-0"><?php echo htmlspecialchars($patient['name']); ?></p>
                                 <p class="text-sm text-gray-500"><?php echo htmlspecialchars($patient['visit']); ?></p>
                             </div>
-                            <a href="all-appointments?patient_id=<?php echo $patient['id']; ?>"
+                            <a href="../doctor/patient-view/one-patient-info-revised.php?appointment_id=<?php echo $patient['appointment_id']; ?>"
                                 class="text-blue-500 text-sm hover:underline">View Details</a>
                         </div>
                     <?php endforeach; ?>
                 </div>
 
-                <!-- Consultation -->
+
                 <div class="bg-white rounded-xl p-6 shadow-sm">
+                    <h2 class="text-lg font-semibold mb-4">Upcoming Week's Patients List</h2>
+                    <?php foreach ($upcoming_week_patients as $patient): ?>
+                        <div class="flex items-center py-3 border-b last:border-b-0">
+                            <div class="avatar <?php echo $patient['avatar_color']; ?>">
+                                <?php echo strtoupper(substr($patient['name'], 0, 2)); ?>
+                            </div>
+                            <div class="flex-1 ml-3">
+                                <p class="font-semibold mb-0"><?php echo htmlspecialchars($patient['name']); ?></p>
+                                <p class="text-sm text-gray-500"><?php echo htmlspecialchars($patient['visit']); ?></p>
+                            </div>
+                            <a href="../doctor/patient-view/one-patient-info-revised.php?appointment_id=<?php echo $patient['appointment_id']; ?>"
+                                class="text-blue-500 text-sm hover:underline">View Details</a>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
+
+                <!-- Consultation -->
+                <!-- <div class="bg-white rounded-xl p-6 shadow-sm">
                     <h2 class="text-lg font-semibold mb-4">Consultation</h2>
                     <form method="GET" class="mb-4">
                         <select name="filter"
@@ -328,10 +399,12 @@ $today_patients = $result->fetch_all(MYSQLI_ASSOC);
                                 <?php echo htmlspecialchars($consultation['prescription']); ?></p>
                         </div>
                     <?php endforeach; ?>
-                </div>
+                </div> -->
+
+
 
                 <!-- Upcoming -->
-                <div class="bg-white rounded-xl p-6 shadow-sm">
+                <!-- <div class="bg-white rounded-xl p-6 shadow-sm">
                     <h2 class="text-lg font-semibold mb-4">Upcoming</h2>
                     <?php foreach ($upcoming_events as $event): ?>
                         <div class="flex justify-between items-center">
@@ -343,7 +416,8 @@ $today_patients = $result->fetch_all(MYSQLI_ASSOC);
                             <a href="#" class="text-blue-500 text-sm hover:underline">View All</a>
                         </div>
                     <?php endforeach; ?>
-                </div>
+                </div> -->
+
             </div>
         </div>
     </div>
