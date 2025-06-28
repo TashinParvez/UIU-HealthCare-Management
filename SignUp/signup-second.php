@@ -1,3 +1,37 @@
+<?php
+
+
+include "../Includes/Database_connection.php";
+
+
+// --------------- Visits count ---------------------
+session_start();
+
+if (!isset($_SESSION['has_visited'])) {
+    $today = date('Y-m-d');
+
+    // Try to update today's visit count
+    $stmt = $conn->prepare("UPDATE visit_counts SET visit_count = visit_count + 1 WHERE visit_date = ?");
+    $stmt->bind_param('s', $today);
+    $stmt->execute();
+
+    // If no rows updated, insert new row
+    if ($stmt->affected_rows === 0) {
+        $stmt = $conn->prepare("INSERT INTO visit_counts (visit_date, visit_count) VALUES (?, 1)");
+        $stmt->bind_param('s', $today);
+        $stmt->execute();
+    }
+
+    $_SESSION['has_visited'] = true;
+}
+
+
+
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -137,11 +171,12 @@
                 <h2>Welcome!</h2>
                 <p>Now continue you have to:</p>
                 <a href="../patient/Patient.php" class="btn btn-outline-secondary">Go To Homepage</a>
-                <a href="../patient/Patient-profile/PatientProfile.php" class="btn btn-primary">Update Your Profile</a> <p>© 2025 IgnoreUs.</p>
+                <a href="../patient/Patient-profile/PatientProfile.php" class="btn btn-primary">Update Your Profile</a>
+                <p>© 2025 IgnoreUs.</p>
             </div>
         </div>
     </div>
-    
+
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

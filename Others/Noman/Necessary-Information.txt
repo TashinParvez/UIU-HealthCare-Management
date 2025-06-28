@@ -9,3 +9,5 @@
 - Booking.php -> after Aranya's work -> card Holder's name & conditions
 - AppointmentRecords.php -> add a button all records download
 - read_blog -> after creating_blog page 
+
+- Login navigation ROLE based
