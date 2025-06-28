@@ -273,7 +273,7 @@ z" />
         <nav class="flex-1">
             <nav>
                 <!-- Dashboard -->
-                <a href="/patient/Patient.php" class="no-underline">
+                <a href="/doctor/DoctorDashboard.php" class="no-underline">
                     <button class="p-4 flex items-center sidebar-item w-full text-left">
                         <svg class="w-6 h-6 mr-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -297,13 +297,13 @@ z" />
                 </a>
 
                 <!-- Appointments -->
-                <a href="/patient/AppointmentDashboard.php" class="no-underline">
+                <a href="/doctor/all-appointments.php" class="no-underline">
                     <button class="p-4 flex items-center sidebar-item w-full text-left">
                         <svg class="w-6 h-6 mr-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        <span class="sidebar-text">Appointment Calender</span>
+                        <span class="sidebar-text">Appointments</span>
                     </button>
                 </a>
             </nav>
@@ -319,78 +319,21 @@ z" />
                 </button>
             </a>
 
-            <a href="/patient/AppointmentRecords-second.php" class="no-underline">
-                <button class="p-4 flex items-center sidebar-item w-full text-left">
-                    <svg class="w-6 h-6 mr-4 flex-shrink-0" fill="#000000" version="1.1" id="Layer_1"
-                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                        viewBox="0 0 512.001 512.001" xml:space="preserve">
-                        <g>
-                            <g>
-                                <g>
-                                    <path d="M304.427,147.399H275.38v-29.046c0-10.706-8.68-19.386-19.386-19.386c-10.706,0-19.386,8.68-19.386,19.386V147.4h-29.047
-				c-10.706,0-19.386,8.68-19.386,19.386s8.68,19.386,19.386,19.386h29.047v29.046c0,10.706,8.68,19.386,19.386,19.386
-				c10.706,0,19.386-8.68,19.386-19.386v-29.046h29.047c10.706,0,19.386-8.68,19.386-19.386
-				C323.813,156.079,315.135,147.399,304.427,147.399z" />
-                                    <path d="M446.704,19.386C446.704,8.68,438.024,0,427.318,0H84.672C73.966,0,65.286,8.68,65.286,19.386
-				c0,19.634-0.004,395.991-0.004,415.78c0,10.706,8.68,19.386,19.386,19.386h56.06v38.045c0,17.236,20.909,25.888,33.091,13.71
-				l33.746-33.736l33.735,33.733c12.109,12.114,33.094,3.665,33.094-13.707v-38.045h152.938c10.706,0,19.386-8.68,19.386-19.386
-				C446.72,423.13,446.704,234.426,446.704,19.386z M104.059,38.773h303.873v256.026H104.059V38.773z M235.623,445.793
-				l-14.346-14.345c-7.568-7.571-19.842-7.571-27.413-0.003l-14.363,14.357c0-22.535,0-29.22,0-51.734h56.122
-				C235.623,416.595,235.623,423.285,235.623,445.793z M407.947,415.78H274.395v-21.714h94.993c10.706,0,19.386-8.68,19.386-19.386
-				c0-10.706-8.68-19.386-19.386-19.386H142.614c-10.706,0-19.386,8.68-19.386,19.386c0,10.071,7.68,18.342,17.501,19.291v21.81
-				h-36.674v-82.207h303.892V415.78z" />
-                                </g>
-                            </g>
-                        </g>
-                    </svg>
-                    <span class="sidebar-text">Appointment Record</span>
-                </button>
-            </a>
-
-            <a href="/emergency/EmergencyPage.php" class="no-underline">
-                <button class="p-4 flex items-center sidebar-item w-full text-left">
-                    <svg class="w-6 h-6 mr-4 flex-shrink-0" fill="#000000" version="1.1" id="Layer_1" fill="#000000"
-                        version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 291.648 291.648" xml:space="preserve">
-                        <g>
-                            <path d="M224.441,211.335h-4.11v-76.935c0-41.083-33.423-74.506-74.506-74.506s-74.506,33.423-74.506,74.506v76.935h-4.11
-		c-16.759,0-30.393,13.634-30.393,30.393v39.92c0,5.523,4.477,10,10,10h198.02c5.523,0,10-4.477,10-10v-39.92
-		C254.834,224.97,241.2,211.335,224.441,211.335z M91.318,134.401c0-30.055,24.452-54.506,54.506-54.506
-		s54.506,24.452,54.506,54.506v76.935H91.318V134.401z M234.834,271.648H56.814v-29.92c0-5.731,4.662-10.393,10.393-10.393h157.233
-		c5.731,0,10.393,4.662,10.393,10.393V271.648z" />
-                            <path d="M145.824,39.999c5.523,0,10-4.477,10-10V10c0-5.523-4.477-10-10-10s-10,4.477-10,10v19.999
-		C135.824,35.522,140.301,39.999,145.824,39.999z" />
-                            <path d="M56.746,71.039c1.953,1.953,4.512,2.929,7.071,2.929s5.119-0.976,7.071-2.929c3.905-3.905,3.905-10.237,0-14.143
-		L56.748,42.755c-3.905-3.905-10.237-3.905-14.143,0c-3.905,3.905-3.905,10.237,0,14.143L56.746,71.039z" />
-                            <path d="M227.831,73.967c2.559,0,5.119-0.976,7.071-2.929l14.141-14.141c3.905-3.905,3.905-10.237,0-14.143
-		c-3.905-3.905-10.237-3.905-14.143,0L220.76,56.896c-3.905,3.905-3.905,10.237,0,14.143
-		C222.712,72.991,225.272,73.967,227.831,73.967z" />
-                            <path d="M145.824,90.827c-24.027,0-43.575,19.547-43.575,43.575c0,5.523,4.477,10,10,10s10-4.477,10-10
-		c0-12.999,10.576-23.575,23.575-23.575c5.523,0,10-4.477,10-10S151.347,90.827,145.824,90.827z" />
-                        </g>
-                    </svg>
-                    <span class="sidebar-text">Emergency Alert</span>
-                </button>
-            </a>
-
             <!-- Users -->
-            <a href="/patient/FAQ.php" class="no-underline">
+            <a href="/doctor/blogWrite.php" class="no-underline">
                 <button class="p-4 flex items-center sidebar-item w-full text-left">
                     <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-                    <svg fill="#000000" class="w-6 h-6 mr-4 flex-shrink-0" version="1.1" id="Capa_1"
-                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                        viewBox="0 0 202.423 202.423" xml:space="preserve">
-                        <g>
-                            <path d="M87.416,186.643c-4.359,0-7.885,3.541-7.885,7.874c0,4.362,3.525,7.906,7.885,7.906c4.357,0,7.885-3.544,7.885-7.906
-									190.184,91.774,186.643,87.416,186.643z" />
-                            <path d="M101.212,0c-34.694,0-62.92,28.226-62.92,62.92c0,4.142,3.358,7.5,7.5,7.5c4.142,0,7.5-3.358,7.5-7.5
-								c0-26.423,21.497-47.92,47.92-47.92c26.422,0,47.918,21.497,47.918,47.92c0,26.425-21.496,47.923-47.918,47.923
-								c-0.259,0-0.516,0.013-0.769,0.039c-11.128,0.4-20.088,9.36-20.488,20.487c-0.026,0.253-0.039,0.509-0.039,0.769v30.922
-								c0,4.142,3.358,7.5,7.5,7.5c4.142,0,7.5-3.358,7.5-7.5v-30.922c0-3.471,2.824-6.295,6.296-6.295
-								c34.693,0,62.918-28.227,62.918-62.923C164.13,28.226,135.906,0,101.212,0z" />
-                        </g>
+                    <svg fill="#ffffff" class="w-6 h-6 mr-4 flex-shrink-0" viewBox="0 0 24 24" fill="#ffffff"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M20.965 7C20.8873 5.1277 20.6366 3.97975 19.8284 3.17157C18.6569 2 16.7712 2 13 2H11C7.22876 2 5.34315 2 4.17157 3.17157C3 4.34315 3 6.22876 3 10V14C3 17.7712 3 19.6569 4.17157 20.8284C5.34315 22 7.22876 22 11 22H13C16.7712 22 18.6569 22 19.8284 20.8284C21 19.6569 21 17.7712 21 14V11"
+                            stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                        <path
+                            d="M6 12C6 10.5858 6 9.87868 6.43934 9.43934C6.87868 9 7.58579 9 9 9H15C16.4142 9 17.1213 9 17.5607 9.43934C18 9.87868 18 10.5858 18 12V16C18 17.4142 18 18.1213 17.5607 18.5607C17.1213 19 16.4142 19 15 19H9C7.58579 19 6.87868 19 6.43934 18.5607C6 18.1213 6 17.4142 6 16V12Z"
+                            stroke="#1C274C" stroke-width="1.5" />
+                        <path d="M7 6H12" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
                     </svg>
-                    <span class="sidebar-text">FAQ</span>
+                    <span class="sidebar-text">Write Blog</span>
                 </button>
             </a>
     </div>

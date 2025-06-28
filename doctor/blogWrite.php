@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body class="flex min-h-screen bg-gray-100">
     <!-- Include the remembered sidebar -->
-    <?php include '../Includes/Sidebar.php'; ?>
+    <?php include '../Includes/Sidebar_Doctor.php'; ?>
 
     <!-- Main Content -->
     <div class="ml-16 hover:ml-64 transition-all duration-300 flex-grow p-8">
