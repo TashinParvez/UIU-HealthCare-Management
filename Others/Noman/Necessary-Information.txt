@@ -1,8 +1,11 @@
-grettings
-d.name
-total_number patient need to see today
-old and new
-patient list- name
-	      condition
-patient.php
-one-patientview
+appointment_id
+doctor_id
+patient_id
+complaints
+medicines
+tests
+advice
+specialist_referrals
+followup_date
+followup_time
+followup_notes

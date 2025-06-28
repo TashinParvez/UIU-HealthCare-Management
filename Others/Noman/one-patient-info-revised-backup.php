@@ -1,10 +1,6 @@
 <?php
-
-
-session_start();
-$doctor_id = $_SESSION['user_id'] ?? '3001';
-
 include "../../Includes/Database_connection.php";
+
 
 if (isset($_GET['appointment_id'])) {
     $appointment_id = intval($_GET['appointment_id']); // Use intval to sanitize input
@@ -30,112 +26,6 @@ $p_id =  $p_id[0]['patient_id'];
 
 // Sanitize patient_id to prevent SQL injection
 $patient_id = mysqli_real_escape_string($conn, $p_id);
-
-
-// --------- Update rescheduling ..............
-
-if (isset($_POST['reschedule'])) {
-
-    $appointment_date = $_POST['appointment_date'] ?? null;
-    $appointment_time = $_POST['appointment_time'] ?? null;
-
-    if ($appointment_date && $appointment_time) {
-
-        $stmt = $conn->prepare("UPDATE appointments SET appointment_date = ?, appointment_time = ? WHERE appointment_id = ?");
-        $stmt->bind_param("ssi", $appointment_date, $appointment_time, $appointment_id);
-
-        if ($stmt->execute()) {
-
-            echo "<script>alert('Appointment rescheduled successfully.'); window.location.href='one-patient-info-revised.php';</script>";
-
-            $stmt->close();
-            $conn->close();
-        } else {
-            echo "Error: " . $stmt->error;
-        }
-    } else {
-        echo "Required fields missing.";
-    }
-}
-
-
-// --------- Insert Prescriotion ..............
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    // Decode JSON from hidden input fields
-    $complaints_data = json_decode($_POST['complaints'], true);
-    $tests_data = json_decode($_POST['tests'], true);
-    $specialists_data = json_decode($_POST['specialists'], true);
-
-    // Store only the notes or comma-separated tags
-    $complaints = implode(', ', array_filter($complaints_data['tags'])) . ($complaints_data['notes'] ? ($complaints_data['tags'] ? ', ' : '') . $complaints_data['notes'] : '');
-
-    $tests = implode(', ', array_filter($tests_data['tags'])) . ($tests_data['notes'] ? ($tests_data['tags'] ? ', ' : '') . $tests_data['notes'] : '');
-
-    $specialist_referrals = implode(', ', array_filter($specialists_data['tags'])) . ($specialists_data['notes'] ? ($specialists_data['tags'] ? ', ' : '') . $specialists_data['notes'] : '');
-
-    $medicines_data = json_decode($_POST['medicines'], true);
-
-    // Create a readable string, e.g. "Paracetamol - 1 - Before Meal - 5 Days"
-    $medicines = '';
-    foreach ($medicines_data as $med) {
-        if (!empty($med['name'])) {
-            $medicines .= "{$med['name']} - {$med['dosage']} - {$med['timing']} - {$med['duration']}, ";
-        }
-    }
-    $medicines = rtrim($medicines, ', ');
-
-
-    $advice = $_POST['advice'] ?? '';
-    $followup_date = $_POST['followup_date'] ?? null;
-    $followup_time = $_POST['followup_time'] ?? null;
-    $followup_notes = $_POST['followup_notes'] ?? '';
-
-    $stmt = $conn->prepare("
-        INSERT INTO prescriptions (
-            appointment_id,
-            doctor_id,
-            patient_id,
-            complaints,
-            medicines,
-            tests,
-            advice,
-            specialist_referrals,
-            followup_date,
-            followup_time,
-            followup_notes
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ");
-
-    $stmt->bind_param(
-        'iiissssssss',
-        $appointment_id,
-        $doctor_id,
-        $patient_id,
-        $complaints,
-        $medicines,
-        $tests,
-        $advice,
-        $specialist_referrals,
-        $followup_date,
-        $followup_time,
-        $followup_notes
-    );
-
-    if ($stmt->execute()) {
-        echo "Prescription submitted successfully.";
-
-        $stmt->close();
-        $conn->close();
-
-        header('Location: one-patient-info-revised.php');
-    } else {
-        echo "Error: " . $stmt->error;
-    }
-}
-
-
 
 //==================================================================== Basic Info  =====================================
 $sql = "SELECT 
@@ -196,7 +86,7 @@ $appointments = mysqli_fetch_all($appointments, MYSQLI_ASSOC);
 //==================================================================== last Prescriptions/Medications  =====================================
 $sql = "SELECT 
             pr.medicines, 
-            pr.advice
+            pr.instructions
         FROM appointments a
         LEFT JOIN prescriptions pr ON a.appointment_id = pr.appointment_id
         WHERE a.patient_id = '$patient_id'
@@ -217,7 +107,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
 
     $medications = $row['medicines'];
-    $advice = $row['advice'];
+    $instructions = $row['instructions'];
 }
 
 //==================================================================== Medical Records  =====================================
@@ -687,7 +577,7 @@ mysqli_close($conn);
                         <div class="card p-6 mb-8">
                             <h3 class="text-sm font-semibold text-gray-900 mb-4">Routine Advice</h3>
 
-                            <p class="text-sm text-gray-500"> <?php echo htmlspecialchars($advice); ?></p>
+                            <p class="text-sm text-gray-500"> <?php echo htmlspecialchars($instructions); ?></p>
 
                         </div>
 
@@ -1079,9 +969,6 @@ mysqli_close($conn);
                                     <input type="hidden" name="complaints" id="hiddenComplaints">
                                     <input type="hidden" name="tests" id="hiddenTests">
                                     <input type="hidden" name="specialists" id="hiddenSpecialists">
-                                    <input type="hidden" name="advice" id="hiddenAdvice">
-                                    <input type="hidden" name="medicines" id="hiddenMedicines">
-
                                     <div class="followup-row">
                                         <input type="date" name="followup_date" id="followupDate" value="2025-04-26"
                                             aria-label="Follow-Up Date">
@@ -1141,7 +1028,7 @@ mysqli_close($conn);
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form id="rescheduleForm" action="one-patient-info-reviser.php" method="POST">
+                            <form id="rescheduleForm" action="reschedule_appointment.php" method="POST">
                                 <input type="hidden" name="patient_id" value="<?php echo $patient_id; ?>">
                                 <div class="mb-4">
                                     <label for="appointmentDate" class="form-label text-sm text-gray-600">Date</label>
@@ -1156,7 +1043,7 @@ mysqli_close($conn);
                                         id="appointmentTime" name="appointment_time" required>
                                 </div>
                                 <button type="submit"
-                                    class="btn bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 w-full" name="reschedule">Reschedule</button>
+                                    class="btn bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 w-full">Reschedule</button>
                             </form>
                         </div>
                     </div>
@@ -1394,9 +1281,6 @@ mysqli_close($conn);
                 document.getElementById('hiddenTests').value = JSON.stringify(prescriptionData.tests);
                 document.getElementById('hiddenSpecialists').value = JSON.stringify(prescriptionData
                     .specialists);
-
-                document.getElementById('hiddenAdvice').value = prescriptionData.advice;
-                document.getElementById('hiddenMedicines').value = JSON.stringify(prescriptionData.medicines);
 
                 // Submit the form
                 document.getElementById('prescriptionForm').submit();
