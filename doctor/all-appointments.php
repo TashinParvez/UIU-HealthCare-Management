@@ -41,6 +41,7 @@ if (!empty($conditions)) {
 $sql .= ";";
 
 $allAppointments = mysqli_query($conn, $sql);
+
 if (!$allAppointments) {
     die("Query failed: " . mysqli_error($conn));
 }
@@ -80,6 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_appointment'])) {
         echo "Error adding appointment: " . mysqli_error($conn);
     }
 }
+
 ?>
 
 <!DOCTYPE html>

@@ -1,3 +1,62 @@
+<?php
+
+include "../Includes/Database_connection.php";
+
+
+// --------------- BLOG INFO ---------------------
+$sql = "SELECT 
+            b.blog_id,
+            b.blog_name,
+            b.blog_tags,
+            b.blog_description,
+            b.likes_count,
+            b.created_at,
+            CONCAT(u.first_name, ' ', u.last_name) AS doctor_name
+        FROM 
+            blogs b
+        JOIN 
+            doctors d ON b.doctor_id = d.doctor_id
+        JOIN 
+            users u ON d.doctor_id = u.user_id
+        ORDER BY 
+            b.created_at ASC;
+";
+
+$all_blogs = mysqli_query($conn, $sql);
+$all_blogs = mysqli_fetch_all($all_blogs, MYSQLI_ASSOC);  // returns associative array
+
+
+// print_r($all_blogs);
+// echo $all_blogs['blog_name'] . "<br>";
+
+
+
+
+// ========================   SEARCH ===================================
+
+$search = '';
+if (isset($_GET['search'])) {
+    $search = trim($_GET['search']);
+    $search = mysqli_real_escape_string($conn, $search);
+
+    $query = "SELECT * 
+            FROM blogs 
+            WHERE blog_name LIKE '%$search%' OR 
+                blog_tags LIKE '%$search%' OR 
+                blog_description LIKE '%$search%' 
+            ORDER BY blog_id DESC";
+} else {
+    $query = "SELECT * 
+                FROM blogs 
+                ORDER BY blog_id DESC";
+}
+
+$result = mysqli_query($conn, $query);
+$all_blogs = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,6 +98,7 @@
     <!-- Main Content -->
     <div class="content">
         <div class="container mx-auto max-w-6xl">
+
             <!-- Search Bar -->
             <div class="relative mb-8">
                 <input type="text" id="searchInput" placeholder="Search blog posts..."
@@ -91,6 +151,7 @@
                     <a href="/patient/read_blog.php"
                         class="text-blue-500 text-sm font-medium hover:text-blue-600 transition">Read More</a>
                 </div>
+
             </div>
 
             <!-- More to View Button -->

@@ -1,3 +1,36 @@
+<?php
+
+
+include "../Includes/Database_connection.php";
+
+
+// --------------- Visits count ---------------------
+session_start();
+
+if (!isset($_SESSION['has_visited'])) {
+    $today = date('Y-m-d');
+
+    // Try to update today's visit count
+    $stmt = $conn->prepare("UPDATE visit_counts SET visit_count = visit_count + 1 WHERE visit_date = ?");
+    $stmt->bind_param('s', $today);
+    $stmt->execute();
+
+    // If no rows updated, insert new row
+    if ($stmt->affected_rows === 0) {
+        $stmt = $conn->prepare("INSERT INTO visit_counts (visit_date, visit_count) VALUES (?, 1)");
+        $stmt->bind_param('s', $today);
+        $stmt->execute();
+    }
+
+    $_SESSION['has_visited'] = true;
+}
+
+
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,74 +40,74 @@
     <title>Patient</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-    /* Hide scrollbar for Chrome, Safari, and Edge */
-    .hide-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
+        /* Hide scrollbar for Chrome, Safari, and Edge */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
 
-    /* Hide scrollbar for Firefox */
-    .hide-scrollbar {
-        scrollbar-width: none;
-    }
+        /* Hide scrollbar for Firefox */
+        .hide-scrollbar {
+            scrollbar-width: none;
+        }
 
-    /* Optional: Smooth scrolling behavior */
-    .hide-scrollbar {
-        scroll-behavior: smooth;
-    }
+        /* Optional: Smooth scrolling behavior */
+        .hide-scrollbar {
+            scroll-behavior: smooth;
+        }
 
-    /* Sidebar and layout adjustments */
-    .content {
-        margin-left: 64px;
-        /* Match the collapsed sidebar width */
-        padding: 20px;
-        transition: margin-left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-    }
+        /* Sidebar and layout adjustments */
+        .content {
+            margin-left: 64px;
+            /* Match the collapsed sidebar width */
+            padding: 20px;
+            transition: margin-left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
 
-    .sidebar:hover+.content {
-        margin-left: 256px;
-        /* Match the expanded sidebar width */
-    }
+        .sidebar:hover+.content {
+            margin-left: 256px;
+            /* Match the expanded sidebar width */
+        }
 
-    .sidebar {
-        transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        transform: translateZ(0);
-        will-change: width;
-    }
+        .sidebar {
+            transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transform: translateZ(0);
+            will-change: width;
+        }
 
-    .sidebar:not(:hover) .sidebar-text {
-        display: none;
-    }
+        .sidebar:not(:hover) .sidebar-text {
+            display: none;
+        }
 
-    .sidebar:not(:hover) .search-input {
-        display: none;
-    }
+        .sidebar:not(:hover) .search-input {
+            display: none;
+        }
 
-    .sidebar-item {
-        position: relative;
-        overflow: hidden;
-    }
+        .sidebar-item {
+            position: relative;
+            overflow: hidden;
+        }
 
-    .sidebar-item::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(120deg, transparent, rgba(147, 51, 234, 0.3), transparent);
-        transition: all 0.5s ease;
-    }
+        .sidebar-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(147, 51, 234, 0.3), transparent);
+            transition: all 0.5s ease;
+        }
 
-    .sidebar-item:hover::before {
-        left: 100%;
-    }
+        .sidebar-item:hover::before {
+            left: 100%;
+        }
 
-    .sidebar-item:hover {
-        background-color: #f3f4f6;
-        color: #9333ea;
-        transform: scale(1.05);
-        transition: transform 0.2s ease;
-    }
+        .sidebar-item:hover {
+            background-color: #f3f4f6;
+            color: #9333ea;
+            transform: scale(1.05);
+            transition: transform 0.2s ease;
+        }
     </style>
 </head>
 
@@ -194,45 +227,45 @@
 
                     foreach ($medicines as $medicine) {
                     ?>
-                    <div class="flex items-center p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
-                        <svg class="w-8 h-8 mr-4 text-gray-500 flex-shrink-0" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="6" y="4" width="12" height="16" rx="4" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <line x1="12" y1="4" x2="12" y2="20" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                        <div class="flex-1">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <h5 class="text-lg font-semibold text-gray-900"><?php echo $medicine['name']; ?>
-                                    </h5>
-                                    <p class="text-sm text-gray-500"><?php echo $medicine['dosage']; ?></p>
-                                </div>
-                                <div class="text-right">
-                                    <p class="text-sm text-gray-500"><?php echo $medicine['time']; ?></p>
-                                    <p class="text-sm text-gray-500"><?php echo $medicine['duration']; ?></p>
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-between mt-2">
-                                <p class="text-sm text-gray-500">Start Date: <?php echo $medicine['start_date']; ?></p>
-                                <div class="flex items-center space-x-3">
-                                    <div class="flex items-center space-x-2">
-                                        <div class="w-24 bg-gray-200 rounded-full h-2.5">
-                                            <div class="bg-blue-600 h-2.5 rounded-full"
-                                                style="width: <?php echo $medicine['progress']; ?>%"></div>
-                                        </div>
-                                        <span class="text-sm text-gray-600"><?php echo $medicine['progress']; ?>%</span>
+                        <div class="flex items-center p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+                            <svg class="w-8 h-8 mr-4 text-gray-500 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="6" y="4" width="12" height="16" rx="4" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <line x1="12" y1="4" x2="12" y2="20" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h5 class="text-lg font-semibold text-gray-900"><?php echo $medicine['name']; ?>
+                                        </h5>
+                                        <p class="text-sm text-gray-500"><?php echo $medicine['dosage']; ?></p>
                                     </div>
-                                    <button
-                                        class="px-3 py-1 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition"
-                                        onclick="window.location.href='medicine-details.php?id=<?php echo $medicine['id']; ?>'">
-                                        Taken
-                                    </button>
+                                    <div class="text-right">
+                                        <p class="text-sm text-gray-500"><?php echo $medicine['time']; ?></p>
+                                        <p class="text-sm text-gray-500"><?php echo $medicine['duration']; ?></p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between mt-2">
+                                    <p class="text-sm text-gray-500">Start Date: <?php echo $medicine['start_date']; ?></p>
+                                    <div class="flex items-center space-x-3">
+                                        <div class="flex items-center space-x-2">
+                                            <div class="w-24 bg-gray-200 rounded-full h-2.5">
+                                                <div class="bg-blue-600 h-2.5 rounded-full"
+                                                    style="width: <?php echo $medicine['progress']; ?>%"></div>
+                                            </div>
+                                            <span class="text-sm text-gray-600"><?php echo $medicine['progress']; ?>%</span>
+                                        </div>
+                                        <button
+                                            class="px-3 py-1 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition"
+                                            onclick="window.location.href='medicine-details.php?id=<?php echo $medicine['id']; ?>'">
+                                            Taken
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <?php } ?>
                 </div>
             </div>
@@ -240,51 +273,51 @@
     </div>
 </body>
 <script>
-const cardsContainer = document.getElementById('cards-container');
-const scrollLeftBtn = document.getElementById('scroll-left');
-const scrollRightBtn = document.getElementById('scroll-right');
+    const cardsContainer = document.getElementById('cards-container');
+    const scrollLeftBtn = document.getElementById('scroll-left');
+    const scrollRightBtn = document.getElementById('scroll-right');
 
-// Function to update button visibility based on scroll position
-function updateButtonVisibility() {
-    const scrollLeft = cardsContainer.scrollLeft;
-    const maxScrollLeft = cardsContainer.scrollWidth - cardsContainer.clientWidth;
+    // Function to update button visibility based on scroll position
+    function updateButtonVisibility() {
+        const scrollLeft = cardsContainer.scrollLeft;
+        const maxScrollLeft = cardsContainer.scrollWidth - cardsContainer.clientWidth;
 
-    // Hide left button if at the start
-    if (scrollLeft <= 0) {
-        scrollLeftBtn.classList.add('hidden');
-    } else {
-        scrollLeftBtn.classList.remove('hidden');
+        // Hide left button if at the start
+        if (scrollLeft <= 0) {
+            scrollLeftBtn.classList.add('hidden');
+        } else {
+            scrollLeftBtn.classList.remove('hidden');
+        }
+
+        // Hide right button if at the end
+        if (scrollLeft >= maxScrollLeft - 1) { // -1 to account for rounding errors
+            scrollRightBtn.classList.add('hidden');
+        } else {
+            scrollRightBtn.classList.remove('hidden');
+        }
     }
 
-    // Hide right button if at the end
-    if (scrollLeft >= maxScrollLeft - 1) { // -1 to account for rounding errors
-        scrollRightBtn.classList.add('hidden');
-    } else {
-        scrollRightBtn.classList.remove('hidden');
-    }
-}
+    // Initial check for button visibility
+    updateButtonVisibility();
 
-// Initial check for button visibility
-updateButtonVisibility();
+    // Update button visibility on scroll
+    cardsContainer.addEventListener('scroll', updateButtonVisibility);
 
-// Update button visibility on scroll
-cardsContainer.addEventListener('scroll', updateButtonVisibility);
-
-// Scroll left by the width of one card (max-w-sm = 384px + 16px gap from space-x-4)
-scrollLeftBtn.addEventListener('click', () => {
-    cardsContainer.scrollBy({
-        left: -400,
-        behavior: 'smooth'
+    // Scroll left by the width of one card (max-w-sm = 384px + 16px gap from space-x-4)
+    scrollLeftBtn.addEventListener('click', () => {
+        cardsContainer.scrollBy({
+            left: -400,
+            behavior: 'smooth'
+        });
     });
-});
 
-// Scroll right by the width of one card
-scrollRightBtn.addEventListener('click', () => {
-    cardsContainer.scrollBy({
-        left: 400,
-        behavior: 'smooth'
+    // Scroll right by the width of one card
+    scrollRightBtn.addEventListener('click', () => {
+        cardsContainer.scrollBy({
+            left: 400,
+            behavior: 'smooth'
+        });
     });
-});
 </script>
 
 </html>

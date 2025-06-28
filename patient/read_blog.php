@@ -1,3 +1,114 @@
+<?php
+
+// header('Content-Type: application/json'); // For JSON response
+
+include "../Includes/Database_connection.php";
+
+if (isset($_GET['blog_id'])) {
+    $blog_id = intval($_GET['blog_id']); // Use intval to sanitize input
+} else {
+    // Handle the case where blog_id is not set, e.g., redirect or show error
+    die('Blog ID not specified.');
+}
+
+// $blog_id = 2;
+
+
+// --------------- DOCTOR INFO ---------------------
+$sql = "SELECT 
+            b.blog_id,
+            b.blog_name,
+            b.blog_tags,
+            b.blog_description,
+            b.likes_count,
+            b.created_at,
+            CONCAT(u.first_name, ' ', u.last_name) AS doctor_name
+        FROM 
+            blogs b
+        JOIN 
+            doctors d ON b.doctor_id = d.doctor_id
+        JOIN 
+            users u ON d.doctor_id = u.user_id
+        WHERE 
+            b.blog_id = '$blog_id';";
+
+$blog_info = mysqli_query($conn, $sql);
+$blog_info = mysqli_fetch_all($blog_info, MYSQLI_ASSOC);  // returns associative array
+
+$blog_info = $blog_info[0];
+
+// print_r($blog_info);
+// echo $blog_info['blog_name'] . "<br>";
+
+
+
+// ========================  FOR Suggestions  =================================
+
+$current_blog_id = $blog_info['blog_id'];
+$tags = explode(',', $blog_info['blog_tags']);
+
+// Clean & format tags for SQL LIKE search
+$tag_conditions = [];
+foreach ($tags as $tag) {
+    $tag = trim($tag);
+    $tag_conditions[] = "blog_tags LIKE '%" . mysqli_real_escape_string($conn, $tag) . "%'";
+}
+
+$tag_query = implode(' OR ', $tag_conditions);
+
+$sql = "
+    SELECT * FROM blogs 
+    WHERE blog_id != $current_blog_id AND ($tag_query)
+    ORDER BY RAND()
+    LIMIT 3
+";
+
+$result = mysqli_query($conn, $sql);
+$related_blogs = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+if (count($related_blogs) < 1) {
+    $sql_fallback = "
+        SELECT * FROM blogs 
+        WHERE blog_id != $current_blog_id
+        ORDER BY RAND()
+        LIMIT 3
+    ";
+    $result = mysqli_query($conn, $sql_fallback);
+    $related_blogs = mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+
+// print_r($related_blogs);
+
+
+// =========================== FOR LIKE ================================
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['blog_id'])) {
+    $blog_id = intval($_POST['blog_id']);
+
+    // Check if the blog exists first (optional but good for safety)
+    $check = mysqli_query($conn, "SELECT blog_id FROM blogs WHERE blog_id = $blog_id");
+    if (mysqli_num_rows($check) === 0) {
+        echo json_encode(['success' => false, 'error' => 'Blog not found']);
+        exit;
+    }
+
+    // Update the likes count
+    $update_sql = "UPDATE blogs SET likes_count = likes_count + 1 WHERE blog_id = $blog_id";
+
+    if (mysqli_query($conn, $update_sql)) {
+        $result = mysqli_query($conn, "SELECT likes_count FROM blogs WHERE blog_id = $blog_id");
+        $row = mysqli_fetch_assoc($result);
+        echo json_encode(['success' => true, 'new_likes' => $row['likes_count']]);
+    } else {
+        echo json_encode(['success' => false, 'error' => 'Update failed']);
+    }
+} else {
+    echo json_encode(['success' => false, 'error' => 'Invalid Request']);
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -140,31 +251,39 @@
     <!-- Sidebar Include -->
     <?php include '../Includes/Sidebar.php'; ?>
 
+
     <!-- Main Content -->
     <div class="main-content">
         <!-- Blog Section -->
         <div class="blog-section">
             <h1 class="text-3xl font-bold mb-6">5 Home Remedies for Headaches</h1>
 
-            <p>Headaches can disrupt your day. While medications help, natural remedies offer gentle relief. Here are
-                five you can try when a headache strikes:</p>
+            <h1> <?php echo $blog_info['blog_name']; ?> </h1>
 
-            <p><strong>1. Stay Hydrated:</strong> Dehydration is a common cause. Aim for at least 8 glasses of water
-                daily, more if active or in heat.</p>
+            <div class="tags mb-4">
+                <?php
 
-            <p><strong>2. Apply a Cold Compress:</strong> Applying a cold pack to your forehead or neck for 15 minutes
-                helps reduce inflammation and numb pain.</p>
+                $tags = explode(',', $blog_info['blog_tags']);
 
-            <p><strong>3. Take a Break and Rest:</strong> Stress-induced headaches can improve by resting in a dark,
-                quiet room for 20–30 minutes with deep breathing.</p>
+                foreach ($tags as $tag) {
+                    $cleanTag = trim($tag); // remove extra space
+                    echo '<span class="badge">' . htmlspecialchars($cleanTag) . '</span> ';
+                }
+                ?>
+            </div>
 
-            <p><strong>4. Try Ginger Tea:</strong> Ginger’s anti-inflammatory properties can relieve headaches. Boil
-                fresh slices, strain, and sip — honey optional!</p>
+            <p><?php echo $blog_info['blog_description']; ?></p>
 
-            <p><strong>5. Massage Your Temples:</strong> Light, circular massages on your temples or neck base improve
-                blood flow and ease tension.</p>
+            <!----------------------- TASHIN : this working but backend not added  ----------------------->
+            <!-- <button class="like-btn"
+                onclick="this.classList.toggle('liked'); let span = this.querySelector('span'); span.textContent = parseInt(span.textContent) + (this.classList.contains('liked') ? 1 : -1);">
+                ❤️ <span> <?php
+                            // echo $blog_info['likes_count'];
+                            ?> </span> Likes
+            </button> <br> -->
 
-            <p>If headaches persist or worsen, always consult a healthcare professional.</p>
+
+
 
             <button id="likeBtn" class="like-btn">
                 <i class="bi bi-heart"></i> <span>10</span> Likes
@@ -173,6 +292,7 @@
             <!-- Comment Section -->
             <div class="comment-section mt-5">
                 <h4 class="text-xl font-semibold mb-3">Comments</h4>
+
 
                 <div class="mb-3">
                     <form action="/patient/post_comment.php" method="POST">
@@ -198,14 +318,17 @@
                         <small class="text-gray-500">Posted on April 24, 2025</small>
                     </div>
                 </div>
-            </div>
+            </div> -->
+
 
             <a href="/patient/health_blog.php" class="back-link">← Back to Blog</a>
         </div>
         <br>
         <!-- Suggested Section -->
+
         <div class="suggested-section">
             <h4 class="text-xl font-semibold mb-4">You Might Also Like</h4>
+
 
             <div class="suggested-blog-card">
                 <h5>Managing Period Cramps</h5>
@@ -224,10 +347,12 @@
                 <p>Mindfulness and exercise techniques to reduce student stress.</p>
                 <a href="/patient/read_blog.php?blog_id=4" class="back-link">Read More →</a>
             </div>
+
         </div>
     </div>
 
     <!-- Bootstrap JS Bundle -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
@@ -245,6 +370,7 @@
         }
     });
     </script>
+
 </body>
 
 </html>

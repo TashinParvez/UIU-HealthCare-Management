@@ -7,11 +7,11 @@ $user_id = $_SESSION['user_id'] ?? '2003';
 
 include "../../Includes/Database_connection.php";
 
-$profile_photo = '../../Includes/Images/Patient-Photo/' . $user_id . '.jpg';
+
 
 // ............... Taking User All Informations ..........................
 
-
+$profile_photo = '../../Includes/Images/Patient-Photo/' . $user_id . '.jpg';
 
 $stmt = $conn->prepare('
     SELECT 
@@ -195,68 +195,77 @@ if (isset($_POST['save'])) {
         // Close connection
         $conn->close();
 
+
+        // ..... To upload a photo in a folder ........
+
+        $response = ['success' => false, 'message' => '', 'file_url' => ''];
+
+        if (isset($_FILES['profile_photo'])) {
+            $file = $_FILES['profile_photo'];
+            $targetDir = "../../Includes/Images/Patient-Photo/";
+            $filename = $user_id . ".jpg";
+            $targetFile = $targetDir . $filename;
+
+            // Check/create uploads directory
+            if (!file_exists($targetDir)) {
+                mkdir($targetDir, 0755, true);
+            }
+
+            // Validate file type
+            $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            if (!in_array($file['type'], $allowedTypes)) {
+                $response['message'] = 'Only JPG, PNG, and GIF files are allowed.';
+            } else {
+                // Convert image to JPG
+                $imgInfo = getimagesize($file['tmp_name']);
+                $mime = $imgInfo['mime'];
+
+                switch ($mime) {
+                    case 'image/jpeg':
+                        $image = imagecreatefromjpeg($file['tmp_name']);
+                        break;
+                    case 'image/png':
+                        $image = imagecreatefrompng($file['tmp_name']);
+                        break;
+                    case 'image/gif':
+                        $image = imagecreatefromgif($file['tmp_name']);
+                        break;
+                    default:
+                        $response['message'] = 'Unsupported image format.';
+                        echo json_encode($response);
+                        exit;
+                }
+
+                if (file_exists($targetFile)) {
+                    unlink($targetFile);
+                }
+
+                // Save as JPG
+                if (imagejpeg($image, $targetFile, 90)) {
+                    $response['success'] = true;
+                    $response['file_url'] = $targetFile;
+                } else {
+                    $response['message'] = 'Failed to save image as JPG.';
+                }
+
+                imagedestroy($image);
+            }
+        } else {
+            $response['message'] = 'No file uploaded.';
+        }
+
+
         header('Location: PatientProfile.php');
         // exit();
     }
 }
 
 
-// .......... Updating database edited by user .............
 
-if (isset($_POST['change_password'])) {
-
-    $password = '';
-    $old_password = mysqli_real_escape_string($conn, $_POST['old_password'] ?? '');
-    $new_password = mysqli_real_escape_string($conn, $_POST['new_password'] ?? '');
-    $confirm_password = mysqli_real_escape_string($conn, $_POST['confirm_password'] ?? '');
+// header('Content-Type: application/json');
+// echo json_encode($response);
 
 
-    // Old password varification
-    $stmt = $conn->prepare('SELECT `password` FROM users WHERE user_id = ? LIMIT 1');
-    $stmt->bind_param('i', $user_id);
-    $stmt->execute();
-    $stmt->bind_result($password);
-    $stmt->fetch();
-    $stmt->close();
-
-    if ($old_password !== $password) {
-
-        $error_message = "Old password is incorrect.";
-
-        echo "<script>document.addEventListener('DOMContentLoaded', function() {
-            var modal = new bootstrap.Modal(document.getElementById('changePasswordModal'));
-            modal.show();
-        });</script>";
-    } else {
-
-        if ($new_password !== $confirm_password) {
-
-            $error_message = "New passwords do not match.";
-            echo "<script>document.addEventListener('DOMContentLoaded', function() {
-                var modal = new bootstrap.Modal(document.getElementById('changePasswordModal'));
-                modal.show();
-            });</script>";
-        } else {
-
-            // Update new password
-            $stmt = $conn->prepare("UPDATE users SET password = ? WHERE user_id = ?");
-            $stmt->bind_param("si", $new_password, $user_id);
-
-            if ($stmt->execute()) {
-
-                echo "<script>alert('Password changed successfully!');</script>";
-
-                $stmt->close();
-                $conn->close();
-
-                header('Location: PatientProfile.php');
-            } else {
-
-                echo "<script>alert('Error updating password!');</script>";
-            }
-        }
-    }
-}
 
 ?>
 
@@ -398,44 +407,6 @@ if (isset($_POST['change_password'])) {
             transform: scale(1.05);
             transition: transform 0.2s ease;
         }
-
-        /* Noman */
-
-        /* Optional: Smoother modal and better spacing */
-        .modal-content {
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-            padding: 10px;
-        }
-
-        .modal-header {
-            border-bottom: 1px solid #dee2e6;
-            padding-bottom: 10px;
-        }
-
-        .modal-title {
-            font-weight: 600;
-            font-size: 20px;
-        }
-
-        .modal-body {
-            padding: 20px 25px;
-        }
-
-        .modal-footer {
-            padding: 15px 25px;
-            border-top: 1px solid #dee2e6;
-        }
-
-        .form-label {
-            font-weight: 500;
-            margin-bottom: 6px;
-        }
-
-        .form-control {
-            border-radius: 8px;
-            padding: 10px;
-        }
     </style>
 </head>
 
@@ -451,8 +422,24 @@ if (isset($_POST['change_password'])) {
             <form action="PatientProfile" method="post">
                 <!-- Profile Header -->
                 <div class="profile-header">
-                    <img src="https://t4.ftcdn.net/jpg/03/83/25/83/360_F_383258331_D8imaEMl8Q3lf7EKU2Pi78Cn0R7KkW9o.jpg"
-                        alt="Profile Photo" class="profile-photo">
+                    <!-- <img src="https://t4.ftcdn.net/jpg/03/83/25/83/360_F_383258331_D8imaEMl8Q3lf7EKU2Pi78Cn0R7KkW9o.jpg"
+                        alt="Profile Photo" class="profile-photo"> -->
+
+
+                    <!-- Profile photo (clickable only after edit mode) -->
+                    <div class="text-center">
+                        <img id="profile-photo" src="<?php echo htmlspecialchars($profile_photo); ?>"
+                            alt="Profile Photo" class="profile-photo" style="width: 150px; height: 150px; border-radius: 50%; cursor: default;">
+
+                        <!-- File input (hidden) -->
+                        <input type="file" id="profile-photo-input" name="profile_photo" class="d-none" accept="image/*">
+
+                        <!-- "Choose a profile picture" text -->
+                        <div id="choose-photo-text" class="mt-2 d-none text-primary" style="cursor: pointer;">
+                            Choose a profile picture
+                        </div>
+                    </div>
+
 
 
                     <div class="col-md-">
@@ -588,16 +575,15 @@ if (isset($_POST['change_password'])) {
                     <div class="col-md-4">
                         <div class="card shadow-sm h-100">
                             <div class="card-body">
-                                <i class="bi bi-shield-lock" style="font-size: 2rem; color: #fd410dff;"></i>
+                                <i class="bi bi-shield-lock" style="font-size: 2rem; color: #0d6efd;"></i>
                                 <h5 class="card-title mt-2">Change Password</h5>
                                 <p class="text-muted small">Update your login credentials.</p>
-                                <!-- <button class="btn btn-primary btn-sm mt-2">Change</button> -->
-                                <button class="btn btn-danger btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Change</button>
+                                <button class="btn btn-primary btn-sm mt-2">Change</button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- <div class="col-md-4">
+                    <div class="col-md-4">
                         <div class="card shadow-sm h-100">
                             <div class="card-body">
                                 <i class="bi bi-file-earmark-arrow-up" style="font-size: 2rem; color: #0d6efd;"></i>
@@ -606,7 +592,7 @@ if (isset($_POST['change_password'])) {
                                 <button class="btn btn-info btn-sm mt-2 text-white">Upload/View</button>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
 
                     <div class="col-md-4">
                         <div class="card shadow-sm h-100">
@@ -614,7 +600,7 @@ if (isset($_POST['change_password'])) {
                                 <i class="bi bi-file-earmark-arrow-down" style="font-size: 2rem; color: #0d6efd;"></i>
                                 <h5 class="card-title mt-2">Download Medical Record</h5>
                                 <p class="text-muted small">Get your full report in PDF.</p>
-                                <button class="btn btn-primary btn-sm mt-2" onclick="window.location.href='../AppointmentRecords.php'">Download</button>
+                                <button class="btn btn-success btn-sm mt-2">Download</button>
                             </div>
                         </div>
                     </div>
@@ -625,45 +611,6 @@ if (isset($_POST['change_password'])) {
 
         </div>
     </div>
-
-
-    <!-- Change Password Modal -->
-    <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form method="POST">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="old_password" class="form-label">Old Password</label>
-                            <input type="password" class="form-control" id="old_password" name="old_password" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="new_password" class="form-label">New Password</label>
-                            <input type="password" class="form-control" id="new_password" name="new_password" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="confirm_password" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-                        </div>
-                        <!-- Error message placeholder -->
-                        <div class="text-danger" id="error-message">
-                            <?php if (isset($error_message)) echo $error_message; ?>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" name="change_password" class="btn btn-danger">Change</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
-
 
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -726,7 +673,165 @@ if (isset($_POST['change_password'])) {
         });
     </script>
 
+    <!-- ........... Noman .............. -->
+    <!-- For editting profile photo -->
+    <script>
+        let editMode = false;
+
+        // Toggle edit mode when edit icon is clicked
+        document.getElementById('edit-icon').addEventListener('click', function() {
+            editMode = !editMode;
+            document.getElementById('choose-photo-text').classList.toggle('d-none');
+            document.getElementById('profile-photo').style.cursor = editMode ? 'pointer' : 'default';
+        });
+
+        // Click image or text to open file input in edit mode
+        document.getElementById('profile-photo').addEventListener('click', function() {
+            if (editMode) {
+                document.getElementById('profile-photo-input').click();
+            }
+        });
+
+        document.getElementById('choose-photo-text').addEventListener('click', function() {
+            document.getElementById('profile-photo-input').click();
+        });
+
+        // Optional: Preview selected image immediately
+        document.getElementById('profile-photo-input').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                document.getElementById('profile-photo').src = URL.createObjectURL(file);
+            }
+        });
+    </script>
+
+    <!-- For save photo into a directory -->
+    <script>
+        // Trigger file input on photo click
+        document.getElementById('profile-photo').addEventListener('click', function() {
+            document.getElementById('profile-photo-input').click();
+        });
+
+        // Upload when file is selected
+        document.getElementById('profile-photo-input').addEventListener('change', function() {
+            const file = this.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('profile_photo', file);
+
+            fetch('upload_photo.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        // Show new photo
+                        document.getElementById('profile-photo').src = data.file_url;
+                        alert("Profile photo updated!");
+                    } else {
+                        alert("Upload failed: " + data.message);
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Something went wrong.");
+                });
+        });
+    </script>
 
 </body>
 
 </html>
+
+
+<!-- // .......... Upload profile photo if exists ..........
+if (isset($_FILES['profile_photo']) && $_FILES['profile_photo']['error'] === UPLOAD_ERR_OK) {
+$file = $_FILES['profile_photo'];
+$targetDir = "../../Includes/Images/Patient-Photo/";
+$filename = $user_id . ".jpg";
+$targetFile = $targetDir . $filename;
+
+if (!file_exists($targetDir)) {
+mkdir($targetDir, 0755, true);
+}
+
+$allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+if (in_array($file['type'], $allowedTypes)) {
+$imgInfo = getimagesize($file['tmp_name']);
+$mime = $imgInfo['mime'];
+
+switch ($mime) {
+case 'image/jpeg':
+$image = imagecreatefromjpeg($file['tmp_name']);
+break;
+case 'image/png':
+$image = imagecreatefrompng($file['tmp_name']);
+break;
+case 'image/gif':
+$image = imagecreatefromgif($file['tmp_name']);
+break;
+default:
+$image = false;
+}
+
+if ($image) {
+if (file_exists($targetFile)) {
+unlink($targetFile); // delete old image
+}
+imagejpeg($image, $targetFile, 90);
+imagedestroy($image);
+}
+}
+} -->
+
+
+
+<!-- Profile photo (clickable only after edit mode) -->
+<div class="text-center">
+    <img id="profile-photo" src="<?php echo htmlspecialchars($profile_photo); ?>"
+        alt="Profile Photo" class="profile-photo" style="width: 150px; height: 150px; border-radius: 50%; cursor: default;">
+
+    <!-- File input (hidden) -->
+    <input type="file" id="profile-photo-input" name="profile_photo" class="d-none" accept="image/*">
+
+    <!-- "Choose a profile picture" text -->
+    <div id="choose-photo-text" class="mt-2 d-none text-primary" style="cursor: pointer;">
+        Choose a profile picture
+    </div>
+</div>
+
+
+<!-- ........... Noman .............. -->
+
+<!-- For editting profile photo -->
+<script>
+    // let editMode = false;
+
+    // Toggle edit mode when edit icon is clicked
+    document.getElementById('edit-icon').addEventListener('click', function() {
+        editMode = !editMode;
+        document.getElementById('choose-photo-text').classList.toggle('d-none');
+        document.getElementById('profile-photo').style.cursor = editMode ? 'pointer' : 'default';
+    });
+
+    // Click image or text to open file input in edit mode
+    document.getElementById('profile-photo').addEventListener('click', function() {
+        if (editMode) {
+            document.getElementById('profile-photo-input').click();
+        }
+    });
+
+    document.getElementById('choose-photo-text').addEventListener('click', function() {
+        document.getElementById('profile-photo-input').click();
+    });
+
+    // Optional: Preview selected image immediately
+    document.getElementById('profile-photo-input').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            document.getElementById('profile-photo').src = URL.createObjectURL(file);
+        }
+    });
+</script>

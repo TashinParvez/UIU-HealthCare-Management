@@ -1,10 +1,18 @@
--Need to add card holder name
--Need to delete country, postal code
+- Signup page role add
 
--Need to drop 'gender', 'address' and 'date_of_birth' from 'patient' table. And add them to 'users' table
+- Booking.php -> after Aranya's work -> card Holder's name & conditions
+- AppointmentDashboard.php -> view, cancel, and more button
+- AppointmentRecords.php -> add a button all records download
+- read_blog -> after creating_blog page 
 
-- Message 
+- Message
 
-- Patient-view folder and read_blog doesn't work accordingly
 
-- Booking.php -> appointment_date store with all zeros
+
+
+
+Done
+--------------------------
+- Login navigation ROLE based
+- Booking.php -> after Aranya's work -> card Holder's name
+- 
