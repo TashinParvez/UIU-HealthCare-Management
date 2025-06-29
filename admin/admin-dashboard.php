@@ -312,7 +312,7 @@ $last_month_department_appointments = array_merge($top5, $rest);
 
 <body class="flex min-h-screen bg-gray-100">
     <!-- Sidebar -->
-    <?php include '../Includes/Sidebar.php'; ?>
+    <?php include '../Includes/SidebarAdmin.php'; ?>
 
     <!-- Main Content -->
     <div class="content flex-1">
