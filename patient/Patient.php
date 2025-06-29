@@ -102,10 +102,10 @@ if ($row = $result->fetch_assoc()) {
     }
 
     // Show the medicine names
-    echo "Medicines:<br>";
-    foreach ($medicine_names as $med) {
-        echo htmlspecialchars($med) . "<br>";
-    }
+    // echo "Medicines:<br>";
+    // foreach ($medicine_names as $med) {
+    //     echo htmlspecialchars($med) . "<br>";
+    // }
 } else {
     echo "No prescriptions found for this patient.";
 }

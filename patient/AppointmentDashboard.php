@@ -24,7 +24,7 @@ $date = $bdDateTime->format('j F'); // Output format 26 June
 $stmt = $conn->prepare('
     SELECT 
 
-        a.appointment_id
+        a.appointment_id,
 
         d.doctor_id,
         CONCAT(u.first_name, " ", u.last_name) AS name,
@@ -513,7 +513,7 @@ foreach ($appointments_info as $appointment) {
 
                     <!--=========================== BTN ===========================-->
                     <div class="flex justify-center my-6">
-                        <a href="/patient/AppointmentRecords.php"
+                        <a href="/patient/App_record_revised.php"
                             class="bg-blue-500 hover:bg-purple-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 ease-in-out">
                             All Appointments
                         </a>

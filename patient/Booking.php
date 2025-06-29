@@ -560,6 +560,13 @@ function getAmount($doctors_info, $doctor_id)
                             <input type="text" name="card_holder_name" placeholder="Aranya Kishor Das"
                                 class="border-gray-300" required>
                         </div>
+
+                        <div class="flex justify-end gap-2">
+                            <button id="cancelBtn"
+                                class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">Cancel</button>
+                            <button id="nextBtn"
+                                class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600" name="book_appointment">Submit</button>
+                        </div>
                     </div>
                 </div>
             </form>
