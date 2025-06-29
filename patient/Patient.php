@@ -1,9 +1,5 @@
 <?php
 
-
-include "../Includes/Database_connection.php";
-
-
 // --------------- Visits count ---------------------
 session_start();
 
@@ -24,6 +20,56 @@ if (!isset($_SESSION['has_visited'])) {
 
     $_SESSION['has_visited'] = true;
 }
+
+
+$patient_id = $_SESSION['user_id'] ?? '2001';
+
+include "../Includes/Database_connection.php";
+
+// ........... Fetching Prescription Informtions ...................
+
+$stmt = $conn->prepare("
+        SELECT 
+            pr.prescription_id,
+            pr.appointment_id,
+            pr.doctor_id,
+            CONCAT(u.first_name, ' ', u.last_name) AS doctor_name,
+            pr.complaints,
+            pr.medicines,
+            pr.tests,
+            pr.advice,
+            DATE(pr.followup_date) AS followup_date,
+            DATE(pr.created_at) AS date
+        FROM 
+            prescriptions pr
+        JOIN 
+            users u ON pr.doctor_id = u.user_id
+        WHERE 
+            pr.patient_id = ?
+        ORDER BY pr.created_at DESC
+    ");
+
+$stmt->bind_param("i", $patient_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$prescriptions = $result->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
+
+
+
+
+// Example:
+
+// foreach ($prescriptions as $row) {
+//     echo "Prescription ID: " . $row['prescription_id'] . "<br>";
+//     echo "Doctor: " . $row['doctor_name'] . "<br>";
+//     echo "Complaints: " . $row['complaints'] . "<br>";
+//     echo "Medicines: " . $row['medicines'] . "<br>";
+//     echo "Tests: " . $row['tests'] . "<br>";
+//     echo "Advice: " . $row['advice'] . "<br>";
+//     echo "Date: " . $row['created_at'] . "<hr>";
+// }
+
 
 
 
@@ -186,36 +232,20 @@ if (!isset($_SESSION['has_visited'])) {
 
                     <script>
                         // Mock patient data (to be replaced by backend API)
-                        const patients = [{
-                                id: 1,
-                                name: "John Doe",
-                                last_visit: "15 Apr 2025",
-                                condition: "Hypertension",
-                                next_appointment: "30 Apr 2025",
-                                diagnosis: "Hypertension",
-                                medications: "Lisinopril 10mg daily",
-                                notes: "Patient advised to monitor blood pressure daily."
-                            },
-                            {
-                                id: 2,
-                                name: "Jane Smith",
-                                last_visit: "10 Apr 2025",
-                                condition: "Diabetes",
-                                next_appointment: "28 Apr 2025",
-                                diagnosis: "Type 2 Diabetes",
-                                medications: "Metformin 500mg twice daily",
-                                notes: "Follow-up on glucose levels required."
-                            },
-                            {
-                                id: 3,
-                                name: "Emily Johnson",
-                                last_visit: "20 Mar 2025",
-                                condition: "Asthma",
-                                next_appointment: "05 May 2025",
-                                diagnosis: "Asthma",
-                                medications: "Albuterol inhaler as needed",
-                                notes: "Patient to avoid known asthma triggers."
-                            }
+
+                        const patients = [
+                            <?php foreach ($prescriptions as $prescription): ?> {
+                                    id: <?= $prescription['prescription_id'] ?>,
+                                    name: "<?= htmlspecialchars($prescription['doctor_name']) ?>",
+                                    last_visit: "<?= date('d M Y', strtotime($prescription['date'])) ?>",
+                                    condition: "<?= htmlspecialchars($prescription['complaints']) ?>",
+                                    next_appointment: "<?= date('d M Y', strtotime($prescription['followup_date'])) ?>",
+                                    diagnosis: "<?= htmlspecialchars($prescription['tests']) ?>",
+                                    medications: "<?= htmlspecialchars($prescription['medicines']) ?>",
+                                    notes: "<?= htmlspecialchars($prescription['advice']) ?>"
+                                }
+                                <?= $prescription !== end($prescriptions) ? ',' : '' ?>
+                            <?php endforeach; ?>
                         ];
 
                         // Populate patient cards
