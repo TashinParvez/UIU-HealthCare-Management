@@ -1,5 +1,7 @@
 <?php
 
+
+include "../Includes/Database_connection.php";
 // --------------- Visits count ---------------------
 session_start();
 
@@ -23,8 +25,6 @@ if (!isset($_SESSION['has_visited'])) {
 
 
 $patient_id = $_SESSION['user_id'] ?? '2001';
-
-include "../Includes/Database_connection.php";
 
 // ........... Fetching Prescription Informtions ...................
 
