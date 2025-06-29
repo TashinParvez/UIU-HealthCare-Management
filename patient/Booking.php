@@ -45,6 +45,7 @@ $doctors_info = $result->fetch_all(MYSQLI_ASSOC);
 if (isset($_POST['book_appointment'])) {
     $patient_id = $_SESSION['user_id'] ?? '1002';
     $doctor_id = mysqli_real_escape_string($conn, $_POST['doctor'] ?? '');
+    $conditions = mysqli_real_escape_string($conn, $_POST['conditions'] ?? '');
     $appointment_date = mysqli_real_escape_string($conn, $_POST['day'] ?? '');
     $appointment_time = mysqli_real_escape_string($conn, $_POST['time'] ?? '');
 
@@ -96,8 +97,8 @@ if (isset($_POST['book_appointment'])) {
         }
 
         if ($payment_success) {
-            $stmt = $conn->prepare('INSERT INTO appointments (patient_id, doctor_id, payment_id, appointment_date, appointment_time) VALUES (?, ?, ?, ?, ?)');
-            $stmt->bind_param('iiiss', $patient_id, $doctor_id, $payment_id, $appointment_date, $appointment_time);
+            $stmt = $conn->prepare('INSERT INTO appointments (patient_id, doctor_id, payment_id, appointment_date, appointment_time, conditions) VALUES (?, ?, ?, ?, ?)');
+            $stmt->bind_param('iiisss', $patient_id, $doctor_id, $payment_id, $appointment_date, $appointment_time, $conditions);
 
             if ($stmt->execute()) {
                 $stmt->close();
@@ -138,203 +139,203 @@ function getAmount($doctors_info, $doctor_id)
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-    .sidebar {
-        transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        transform: translateZ(0);
-        will-change: width;
-    }
+        .sidebar {
+            transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transform: translateZ(0);
+            will-change: width;
+        }
 
-    .sidebar:not(:hover) .sidebar-text {
-        display: none;
-    }
+        .sidebar:not(:hover) .sidebar-text {
+            display: none;
+        }
 
-    .sidebar:not(:hover) .search-input {
-        display: none;
-    }
+        .sidebar:not(:hover) .search-input {
+            display: none;
+        }
 
-    .sidebar-item {
-        position: relative;
-        overflow: hidden;
-    }
+        .sidebar-item {
+            position: relative;
+            overflow: hidden;
+        }
 
-    .sidebar-item::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(120deg, transparent, rgba(147, 51, 234, 0.3), transparent);
-        transition: all 0.5s ease;
-    }
+        .sidebar-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(147, 51, 234, 0.3), transparent);
+            transition: all 0.5s ease;
+        }
 
-    .sidebar-item:hover::before {
-        left: 100%;
-    }
+        .sidebar-item:hover::before {
+            left: 100%;
+        }
 
-    .sidebar-item:hover {
-        background-color: #f3f4f6;
-        color: #9333ea;
-        transform: scale(1.05);
-        transition: transform 0.2s ease;
-    }
+        .sidebar-item:hover {
+            background-color: #f3f4f6;
+            color: #9333ea;
+            transform: scale(1.05);
+            transition: transform 0.2s ease;
+        }
 
-    input[type="radio"] {
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        position: absolute;
-        opacity: 0;
-    }
+        input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            position: absolute;
+            opacity: 0;
+        }
 
-    input[type="radio"]+label {
-        display: block;
-        background: white;
-        border: 1px solid #d1d5db;
-        border-radius: 0.5rem;
-        padding: 1rem;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
+        input[type="radio"]+label {
+            display: block;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
 
-    input[type="radio"]:hover+label {
-        background-color: #f3f4f6;
-    }
+        input[type="radio"]:hover+label {
+            background-color: #f3f4f6;
+        }
 
-    input[type="radio"]:checked+label {
-        border-color: #3b82f6;
-        background-color: #eff6ff;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
+        input[type="radio"]:checked+label {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
 
-    input[type="radio"]+label.day-label,
-    input[type="radio"]+label.time-label {
-        display: block;
-        background: white;
-        border: 1px solid #d1d5db;
-        border-radius: 0.5rem;
-        padding: 0.75rem;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
+        input[type="radio"]+label.day-label,
+        input[type="radio"]+label.time-label {
+            display: block;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
 
-    input[type="radio"]:hover+label.day-label,
-    input[type="radio"]:hover+label.time-label {
-        background-color: #f3f4f6;
-    }
+        input[type="radio"]:hover+label.day-label,
+        input[type="radio"]:hover+label.time-label {
+            background-color: #f3f4f6;
+        }
 
-    input[type="radio"]:checked+label.day-label,
-    input[type="radio"]:checked+label.time-label {
-        border-color: #3b82f6;
-        background-color: #eff6ff;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
+        input[type="radio"]:checked+label.day-label,
+        input[type="radio"]:checked+label.time-label {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
 
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 50;
-        justify-content: center;
-        align-items: center;
-    }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 50;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .modal-content {
-        background-color: white;
-        padding: 2rem;
-        border-radius: 0.5rem;
-        width: 100%;
-        max-width: 500px;
-        position: relative;
-    }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+        }
 
-    .modal-content input,
-    .modal-content select {
-        width: 100%;
-        padding: 0.5rem;
-        border: 1px solid #d1d5db;
-        border-radius: 0.25rem;
-        margin-top: 0.25rem;
-    }
+        .modal-content input,
+        .modal-content select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.25rem;
+            margin-top: 0.25rem;
+        }
 
-    .modal-content input:focus,
-    .modal-content select:focus {
-        outline: none;
-        border-color: #3b82f6;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
+        .modal-content input:focus,
+        .modal-content select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
 
-    .payment-options {
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 1rem;
-    }
+        .payment-options {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
 
-    .payment-options label {
-        flex: 1;
-        text-align: center;
-        padding: 0.5rem;
-        border: 1px solid #d1d5db;
-        border-radius: 0.25rem;
-        cursor: pointer;
-    }
+        .payment-options label {
+            flex: 1;
+            text-align: center;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.25rem;
+            cursor: pointer;
+        }
 
-    .payment-options input[type="radio"]:checked+label {
-        border-color: #3b82f6;
-        background-color: #eff6ff;
-    }
+        .payment-options input[type="radio"]:checked+label {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
 
-    /* Close button styles */
-    .close-btn {
-        position: absolute;
-        top: 0.5rem;
-        right: 0.5rem;
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        color: #4b5563;
-        cursor: pointer;
-        transition: color 0.2s ease;
-    }
+        /* Close button styles */
+        .close-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #4b5563;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
 
-    .close-btn:hover {
-        color: #3b82f6;
-    }
+        .close-btn:hover {
+            color: #3b82f6;
+        }
 
-    /* Sidebar and layout adjustments */
-    .content {
-        margin-left: 64px;
-        padding: 20px;
-        transition: margin-left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-    }
+        /* Sidebar and layout adjustments */
+        .content {
+            margin-left: 64px;
+            padding: 20px;
+            transition: margin-left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
 
-    .sidebar:hover+.content {
-        margin-left: 256px;
-    }
+        .sidebar:hover+.content {
+            margin-left: 256px;
+        }
     </style>
 
     <!-- ...............Noman .............. -->
     <style>
-    .day-label,
-    .time-label {
-        display: inline-block;
-        padding: 5px 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        cursor: pointer;
-        margin: 2px;
-    }
+        .day-label,
+        .time-label {
+            display: inline-block;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 2px;
+        }
 
-    .day-label:hover,
-    .time-label:hover {
-        background-color: #f0f0f0;
-    }
+        .day-label:hover,
+        .time-label:hover {
+            background-color: #f0f0f0;
+        }
     </style>
 </head>
 
@@ -365,15 +366,15 @@ function getAmount($doctors_info, $doctor_id)
                     ?>
 
                     <?php foreach ($specializations as $specialist) { ?>
-                    <option value="<?php echo htmlspecialchars($specialist); ?>">
-                        <?php echo htmlspecialchars($specialist); ?>
-                    </option>
+                        <option value="<?php echo htmlspecialchars($specialist); ?>">
+                            <?php echo htmlspecialchars($specialist); ?>
+                        </option>
                     <?php } ?>
                 </select>
             </div>
             <div class="mb-6">
                 <label class="block text-red-600 font-semibold mb-2">Condition</label>
-                <input type="text" name="specialist" id="specialist"
+                <input type="text" name="conditions" id="specialist"
                     class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter condition">
             </div>
@@ -389,45 +390,45 @@ function getAmount($doctors_info, $doctor_id)
                         <?php
                         foreach ($doctors_info as $index => $doctor) {
                         ?>
-                        <div class="doctor-card"
-                            data-specialization="<?php echo htmlspecialchars(strtolower($doctor['specialization'])); ?>"
-                            data-index="<?php echo $index; ?>">
-                            <input type="radio" id="<?php echo htmlspecialchars($doctor['doctor_id']); ?>" name="doctor"
-                                value="<?php echo htmlspecialchars($doctor['doctor_id']); ?>" required>
-                            <label for="<?php echo htmlspecialchars($doctor['doctor_id']); ?>"
-                                class="flex items-center cursor-pointer">
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRripLcqGUKIBfgbtmux6U1UY9UkgezqzJzFw&s"
-                                    alt="Doctor" class="w-12 h-12 rounded-full mr-4">
-                                <div>
-                                    <h3 class="text-red-600 font-semibold">
-                                        <?php echo htmlspecialchars($doctor['name']); ?></h3>
-                                    <p class="text-gray-600 text-sm">
-                                        <?php echo htmlspecialchars($doctor['qualification']); ?></p>
-                                    <div class="flex">
-                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                            <path
-                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                            <path
-                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                            <path
-                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                            <path
-                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
-                                            <path
-                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
+                            <div class="doctor-card"
+                                data-specialization="<?php echo htmlspecialchars(strtolower($doctor['specialization'])); ?>"
+                                data-index="<?php echo $index; ?>">
+                                <input type="radio" id="<?php echo htmlspecialchars($doctor['doctor_id']); ?>" name="doctor"
+                                    value="<?php echo htmlspecialchars($doctor['doctor_id']); ?>" required>
+                                <label for="<?php echo htmlspecialchars($doctor['doctor_id']); ?>"
+                                    class="flex items-center cursor-pointer">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRripLcqGUKIBfgbtmux6U1UY9UkgezqzJzFw&s"
+                                        alt="Doctor" class="w-12 h-12 rounded-full mr-4">
+                                    <div>
+                                        <h3 class="text-red-600 font-semibold">
+                                            <?php echo htmlspecialchars($doctor['name']); ?></h3>
+                                        <p class="text-gray-600 text-sm">
+                                            <?php echo htmlspecialchars($doctor['qualification']); ?></p>
+                                        <div class="flex">
+                                            <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                                <path
+                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                            </svg>
+                                            <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                                <path
+                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                            </svg>
+                                            <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                                <path
+                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                            </svg>
+                                            <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                                <path
+                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                            </svg>
+                                            <svg class="w-4 h-4 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                                <path
+                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                            </svg>
+                                        </div>
                                     </div>
-                                </div>
-                            </label>
-                        </div>
+                                </label>
+                            </div>
                         <?php
                         }
                         ?>
@@ -440,8 +441,8 @@ function getAmount($doctors_info, $doctor_id)
                     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
                         <!-- Initial placeholders (5 times) -->
                         <?php for ($i = 0; $i < 5; $i++) { ?>
-                        <input type="radio" id="day<?php echo $i + 1; ?>" name="day" value="---" required>
-                        <label for="day<?php echo $i + 1; ?>" class="day-label">---</label>
+                            <input type="radio" id="day<?php echo $i + 1; ?>" name="day" value="---" required>
+                            <label for="day<?php echo $i + 1; ?>" class="day-label">---</label>
                         <?php } ?>
                     </div>
                 </div>
@@ -452,8 +453,8 @@ function getAmount($doctors_info, $doctor_id)
                     <div class="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-7 gap-4">
                         <!-- Initial placeholders (7 times) -->
                         <?php for ($i = 0; $i < 7; $i++) { ?>
-                        <input type="radio" id="time<?php echo $i + 1; ?>" name="time" value="---" required>
-                        <label for="time<?php echo $i + 1; ?>" class="time-label">---</label>
+                            <input type="radio" id="time<?php echo $i + 1; ?>" name="time" value="---" required>
+                            <label for="time<?php echo $i + 1; ?>" class="time-label">---</label>
                         <?php } ?>
                     </div>
                 </div>
@@ -489,12 +490,12 @@ function getAmount($doctors_info, $doctor_id)
                                     <svg class="w-5 h-5 mr-2" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
                                         <defs>
                                             <style>
-                                            .a {
-                                                fill: none;
-                                                stroke: #000000;
-                                                stroke-linecap: round;
-                                                stroke-linejoin: round;
-                                            }
+                                                .a {
+                                                    fill: none;
+                                                    stroke: #000000;
+                                                    stroke-linecap: round;
+                                                    stroke-linejoin: round;
+                                                }
                                             </style>
                                         </defs>
                                         <path class="a"
@@ -515,12 +516,12 @@ function getAmount($doctors_info, $doctor_id)
                                     <svg class="w-5 h-5 mr-2" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
                                         <defs>
                                             <style>
-                                            .a {
-                                                fill: none;
-                                                stroke: #000000;
-                                                stroke-linecap: round;
-                                                stroke-linejoin: round;
-                                            }
+                                                .a {
+                                                    fill: none;
+                                                    stroke: #000000;
+                                                    stroke-linecap: round;
+                                                    stroke-linejoin: round;
+                                                }
                                             </style>
                                         </defs>
                                         <path class="a" d="M18.8808,6.3975A19.3468,19.3468,0,1,0,42.3963,19.3847" />
@@ -566,222 +567,222 @@ function getAmount($doctors_info, $doctor_id)
     </div>
 
     <script>
-    const bookNowBtn = document.getElementById('bookNowBtn');
-    const paymentModal = document.getElementById('paymentModal');
-    const closeBtn = document.querySelector('.close-btn');
-    const bookingForm = document.getElementById('bookingForm');
+        const bookNowBtn = document.getElementById('bookNowBtn');
+        const paymentModal = document.getElementById('paymentModal');
+        const closeBtn = document.querySelector('.close-btn');
+        const bookingForm = document.getElementById('bookingForm');
 
-    // Show modal when "Book Now" is clicked
-    bookNowBtn.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevent default form submission
-        // Check if the required fields are filled
-        const doctor = bookingForm.querySelector('input[name="doctor"]:checked');
-        const day = bookingForm.querySelector('input[name="day"]:checked');
-        const time = bookingForm.querySelector('input[name="time"]:checked');
+        // Show modal when "Book Now" is clicked
+        bookNowBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default form submission
+            // Check if the required fields are filled
+            const doctor = bookingForm.querySelector('input[name="doctor"]:checked');
+            const day = bookingForm.querySelector('input[name="day"]:checked');
+            const time = bookingForm.querySelector('input[name="time"]:checked');
 
-        if (doctor && day && time) {
-            paymentModal.style.display = 'flex';
-        } else {
-            alert('Please fill out all required fields (Doctor, Day, and Time).');
-        }
-    });
+            if (doctor && day && time) {
+                paymentModal.style.display = 'flex';
+            } else {
+                alert('Please fill out all required fields (Doctor, Day, and Time).');
+            }
+        });
 
-    // Close modal when close button is clicked
-    closeBtn.addEventListener('click', () => {
-        paymentModal.style.display = 'none';
-    });
-
-    // Close modal when clicking outside of it
-    paymentModal.addEventListener('click', (e) => {
-        if (e.target === paymentModal) {
+        // Close modal when close button is clicked
+        closeBtn.addEventListener('click', () => {
             paymentModal.style.display = 'none';
-        }
-    });
+        });
+
+        // Close modal when clicking outside of it
+        paymentModal.addEventListener('click', (e) => {
+            if (e.target === paymentModal) {
+                paymentModal.style.display = 'none';
+            }
+        });
     </script>
 
     <!-- ............ Noman ................ -->
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const specialistDropdown = document.getElementById('specialist');
-        const doctorCards = document.querySelectorAll('.doctor-card');
+        document.addEventListener('DOMContentLoaded', function() {
+            const specialistDropdown = document.getElementById('specialist');
+            const doctorCards = document.querySelectorAll('.doctor-card');
 
-        // Show all doctors initially
-        doctorCards.forEach(card => {
-            card.style.display = 'block'; // Ensure all cards are visible on load
-        });
-
-        // Add event listener for dropdown change
-        specialistDropdown.addEventListener('change', function() {
-            const selectedSpecialist = this.value.toLowerCase(); // Get selected specialization
-
+            // Show all doctors initially
             doctorCards.forEach(card => {
-                const cardSpecialization = card.getAttribute('data-specialization');
+                card.style.display = 'block'; // Ensure all cards are visible on load
+            });
 
-                if (selectedSpecialist === '' || cardSpecialization === selectedSpecialist) {
-                    card.style.display = 'block'; // Show card if no filter or match
-                } else {
-                    card.style.display = 'none'; // Hide card if no match
-                }
+            // Add event listener for dropdown change
+            specialistDropdown.addEventListener('change', function() {
+                const selectedSpecialist = this.value.toLowerCase(); // Get selected specialization
+
+                doctorCards.forEach(card => {
+                    const cardSpecialization = card.getAttribute('data-specialization');
+
+                    if (selectedSpecialist === '' || cardSpecialization === selectedSpecialist) {
+                        card.style.display = 'block'; // Show card if no filter or match
+                    } else {
+                        card.style.display = 'none'; // Hide card if no match
+                    }
+                });
             });
         });
-    });
     </script>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const doctorCards = document.querySelectorAll('.doctor-card');
-        const availableDays = document.getElementById('availableDays');
-        const availableTimes = document.getElementById('availableTimes');
-        const daysContainer = availableDays.querySelector('div');
-        const timesContainer = availableTimes.querySelector('div');
+        document.addEventListener('DOMContentLoaded', function() {
+            const doctorCards = document.querySelectorAll('.doctor-card');
+            const availableDays = document.getElementById('availableDays');
+            const availableTimes = document.getElementById('availableTimes');
+            const daysContainer = availableDays.querySelector('div');
+            const timesContainer = availableTimes.querySelector('div');
 
-        // Add click event to doctor cards
-        doctorCards.forEach(card => {
-            card.addEventListener('click', function() {
-                const doctorIndex = parseInt(this.getAttribute('data-index'));
-                const doctor = <?php echo json_encode($doctors_info); ?>[doctorIndex];
-                if (!doctor) {
-                    console.error('Doctor data not found for index:', doctorIndex);
-                    return;
-                }
-                const availableDaysList = doctor.available_days.split(',').map(day => day
-                    .trim());
-                const availableHours = doctor.available_hours.split(',').map(hour => hour
-                    .trim());
-
-                // Clear existing days and times
-                daysContainer.innerHTML = '';
-                timesContainer.innerHTML = '';
-
-                // Get today's date and day from PHP variables
-                const todayDate = '<?php echo $date; ?>'.split(' '); // e.g., ["26", "June"]
-                const todayDay = '<?php echo $day; ?>'; // e.g., "Thursday"
-                const todayNum = parseInt(todayDate[0]); // e.g., 26
-                const month = todayDate[1]; // e.g., "June"
-
-                // Array of days
-                const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
-                    'Saturday'
-                ];
-                const todayDayIndex = days.indexOf(todayDay);
-
-                // Function to get next 5 days with format "Day, d Month"
-                function getNextFiveDays() {
-                    const result = [];
-                    for (let i = 0; i < 5; i++) {
-                        const dayIndex = (todayDayIndex + i) % 7;
-                        const dayName = days[dayIndex];
-                        const dayNum = todayNum + i;
-                        const formattedDate = `${dayName}, ${dayNum} ${month}`;
-                        if (availableDaysList.includes(dayName)) {
-                            result.push(formattedDate);
-                        }
+            // Add click event to doctor cards
+            doctorCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const doctorIndex = parseInt(this.getAttribute('data-index'));
+                    const doctor = <?php echo json_encode($doctors_info); ?>[doctorIndex];
+                    if (!doctor) {
+                        console.error('Doctor data not found for index:', doctorIndex);
+                        return;
                     }
-                    // Ensure all 5 days from dataset are mapped, filling with "---" only if less than 5
-                    const allDays = doctor.available_days.split(',').map(day => day.trim());
-                    allDays.forEach(day => {
-                        const dayIndex = days.indexOf(day);
-                        if (dayIndex !== -1) {
-                            const dayNumAdjusted = todayNum + (dayIndex -
-                                todayDayIndex + (dayIndex < todayDayIndex ? 7 : 0));
-                            const formattedDate = `${day}, ${dayNumAdjusted} ${month}`;
-                            if (!result.includes(formattedDate)) {
+                    const availableDaysList = doctor.available_days.split(',').map(day => day
+                        .trim());
+                    const availableHours = doctor.available_hours.split(',').map(hour => hour
+                        .trim());
+
+                    // Clear existing days and times
+                    daysContainer.innerHTML = '';
+                    timesContainer.innerHTML = '';
+
+                    // Get today's date and day from PHP variables
+                    const todayDate = '<?php echo $date; ?>'.split(' '); // e.g., ["26", "June"]
+                    const todayDay = '<?php echo $day; ?>'; // e.g., "Thursday"
+                    const todayNum = parseInt(todayDate[0]); // e.g., 26
+                    const month = todayDate[1]; // e.g., "June"
+
+                    // Array of days
+                    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+                        'Saturday'
+                    ];
+                    const todayDayIndex = days.indexOf(todayDay);
+
+                    // Function to get next 5 days with format "Day, d Month"
+                    function getNextFiveDays() {
+                        const result = [];
+                        for (let i = 0; i < 5; i++) {
+                            const dayIndex = (todayDayIndex + i) % 7;
+                            const dayName = days[dayIndex];
+                            const dayNum = todayNum + i;
+                            const formattedDate = `${dayName}, ${dayNum} ${month}`;
+                            if (availableDaysList.includes(dayName)) {
                                 result.push(formattedDate);
                             }
                         }
-                    });
-                    while (result.length < 5) {
-                        result.push('---');
-                    }
-                    return result;
-                }
-
-                // Generate available days
-                const nextFiveDays = getNextFiveDays();
-                nextFiveDays.forEach((day, index) => {
-                    const input = document.createElement('input');
-                    input.type = 'radio';
-                    input.id = `day${index + 1}`;
-                    input.name = 'day';
-                    input.value = day;
-                    input.required = true;
-
-                    const label = document.createElement('label');
-                    label.htmlFor = `day${index + 1}`;
-                    label.className = 'day-label';
-                    label.textContent = day;
-
-                    daysContainer.appendChild(input);
-                    daysContainer.appendChild(label);
-                });
-
-                // Function to generate half-hour slots from time ranges, limited to 7
-                function generateTimeSlots(hours) {
-                    const slots = [];
-                    hours.forEach(range => {
-                        const [start, end] = range.split('-').map(time => {
-                            const [hour, minute] = time.split(':');
-                            return parseInt(hour) * 60 + parseInt(
-                                minute); // Convert to minutes
+                        // Ensure all 5 days from dataset are mapped, filling with "---" only if less than 5
+                        const allDays = doctor.available_days.split(',').map(day => day.trim());
+                        allDays.forEach(day => {
+                            const dayIndex = days.indexOf(day);
+                            if (dayIndex !== -1) {
+                                const dayNumAdjusted = todayNum + (dayIndex -
+                                    todayDayIndex + (dayIndex < todayDayIndex ? 7 : 0));
+                                const formattedDate = `${day}, ${dayNumAdjusted} ${month}`;
+                                if (!result.includes(formattedDate)) {
+                                    result.push(formattedDate);
+                                }
+                            }
                         });
-                        let current = start;
-                        while (current < end) {
-                            const hour = Math.floor(current / 60);
-                            const minute = current % 60;
-                            slots.push(
-                                `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`
-                            );
-                            current += 30; // Add 30 minutes
+                        while (result.length < 5) {
+                            result.push('---');
                         }
+                        return result;
+                    }
+
+                    // Generate available days
+                    const nextFiveDays = getNextFiveDays();
+                    nextFiveDays.forEach((day, index) => {
+                        const input = document.createElement('input');
+                        input.type = 'radio';
+                        input.id = `day${index + 1}`;
+                        input.name = 'day';
+                        input.value = day;
+                        input.required = true;
+
+                        const label = document.createElement('label');
+                        label.htmlFor = `day${index + 1}`;
+                        label.className = 'day-label';
+                        label.textContent = day;
+
+                        daysContainer.appendChild(input);
+                        daysContainer.appendChild(label);
                     });
-                    return slots;
-                }
 
-                // Generate available times
-                const timeSlots = generateTimeSlots(availableHours);
-                if (timeSlots.length === 0) {
-                    console.warn('No time slots generated for doctor:', doctor.name);
-                }
-                timeSlots.forEach((time, index) => {
-                    const input = document.createElement('input');
-                    input.type = 'radio';
-                    input.id = `time${index + 1}`;
-                    input.name = 'time';
-                    input.value = time;
-                    input.required = true;
+                    // Function to generate half-hour slots from time ranges, limited to 7
+                    function generateTimeSlots(hours) {
+                        const slots = [];
+                        hours.forEach(range => {
+                            const [start, end] = range.split('-').map(time => {
+                                const [hour, minute] = time.split(':');
+                                return parseInt(hour) * 60 + parseInt(
+                                    minute); // Convert to minutes
+                            });
+                            let current = start;
+                            while (current < end) {
+                                const hour = Math.floor(current / 60);
+                                const minute = current % 60;
+                                slots.push(
+                                    `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`
+                                );
+                                current += 30; // Add 30 minutes
+                            }
+                        });
+                        return slots;
+                    }
 
-                    const label = document.createElement('label');
-                    label.htmlFor = `time${index + 1}`;
-                    label.className = 'time-label';
-                    label.textContent = time;
+                    // Generate available times
+                    const timeSlots = generateTimeSlots(availableHours);
+                    if (timeSlots.length === 0) {
+                        console.warn('No time slots generated for doctor:', doctor.name);
+                    }
+                    timeSlots.forEach((time, index) => {
+                        const input = document.createElement('input');
+                        input.type = 'radio';
+                        input.id = `time${index + 1}`;
+                        input.name = 'time';
+                        input.value = time;
+                        input.required = true;
 
-                    timesContainer.appendChild(input);
-                    timesContainer.appendChild(label);
+                        const label = document.createElement('label');
+                        label.htmlFor = `time${index + 1}`;
+                        label.className = 'time-label';
+                        label.textContent = time;
+
+                        timesContainer.appendChild(input);
+                        timesContainer.appendChild(label);
+                    });
+
+                    // Fill remaining time slots with "---" if less than 7
+                    while (timesContainer.children.length / 2 <
+                        7) { // /2 because each input has a label
+                        const index = timesContainer.children.length / 2;
+                        const input = document.createElement('input');
+                        input.type = 'radio';
+                        input.id = `time${index + 1}`;
+                        input.name = 'time';
+                        input.value = '---';
+                        input.required = true;
+
+                        const label = document.createElement('label');
+                        label.htmlFor = `time${index + 1}`;
+                        label.className = 'time-label';
+                        label.textContent = '---';
+
+                        timesContainer.appendChild(input);
+                        timesContainer.appendChild(label);
+                    }
                 });
-
-                // Fill remaining time slots with "---" if less than 7
-                while (timesContainer.children.length / 2 <
-                    7) { // /2 because each input has a label
-                    const index = timesContainer.children.length / 2;
-                    const input = document.createElement('input');
-                    input.type = 'radio';
-                    input.id = `time${index + 1}`;
-                    input.name = 'time';
-                    input.value = '---';
-                    input.required = true;
-
-                    const label = document.createElement('label');
-                    label.htmlFor = `time${index + 1}`;
-                    label.className = 'time-label';
-                    label.textContent = '---';
-
-                    timesContainer.appendChild(input);
-                    timesContainer.appendChild(label);
-                }
             });
         });
-    });
     </script>
 
 </body>
