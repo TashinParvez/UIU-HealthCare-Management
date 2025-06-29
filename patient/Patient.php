@@ -1,6 +1,8 @@
 <?php
 include "../Includes/Database_connection.php";
 
+
+include "../Includes/Database_connection.php";
 // --------------- Visits count ---------------------
 session_start();
 

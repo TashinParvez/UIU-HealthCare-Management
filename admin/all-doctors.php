@@ -1,3 +1,138 @@
+<?PHP
+include "../Includes/Database_connection.php";
+
+
+//--------------- all doctors ---------------
+
+$sql = "SELECT 
+    CONCAT(u.first_name, ' ', u.last_name) AS full_name,
+    d.specialization,
+    d.img_link
+FROM 
+    users u
+JOIN 
+    doctors d 
+ON 
+    u.user_id = d.doctor_id
+ORDER BY 
+    RAND()
+LIMIT 12;";
+
+$allDoctors = mysqli_query($conn, $sql);
+$allDoctors = mysqli_fetch_all($allDoctors, MYSQLI_ASSOC);  // returns associative array
+
+// --------------- Cardiologist ---------------------
+$sql = "SELECT 
+            CONCAT(u.first_name, ' ', u.last_name) AS full_name,
+            d.specialization,
+    d.img_link
+        FROM 
+            users u
+        JOIN 
+            doctors d ON u.user_id = d.doctor_id
+        WHERE 
+            LOWER(d.specialization) = 'cardiologist'
+            ORDER BY 
+    RAND()
+LIMIT 12;";
+
+$cardiologist = mysqli_query($conn, $sql);
+$cardiologist = mysqli_fetch_all($cardiologist, MYSQLI_ASSOC);  // returns associative array
+
+$cnt_cardiologist = count($cardiologist);
+// echo $cnt_cardiologist;
+
+
+// --------------- orthopedist ---------------------
+$sql = "SELECT 
+            CONCAT(u.first_name, ' ', u.last_name) AS full_name,
+            d.specialization,
+    d.img_link
+        FROM 
+            users u
+        JOIN 
+            doctors d ON u.user_id = d.doctor_id
+        WHERE 
+            LOWER(d.specialization) = 'orthopedist'
+            ORDER BY 
+    RAND()
+LIMIT 12;";
+
+$orthopedist = mysqli_query($conn, $sql);
+$orthopedist = mysqli_fetch_all($orthopedist, MYSQLI_ASSOC);  // returns associative array
+
+$cnt_orthopedist = count($orthopedist);
+// echo $cnt_cardiologist;
+
+// --------------- headache ---------------------
+$sql = "SELECT 
+            CONCAT(u.first_name, ' ', u.last_name) AS full_name,
+            d.specialization,
+    d.img_link
+        FROM 
+            users u
+        JOIN 
+            doctors d ON u.user_id = d.doctor_id
+        WHERE 
+            LOWER(d.specialization) = 'headache'
+            ORDER BY 
+    RAND()
+LIMIT 12;";
+
+$headache = mysqli_query($conn, $sql);
+$headache = mysqli_fetch_all($headache, MYSQLI_ASSOC);  // returns associative array
+
+$cnt_headache = count($headache);
+// echo $cntcardiologist;
+
+// --------------- eyecare ---------------------
+$sql = "SELECT 
+            CONCAT(u.first_name, ' ', u.last_name) AS full_name,
+            d.specialization,
+    d.img_link
+        FROM 
+            users u
+        JOIN 
+            doctors d ON u.user_id = d.doctor_id
+        WHERE 
+            LOWER(d.specialization) = 'eyecare'
+            ORDER BY 
+    RAND()
+LIMIT 12;";
+
+$eyecare = mysqli_query($conn, $sql);
+$eyecare = mysqli_fetch_all($eyecare, MYSQLI_ASSOC);  // returns associative array
+
+$cnt_eyecare = count($eyecare);
+// echo $cntcardiologist;
+
+// --------------- nutritionist ---------------------
+$sql = "SELECT 
+            CONCAT(u.first_name, ' ', u.last_name) AS full_name,
+            d.specialization,
+    d.img_link
+        FROM 
+            users u
+        JOIN 
+            doctors d ON u.user_id = d.doctor_id
+        WHERE 
+            LOWER(d.specialization) = 'nutritionist'
+            ORDER BY 
+    RAND()
+LIMIT 12;";
+
+$nutritionist = mysqli_query($conn, $sql);
+$nutritionist = mysqli_fetch_all($nutritionist, MYSQLI_ASSOC);  // returns associative array
+
+
+$cnt_nutritionist = count($nutritionist);
+// echo $cntcardiologist;
+
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -171,7 +306,7 @@
 
 <body class="flex min-h-screen bg-gray-100">
     <!-- Sidebar -->
-    <?php include '../Includes/Sidebar.php'; ?>
+    <?php include '../Includes/SidebarAdmin.php'; ?>
 
 
     <!-- Main Content -->
@@ -180,95 +315,89 @@
             <div class="doctors-section">
                 <h1>Doctors List</h1>
 
-                <!-- Search Bar -->
-                <div class="search-bar" style="display: flex; justify-content: center; width: 100%; align-items: center;">
-                    <input type="text" class="form-control" placeholder="Search available doctors...">
-                </div>
+                <!--===================================== Search Bar ==========================================================-->
 
-                <!-- Category Cards -->
+                <!-- <div class="search-bar" style="display: flex; justify-content: center; width: 100%; align-items: center;">
+                    <input type="text" class="form-control" placeholder="Search available doctors...">
+                </div> -->
+
+                <!--=========================== Category Cards ===========================-->
                 <div class="row mb-4">
                     <div class="col-md-3">
                         <div class="category-card">
-                            <h3>5</h3>
-                            <p>Heart Surgeon</p>
+                            <h3>
+                                <?php echo  $cnt_cardiologist;  ?>
+                            </h3>
+                            <p>Cardiologist</p>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="category-card">
-                            <h3>8</h3>
-                            <p>Neurologist</p>
+                            <h3>
+                                <?php echo  $cnt_orthopedist;  ?>
+                            </h3>
+                            <p>Orthopedist </p>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="category-card">
-                            <h3>6</h3>
-                            <p>Orthopedic Surgeon</p>
+                            <h3>
+                                <?php echo  $cnt_headache;  ?>
+                            </h3>
+                            <p>Headache </p>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="category-card">
-                            <h3>10</h3>
-                            <p>Pediatrician</p>
+                            <h3>
+                                <?php echo  $cnt_eyecare;  ?>
+                            </h3>
+                            <p>Eyecare </p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Doctors List -->
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="doctor-card disply-flex-for-card">
-                            <div>
-                                <h5>Dr. Kendrick Debus</h5>
-                                <p>MBBS, FCPS (Anaesthesiology)</p>
-                                <p>Senior Consultant & Coordinator</p>
-                                <p>Department: Critical Care</p>
-                                <div class="social-icons">
-                                    <a href="#"><i class="bi bi-facebook"></i></a>
-                                    <a href="#"><i class="bi bi-linkedin"></i></a>
-                                    <a href="#"><i class="bi bi-behance"></i></a>
-                                    <a href="#"><i class="bi bi-twitter"></i></a>
-                                    <a href="#"><i class="bi bi-globe"></i></a>
+
+                    <!--  -->
+                    <!--  -->
+
+                    <?php
+                    foreach ($allDoctors as $row) {
+                    ?>
+
+
+                        <div class="col-md-12">
+                            <div class="doctor-card disply-flex-for-card">
+                                <div>
+                                    <h5><?php echo $row['full_name']; ?></h5>
+                                    <p><?php echo $row['specialization']; ?></p>
+                                    <p>Senior Consultant & Coordinator</p>
+                                    <!-- <p>Department: Critical Care</p> -->
+                                    <div class="social-icons">
+                                        <a href="#"><i class="bi bi-facebook"></i></a>
+                                        <a href="#"><i class="bi bi-linkedin"></i></a>
+                                        <a href="#"><i class="bi bi-behance"></i></a>
+                                        <a href="#"><i class="bi bi-twitter"></i></a>
+                                        <a href="#"><i class="bi bi-globe"></i></a>
+                                    </div>
                                 </div>
+                                <!-- <img src="/Includes/male-doctors-white-medical.jpg" alt="Dr. Kendrick Debus"> -->
+                                <img
+                                    src="<?php echo (strlen($row['img_link']) > 2) ? htmlspecialchars($row['img_link']) : '/Includes/male-doctors-white-medical.jpg'; ?>"
+                                    alt="Doctor"
+                                    class="w-full h-40 object-cover rounded-lg mb-3">
                             </div>
-                            <img src="/Includes/male-doctors-white-medical.jpg" alt="Dr. Kendrick Debus">
                         </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="doctor-card disply-flex-for-card">
-                            <div>
-                                <h5>Dr. Summer Grullon</h5>
-                                <p>MBBS, FCPS (Anaesthesiology)</p>
-                                <p>Senior Consultant & Coordinator</p>
-                                <p>Department: Critical Care</p>
-                                <div class="social-icons">
-                                    <a href="#"><i class="bi bi-facebook"></i></a>
-                                    <a href="#"><i class="bi bi-linkedin"></i></a>
-                                    <a href="#"><i class="bi bi-behance"></i></a>
-                                    <a href="#"><i class="bi bi-twitter"></i></a>
-                                    <a href="#"><i class="bi bi-globe"></i></a>
-                                </div>
-                            </div>
-                            <img src="/Includes/male-doctors-white-medical.jpg" alt="Dr. Summer Grullon">
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="doctor-card disply-flex-for-card">
-                            <div>
-                                <h5>Prof. Brig Gen (Retd) Dr. Md Mahbub Noor</h5>
-                                <p>MBBS, FCPS (Anaesthesiology)</p>
-                                <p>Senior Consultant & Coordinator</p>
-                                <p>Department: Critical Care</p>
-                                <div class="social-icons">
-                                    <a href="#"><i class="bi bi-facebook"></i></a>
-                                    <a href="#"><i class="bi bi-linkedin"></i></a>
-                                    <a href="#"><i class="bi bi-behance"></i></a>
-                                    <a href="#"><i class="bi bi-twitter"></i></a>
-                                    <a href="#"><i class="bi bi-globe"></i></a>
-                                </div>
-                            </div>
-                            <img src="/Includes/male-doctors-white-medical.jpg" alt="Prof. Brig Gen (Retd) Dr. Md Mahbub Noor">
-                        </div>
-                    </div>
+
+
+
+                        <!-- ======================= -->
+                    <?php
+                    }
+                    ?>
+
                 </div>
             </div>
         </div>

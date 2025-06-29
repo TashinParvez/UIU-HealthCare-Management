@@ -312,7 +312,7 @@ $last_month_department_appointments = array_merge($top5, $rest);
 
 <body class="flex min-h-screen bg-gray-100">
     <!-- Sidebar -->
-    <?php include '../Includes/Sidebar.php'; ?>
+    <?php include '../Includes/SidebarAdmin.php'; ?>
 
     <!-- Main Content -->
     <div class="content flex-1">
@@ -322,7 +322,8 @@ $last_month_department_appointments = array_merge($top5, $rest);
 
                 <!-- Today's Available Doctors -->
                 <div class="row mb-4">
-                    <div class="col-md-6">
+                    <div class="">
+                    <!-- <div class="col-md-6"> -->
                         <h5>Today's Available Doctors</h5>
                         <table class="table">
                             <thead>
