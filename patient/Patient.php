@@ -1,4 +1,5 @@
 <?php
+include "../Includes/Database_connection.php";
 
 
 include "../Includes/Database_connection.php";
@@ -25,6 +26,7 @@ if (!isset($_SESSION['has_visited'])) {
 
 
 $patient_id = $_SESSION['user_id'] ?? '2001';
+
 
 // ........... Fetching Prescription Informtions ...................
 
@@ -71,6 +73,42 @@ $stmt->close();
 // }
 
 
+// $patient_id = 3001; 
+
+$stmt = $conn->prepare("
+    SELECT medicines 
+    FROM prescriptions 
+    WHERE patient_id = ? 
+    ORDER BY created_at DESC 
+    LIMIT 1
+");
+$stmt->bind_param('i', $patient_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($row = $result->fetch_assoc()) {
+    $medicines_raw = $row['medicines'];
+
+    // Split by comma to separate each medicine
+    $medicine_entries = explode(',', $medicines_raw);
+
+    // Initialize array to store names
+    $medicine_names = [];
+
+    foreach ($medicine_entries as $entry) {
+        $parts = explode('-', $entry);
+        $name = trim($parts[0]); // First part is the medicine name
+        $medicine_names[] = $name;
+    }
+
+    // Show the medicine names
+    echo "Medicines:<br>";
+    foreach ($medicine_names as $med) {
+        echo htmlspecialchars($med) . "<br>";
+    }
+} else {
+    echo "No prescriptions found for this patient.";
+}
 
 
 ?>
@@ -331,47 +369,72 @@ $stmt->close();
 
             <script>
                 // Mock medicine data (to be replaced by backend API)
-                const medicines = [{
-                        id: 1,
-                        name: "Drometa Zoletronic",
-                        dosage: "500mg | 25ml | After Meal",
-                        time: "8:30AM - 12:00AM",
-                        duration: "2 Month",
-                        start_date: "05 Oct 2024",
-                        total_doses: 120, // 2 doses/day * 60 days
-                        doses_taken: 0
-                    },
-                    {
-                        id: 2,
-                        name: "Drometa Zoletronic",
-                        dosage: "500mg | 25ml | After Meal",
-                        time: "8:30AM - 12:00AM",
-                        duration: "2 Month",
-                        start_date: "05 Oct 2024",
-                        total_doses: 120,
-                        doses_taken: 0
-                    },
-                    {
-                        id: 3,
-                        name: "Drometa Zoletronic",
-                        dosage: "500mg | 25ml | After Meal",
-                        time: "8:30AM - 12:00AM",
-                        duration: "2 Month",
-                        start_date: "05 Oct 2024",
-                        total_doses: 120,
-                        doses_taken: 0
-                    },
-                    {
-                        id: 4,
-                        name: "Drometa Zoletronic",
-                        dosage: "500mg | 25ml | After Meal",
-                        time: "8:30AM - 12:00AM",
-                        duration: "2 Month",
-                        start_date: "05 Oct 2024",
-                        total_doses: 7,
-                        doses_taken: 0
+                // const medicines = [{
+                //         id: 1,
+                //         name: "Drometa Zoletronic",
+                //         dosage: "500mg | 25ml | After Meal",
+                //         time: "8:30AM - 12:00AM",
+                //         duration: "2 Month",
+                //         start_date: "05 Oct 2024",
+                //         total_doses: 120, // 2 doses/day * 60 days
+                //         doses_taken: 0
+                //     },
+                //     {
+                //         id: 2,
+                //         name: "Drometa Zoletronic",
+                //         dosage: "500mg | 25ml | After Meal",
+                //         time: "8:30AM - 12:00AM",
+                //         duration: "2 Month",
+                //         start_date: "05 Oct 2024",
+                //         total_doses: 120,
+                //         doses_taken: 0
+                //     },
+                //     {
+                //         id: 3,
+                //         name: "Drometa Zoletronic",
+                //         dosage: "500mg | 25ml | After Meal",
+                //         time: "8:30AM - 12:00AM",
+                //         duration: "2 Month",
+                //         start_date: "05 Oct 2024",
+                //         total_doses: 120,
+                //         doses_taken: 0
+                //     },
+                //     {
+                //         id: 4,
+                //         name: "Drometa Zoletronic",
+                //         dosage: "500mg | 25ml | After Meal",
+                //         time: "8:30AM - 12:00AM",
+                //         duration: "2 Month",
+                //         start_date: "05 Oct 2024",
+                //         total_doses: 7,
+                //         doses_taken: 0
+                //     }
+                // ];
+
+                const medicines = [
+                    <?php
+                    $id = 1;
+                    foreach ($medicine_names as $index => $med) {
+                        echo "{
+                id: {$id},
+                name: \"" . htmlspecialchars($med) . "\",
+                dosage: \"500mg | 25ml | After Meal\",
+                time: \"8:30AM - 12:00AM\",
+                duration: \"2 Month\",
+                start_date: \"05 Oct 2024\",
+                total_doses: 120,
+                doses_taken: 0
+            }";
+                        // Add comma if not last element
+                        if ($index !== array_key_last($medicine_names)) {
+                            echo ",";
+                        }
+                        echo "\n";
+                        $id++;
                     }
+                    ?>
                 ];
+
 
                 // Load saved doses from localStorage or initialize
                 const savedDoses = JSON.parse(localStorage.getItem('medicineDoses')) || {};
