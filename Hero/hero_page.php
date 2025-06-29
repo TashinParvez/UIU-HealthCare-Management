@@ -189,12 +189,14 @@ $pFeedback = mysqli_fetch_all($pFeedback, MYSQLI_ASSOC);  // returns associative
                         the university community.</p>
                     <h2 class="text-2xl font-semibold uiu-blue-text mb-4">Begin Your Wellness Journey with us</h2>
                     <div class="flex space-x-4">
-                        <a href="/Hero/Booking.php"><button
+                        <a href="/logIn/login-second.php">
+                            <button
                                 class="uiu-blue text-white px-6 py-3 rounded-lg hover:bg-blue-800 transition">Book
                                 Appointment Now</button></a>
-                        <button
-                            class="border border-blue-500 uiu-blue-text px-6 py-3 rounded-lg hover:bg-blue-50 transition">Learn
-                            About Our Services</button>
+                        <a href="/Hero/aboutUs.php">
+                            <button
+                                class="border border-blue-500 uiu-blue-text px-6 py-3 rounded-lg hover:bg-blue-50 transition">Learn
+                                About Our Services</button></a>
                     </div>
                 </div>
                 <div class="lg:w-1/2 relative">

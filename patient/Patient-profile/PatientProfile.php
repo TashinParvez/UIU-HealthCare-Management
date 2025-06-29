@@ -451,7 +451,7 @@ if (isset($_POST['change_password'])) {
             <form action="PatientProfile" method="post">
                 <!-- Profile Header -->
                 <div class="profile-header">
-                    <img src="https://t4.ftcdn.net/jpg/03/83/25/83/360_F_383258331_D8imaEMl8Q3lf7EKU2Pi78Cn0R7KkW9o.jpg"
+                    <img src="https://scontent.fdac181-1.fna.fbcdn.net/v/t39.30808-6/349299836_991411121934653_7461298287642662667_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeHkaG79KsavuwJBOw4yjCML68uk7QofQiDry6TtCh9CIBkiWWh-SO0pqQfoXWHouq9vbhU7GWjCqFcPZJrHR1Wj&_nc_ohc=UEkMJR_yIj0Q7kNvwFPd1kM&_nc_oc=AdkGr0yM7eRfAQA8T11qTp-X47oKg3tDKxsUO1mMFt8cxkNYLv6ojs_i4a7ZKzeSsDA&_nc_zt=23&_nc_ht=scontent.fdac181-1.fna&_nc_gid=LYSozN4ZiUhSJG6ErtylCA&oh=00_AfOzg3Z4FbnX6vCh0wWUhHftZJV6vVQNkpy-hE7IEzQ-lg&oe=6866BF71"
                         alt="Profile Photo" class="profile-photo">
 
 

@@ -260,8 +260,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_appointment'])) {
                     <!------------------------------- tashin added ----------------------------- -->
                     <div class="space-y-4">
                         <?php foreach ($allAppointments as $index => $row) { ?>
-                            <div class="appointment-card bg-white rounded-xl p-6 flex items-center justify-between gap-6 border border-gray-100 cursor-pointer"
+                            
+                            <!-- ================================================= -->
 
+                            <div class="appointment-card bg-white rounded-xl p-6 flex items-center justify-between gap-6 border border-gray-100 cursor-pointer hover:shadow-md transition"
                                 data-id="<?php echo $row['appointment_id']; ?>"
                                 data-name="<?php echo htmlspecialchars($row['Name']); ?>"
                                 data-email="<?php echo htmlspecialchars($row['Email']); ?>"
@@ -286,6 +288,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_appointment'])) {
                                     <a href="#" class="action-icon text-gray-500 hover:text-red-600"><i class="bi bi-trash"></i></a>
                                 </div>
                             </div>
+
+
+
+                            <!-- ================================================= -->
+
+
+
+
                         <?php } ?>
                     </div>
 
@@ -362,7 +372,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_appointment'])) {
             </div>
         </div>
     </div>
-    <script>
+    <!-- <script>
         // Patient Preview
         document.querySelectorAll('.appointment-card').forEach(card => {
             card.addEventListener('click', (e) => {
@@ -389,7 +399,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_appointment'])) {
         document.getElementById('search-input').addEventListener('input', function() {
             setTimeout(() => this.form.submit(), 500); // Debounce and submit form
         });
+    </script> -->
 
+
+    <script>
+        // Attach event listener to all cards
+        document.querySelectorAll('.appointment-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Prevent action icons (edit/delete) from triggering redirect
+                if (e.target.closest('.action-icon')) return;
+
+                const appointmentId = this.dataset.id;
+                if (appointmentId) {
+                    window.location.href = `/doctor/patient-view/one-patient-info-revised.php?appointment_id=${appointmentId}`;
+                }
+            });
+        });
     </script>
 
 
