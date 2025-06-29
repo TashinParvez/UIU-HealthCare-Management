@@ -322,7 +322,8 @@ $last_month_department_appointments = array_merge($top5, $rest);
 
                 <!-- Today's Available Doctors -->
                 <div class="row mb-4">
-                    <div class="col-md-6">
+                    <div class="">
+                    <!-- <div class="col-md-6"> -->
                         <h5>Today's Available Doctors</h5>
                         <table class="table">
                             <thead>
