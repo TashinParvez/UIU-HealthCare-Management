@@ -8,71 +8,71 @@
     <title>Expandable Sidebar</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .sidebar {
-            transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            transform: translateZ(0);
-            /* Force hardware acceleration */
-            will-change: width;
-            /* Optimize animation */
-        }
+    .sidebar {
+        transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        transform: translateZ(0);
+        /* Force hardware acceleration */
+        will-change: width;
+        /* Optimize animation */
+    }
 
-        /* Hide text when collapsed */
-        .sidebar:not(:hover) .sidebar-text {
-            display: none;
-        }
+    /* Hide text when collapsed */
+    .sidebar:not(:hover) .sidebar-text {
+        display: none;
+    }
 
-        .sidebar:not(:hover) .search-input {
-            display: none;
-        }
+    .sidebar:not(:hover) .search-input {
+        display: none;
+    }
 
-        /* Crazy cool hover effect */
-        .sidebar-item {
-            position: relative;
-            overflow: hidden;
-        }
+    /* Crazy cool hover effect */
+    .sidebar-item {
+        position: relative;
+        overflow: hidden;
+    }
 
-        .sidebar-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(120deg,
-                    transparent,
-                    rgba(147, 51, 234, 0.3),
-                    transparent);
-            transition: all 0.5s ease;
-        }
+    .sidebar-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(120deg,
+                transparent,
+                rgba(147, 51, 234, 0.3),
+                transparent);
+        transition: all 0.5s ease;
+    }
 
-        .sidebar-item:hover::before {
-            left: 100%;
-        }
+    .sidebar-item:hover::before {
+        left: 100%;
+    }
 
-        .sidebar-item:hover {
-            background-color: #f3f4f6;
-            /* Light gray hover */
-            color: #9333ea;
-            /* Purple text on hover */
-            transform: scale(1.05);
-            transition: transform 0.2s ease;
-        }
+    .sidebar-item:hover {
+        background-color: #f3f4f6;
+        /* Light gray hover */
+        color: #9333ea;
+        /* Purple text on hover */
+        transform: scale(1.05);
+        transition: transform 0.2s ease;
+    }
 
-        input:focus,
-        textarea:focus,
-        button:focus {
-            outline: none;
-            /* Remove default browser outline */
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
-            /* Equivalent to Tailwind's focus:ring-blue-500 */
-            border-color: transparent;
-        }
+    input:focus,
+    textarea:focus,
+    button:focus {
+        outline: none;
+        /* Remove default browser outline */
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+        /* Equivalent to Tailwind's focus:ring-blue-500 */
+        border-color: transparent;
+    }
 
-        button.sidebar-item {
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
+    button.sidebar-item {
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
     </style>
 </head>
 
@@ -271,18 +271,9 @@ z" />
         </div>
         <!-- Navigation -->
         <nav class="flex-1">
-            <!-- Search -->
-            <div class="p-4 flex items-center sidebar-item">
-                <svg class="w-6 h-6 mr-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-                <input type="text" placeholder="Search..."
-                    class="search-input bg-gray-100 text-gray-800 border-none rounded px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-purple-500">
-            </div>
             <nav>
                 <!-- Dashboard -->
-                <a href="/patient/Patient.php" class="no-underline">
+                <a href="/admin/admin-dashboard.php" class="no-underline">
                     <button class="p-4 flex items-center sidebar-item w-full text-left">
                         <svg class="w-6 h-6 mr-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -292,16 +283,7 @@ z" />
                     </button>
                 </a>
 
-                <!-- Users -->
-                <a href="/users" class="no-underline">
-                    <button class="p-4 flex items-center sidebar-item w-full text-left">
-                        <svg class="w-6 h-6 mr-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                        </svg>
-                        <span class="sidebar-text">Users</span>
-                    </button>
-                </a>
+
 
                 <!-- Messages -->
                 <a href="http://localhost:4000/" class="no-underline">
@@ -315,13 +297,13 @@ z" />
                 </a>
 
                 <!-- Appointments -->
-                <a href="/patient/AppointmentDashboard.php" class="no-underline">
+                <a href="/admin/AddDoctor.php" class="no-underline">
                     <button class="p-4 flex items-center sidebar-item w-full text-left">
                         <svg class="w-6 h-6 mr-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        <span class="sidebar-text">Appointments</span>
+                        <span class="sidebar-text">Add Doctor</span>
                     </button>
                 </a>
             </nav>
@@ -334,6 +316,24 @@ z" />
                             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                     <span class="sidebar-text">Profile</span>
+                </button>
+            </a>
+
+            <!-- Users -->
+            <a href="/admin/all-doctors.php" class="no-underline">
+                <button class="p-4 flex items-center sidebar-item w-full text-left">
+                    <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+                    <svg fill="#ffffff" class="w-6 h-6 mr-4 flex-shrink-0" viewBox="0 0 24 24" fill="#ffffff"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M20.965 7C20.8873 5.1277 20.6366 3.97975 19.8284 3.17157C18.6569 2 16.7712 2 13 2H11C7.22876 2 5.34315 2 4.17157 3.17157C3 4.34315 3 6.22876 3 10V14C3 17.7712 3 19.6569 4.17157 20.8284C5.34315 22 7.22876 22 11 22H13C16.7712 22 18.6569 22 19.8284 20.8284C21 19.6569 21 17.7712 21 14V11"
+                            stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                        <path
+                            d="M6 12C6 10.5858 6 9.87868 6.43934 9.43934C6.87868 9 7.58579 9 9 9H15C16.4142 9 17.1213 9 17.5607 9.43934C18 9.87868 18 10.5858 18 12V16C18 17.4142 18 18.1213 17.5607 18.5607C17.1213 19 16.4142 19 15 19H9C7.58579 19 6.87868 19 6.43934 18.5607C6 18.1213 6 17.4142 6 16V12Z"
+                            stroke="#1C274C" stroke-width="1.5" />
+                        <path d="M7 6H12" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
+                    <span class="sidebar-text">All Doctors</span>
                 </button>
             </a>
     </div>
