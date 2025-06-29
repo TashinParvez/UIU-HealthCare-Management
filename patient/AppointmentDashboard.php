@@ -24,7 +24,7 @@ $date = $bdDateTime->format('j F'); // Output format 26 June
 $stmt = $conn->prepare('
     SELECT 
 
-        a.appointment_id
+        a.appointment_id,
 
         d.doctor_id,
         CONCAT(u.first_name, " ", u.last_name) AS name,
