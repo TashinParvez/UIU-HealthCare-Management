@@ -1,9 +1,5 @@
 <?php
 
-
-include "../Includes/Database_connection.php";
-
-
 // --------------- Visits count ---------------------
 session_start();
 
@@ -26,6 +22,56 @@ if (!isset($_SESSION['has_visited'])) {
 }
 
 
+$patient_id = $_SESSION['user_id'] ?? '2001';
+
+include "../Includes/Database_connection.php";
+
+// ........... Fetching Prescription Informtions ...................
+
+$stmt = $conn->prepare("
+        SELECT 
+            pr.prescription_id,
+            pr.appointment_id,
+            pr.doctor_id,
+            CONCAT(u.first_name, ' ', u.last_name) AS doctor_name,
+            pr.complaints,
+            pr.medicines,
+            pr.tests,
+            pr.advice,
+            DATE(pr.followup_date) AS followup_date,
+            DATE(pr.created_at) AS date
+        FROM 
+            prescriptions pr
+        JOIN 
+            users u ON pr.doctor_id = u.user_id
+        WHERE 
+            pr.patient_id = ?
+        ORDER BY pr.created_at DESC
+    ");
+
+$stmt->bind_param("i", $patient_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$prescriptions = $result->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
+
+
+
+
+// Example:
+
+// foreach ($prescriptions as $row) {
+//     echo "Prescription ID: " . $row['prescription_id'] . "<br>";
+//     echo "Doctor: " . $row['doctor_name'] . "<br>";
+//     echo "Complaints: " . $row['complaints'] . "<br>";
+//     echo "Medicines: " . $row['medicines'] . "<br>";
+//     echo "Tests: " . $row['tests'] . "<br>";
+//     echo "Advice: " . $row['advice'] . "<br>";
+//     echo "Date: " . $row['created_at'] . "<hr>";
+// }
+
+
+
 
 ?>
 
@@ -40,74 +86,74 @@ if (!isset($_SESSION['has_visited'])) {
     <title>Patient</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-    /* Hide scrollbar for Chrome, Safari, and Edge */
-    .hide-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
+        /* Hide scrollbar for Chrome, Safari, and Edge */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
 
-    /* Hide scrollbar for Firefox */
-    .hide-scrollbar {
-        scrollbar-width: none;
-    }
+        /* Hide scrollbar for Firefox */
+        .hide-scrollbar {
+            scrollbar-width: none;
+        }
 
-    /* Optional: Smooth scrolling behavior */
-    .hide-scrollbar {
-        scroll-behavior: smooth;
-    }
+        /* Optional: Smooth scrolling behavior */
+        .hide-scrollbar {
+            scroll-behavior: smooth;
+        }
 
-    /* Sidebar and layout adjustments */
-    .content {
-        margin-left: 64px;
-        /* Match the collapsed sidebar width */
-        padding: 20px;
-        transition: margin-left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-    }
+        /* Sidebar and layout adjustments */
+        .content {
+            margin-left: 64px;
+            /* Match the collapsed sidebar width */
+            padding: 20px;
+            transition: margin-left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
 
-    .sidebar:hover+.content {
-        margin-left: 256px;
-        /* Match the expanded sidebar width */
-    }
+        .sidebar:hover+.content {
+            margin-left: 256px;
+            /* Match the expanded sidebar width */
+        }
 
-    .sidebar {
-        transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        transform: translateZ(0);
-        will-change: width;
-    }
+        .sidebar {
+            transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transform: translateZ(0);
+            will-change: width;
+        }
 
-    .sidebar:not(:hover) .sidebar-text {
-        display: none;
-    }
+        .sidebar:not(:hover) .sidebar-text {
+            display: none;
+        }
 
-    .sidebar:not(:hover) .search-input {
-        display: none;
-    }
+        .sidebar:not(:hover) .search-input {
+            display: none;
+        }
 
-    .sidebar-item {
-        position: relative;
-        overflow: hidden;
-    }
+        .sidebar-item {
+            position: relative;
+            overflow: hidden;
+        }
 
-    .sidebar-item::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(120deg, transparent, rgba(147, 51, 234, 0.3), transparent);
-        transition: all 0.5s ease;
-    }
+        .sidebar-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(147, 51, 234, 0.3), transparent);
+            transition: all 0.5s ease;
+        }
 
-    .sidebar-item:hover::before {
-        left: 100%;
-    }
+        .sidebar-item:hover::before {
+            left: 100%;
+        }
 
-    .sidebar-item:hover {
-        background-color: #f3f4f6;
-        color: #9333ea;
-        transform: scale(1.05);
-        transition: transform 0.2s ease;
-    }
+        .sidebar-item:hover {
+            background-color: #f3f4f6;
+            color: #9333ea;
+            transform: scale(1.05);
+            transition: transform 0.2s ease;
+        }
     </style>
 </head>
 
@@ -132,35 +178,35 @@ if (!isset($_SESSION['has_visited'])) {
                 </button>
                 <!-- Cards Container -->
                 <style>
-                .hide-scrollbar::-webkit-scrollbar {
-                    display: none;
-                }
+                    .hide-scrollbar::-webkit-scrollbar {
+                        display: none;
+                    }
 
-                .hide-scrollbar {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                }
+                    .hide-scrollbar {
+                        -ms-overflow-style: none;
+                        scrollbar-width: none;
+                    }
 
-                .modal {
-                    display: none;
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background-color: rgba(0, 0, 0, 0.5);
-                    align-items: center;
-                    justify-content: center;
-                    z-index: 50;
-                }
+                    .modal {
+                        display: none;
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-color: rgba(0, 0, 0, 0.5);
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 50;
+                    }
 
-                .modal-content {
-                    background-color: white;
-                    padding: 24px;
-                    border-radius: 8px;
-                    max-width: 500px;
-                    width: 100%;
-                }
+                    .modal-content {
+                        background-color: white;
+                        padding: 24px;
+                        border-radius: 8px;
+                        max-width: 500px;
+                        width: 100%;
+                    }
                 </style>
                 </head>
 
@@ -185,43 +231,27 @@ if (!isset($_SESSION['has_visited'])) {
                     </div>
 
                     <script>
-                    // Mock patient data (to be replaced by backend API)
-                    const patients = [{
-                            id: 1,
-                            name: "John Doe",
-                            last_visit: "15 Apr 2025",
-                            condition: "Hypertension",
-                            next_appointment: "30 Apr 2025",
-                            diagnosis: "Hypertension",
-                            medications: "Lisinopril 10mg daily",
-                            notes: "Patient advised to monitor blood pressure daily."
-                        },
-                        {
-                            id: 2,
-                            name: "Jane Smith",
-                            last_visit: "10 Apr 2025",
-                            condition: "Diabetes",
-                            next_appointment: "28 Apr 2025",
-                            diagnosis: "Type 2 Diabetes",
-                            medications: "Metformin 500mg twice daily",
-                            notes: "Follow-up on glucose levels required."
-                        },
-                        {
-                            id: 3,
-                            name: "Emily Johnson",
-                            last_visit: "20 Mar 2025",
-                            condition: "Asthma",
-                            next_appointment: "05 May 2025",
-                            diagnosis: "Asthma",
-                            medications: "Albuterol inhaler as needed",
-                            notes: "Patient to avoid known asthma triggers."
-                        }
-                    ];
+                        // Mock patient data (to be replaced by backend API)
 
-                    // Populate patient cards
-                    const container = document.getElementById('cards-container');
-                    patients.forEach(patient => {
-                        const card = `
+                        const patients = [
+                            <?php foreach ($prescriptions as $prescription): ?> {
+                                    id: <?= $prescription['prescription_id'] ?>,
+                                    name: "<?= htmlspecialchars($prescription['doctor_name']) ?>",
+                                    last_visit: "<?= date('d M Y', strtotime($prescription['date'])) ?>",
+                                    condition: "<?= htmlspecialchars($prescription['complaints']) ?>",
+                                    next_appointment: "<?= date('d M Y', strtotime($prescription['followup_date'])) ?>",
+                                    diagnosis: "<?= htmlspecialchars($prescription['tests']) ?>",
+                                    medications: "<?= htmlspecialchars($prescription['medicines']) ?>",
+                                    notes: "<?= htmlspecialchars($prescription['advice']) ?>"
+                                }
+                                <?= $prescription !== end($prescriptions) ? ',' : '' ?>
+                            <?php endforeach; ?>
+                        ];
+
+                        // Populate patient cards
+                        const container = document.getElementById('cards-container');
+                        patients.forEach(patient => {
+                            const card = `
                 <div class="flex-none w-full max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
                     <h5 class="mb-4 text-xl font-medium text-gray-900">${patient.name}</h5>
                     <p class="text-gray-600 mb-4">Last Visit: ${patient.last_visit}</p>
@@ -239,29 +269,29 @@ if (!isset($_SESSION['has_visited'])) {
                     </button>
                 </div>
             `;
-                        container.innerHTML += card;
-                    });
+                            container.innerHTML += card;
+                        });
 
-                    function openModal(patientId) {
-                        // Simulate fetching patient details (replace with fetch to backend API)
-                        const patient = patients.find(p => p.id === patientId);
-                        if (patient) {
-                            document.getElementById('modalTitle').textContent = `${patient.name}'s Details`;
-                            document.getElementById('modalDiagnosis').innerHTML =
-                                `<strong>Diagnosis:</strong> ${patient.diagnosis}`;
-                            document.getElementById('modalMedications').innerHTML =
-                                `<strong>Medications:</strong> ${patient.medications}`;
-                            document.getElementById('modalNotes').innerHTML =
-                                `<strong>Notes:</strong> ${patient.notes}`;
-                            document.getElementById('patientModal').style.display = 'flex';
-                        } else {
-                            alert('Patient not found');
+                        function openModal(patientId) {
+                            // Simulate fetching patient details (replace with fetch to backend API)
+                            const patient = patients.find(p => p.id === patientId);
+                            if (patient) {
+                                document.getElementById('modalTitle').textContent = `${patient.name}'s Details`;
+                                document.getElementById('modalDiagnosis').innerHTML =
+                                    `<strong>Diagnosis:</strong> ${patient.diagnosis}`;
+                                document.getElementById('modalMedications').innerHTML =
+                                    `<strong>Medications:</strong> ${patient.medications}`;
+                                document.getElementById('modalNotes').innerHTML =
+                                    `<strong>Notes:</strong> ${patient.notes}`;
+                                document.getElementById('patientModal').style.display = 'flex';
+                            } else {
+                                alert('Patient not found');
+                            }
                         }
-                    }
 
-                    function closeModal() {
-                        document.getElementById('patientModal').style.display = 'none';
-                    }
+                        function closeModal() {
+                            document.getElementById('patientModal').style.display = 'none';
+                        }
                     </script>
                     <!-- Right Button -->
                     <button id="scroll-right"
@@ -284,7 +314,7 @@ if (!isset($_SESSION['has_visited'])) {
             <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8">
                 <div class="flex items-center justify-between">
                     <h5 class="text-xl font-medium text-gray-500">Book an appointment</h5>
-                    <a href="..\patient\AppointmentDashboard.php"><button type="button"
+                    <a href="Booking.php"><button type="button"
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 font-medium rounded-lg text-sm px-5 py-2.5">
                             Book Now
                         </button>
@@ -300,69 +330,69 @@ if (!isset($_SESSION['has_visited'])) {
             </div>
 
             <script>
-            // Mock medicine data (to be replaced by backend API)
-            const medicines = [{
-                    id: 1,
-                    name: "Drometa Zoletronic",
-                    dosage: "500mg | 25ml | After Meal",
-                    time: "8:30AM - 12:00AM",
-                    duration: "2 Month",
-                    start_date: "05 Oct 2024",
-                    total_doses: 120, // 2 doses/day * 60 days
-                    doses_taken: 0
-                },
-                {
-                    id: 2,
-                    name: "Drometa Zoletronic",
-                    dosage: "500mg | 25ml | After Meal",
-                    time: "8:30AM - 12:00AM",
-                    duration: "2 Month",
-                    start_date: "05 Oct 2024",
-                    total_doses: 120,
-                    doses_taken: 0
-                },
-                {
-                    id: 3,
-                    name: "Drometa Zoletronic",
-                    dosage: "500mg | 25ml | After Meal",
-                    time: "8:30AM - 12:00AM",
-                    duration: "2 Month",
-                    start_date: "05 Oct 2024",
-                    total_doses: 120,
-                    doses_taken: 0
-                },
-                {
-                    id: 4,
-                    name: "Drometa Zoletronic",
-                    dosage: "500mg | 25ml | After Meal",
-                    time: "8:30AM - 12:00AM",
-                    duration: "2 Month",
-                    start_date: "05 Oct 2024",
-                    total_doses: 7,
-                    doses_taken: 0
-                }
-            ];
+                // Mock medicine data (to be replaced by backend API)
+                const medicines = [{
+                        id: 1,
+                        name: "Drometa Zoletronic",
+                        dosage: "500mg | 25ml | After Meal",
+                        time: "8:30AM - 12:00AM",
+                        duration: "2 Month",
+                        start_date: "05 Oct 2024",
+                        total_doses: 120, // 2 doses/day * 60 days
+                        doses_taken: 0
+                    },
+                    {
+                        id: 2,
+                        name: "Drometa Zoletronic",
+                        dosage: "500mg | 25ml | After Meal",
+                        time: "8:30AM - 12:00AM",
+                        duration: "2 Month",
+                        start_date: "05 Oct 2024",
+                        total_doses: 120,
+                        doses_taken: 0
+                    },
+                    {
+                        id: 3,
+                        name: "Drometa Zoletronic",
+                        dosage: "500mg | 25ml | After Meal",
+                        time: "8:30AM - 12:00AM",
+                        duration: "2 Month",
+                        start_date: "05 Oct 2024",
+                        total_doses: 120,
+                        doses_taken: 0
+                    },
+                    {
+                        id: 4,
+                        name: "Drometa Zoletronic",
+                        dosage: "500mg | 25ml | After Meal",
+                        time: "8:30AM - 12:00AM",
+                        duration: "2 Month",
+                        start_date: "05 Oct 2024",
+                        total_doses: 7,
+                        doses_taken: 0
+                    }
+                ];
 
-            // Load saved doses from localStorage or initialize
-            const savedDoses = JSON.parse(localStorage.getItem('medicineDoses')) || {};
-            medicines.forEach(medicine => {
-                if (savedDoses[medicine.id]) {
-                    medicine.doses_taken = savedDoses[medicine.id];
-                }
-            });
-
-            // Function to calculate progress percentage
-            function calculateProgress(dosesTaken, totalDoses) {
-                return Math.min(Math.round((dosesTaken / totalDoses) * 100), 100);
-            }
-
-            // Function to render medicine cards
-            function renderMedicines() {
-                const container = document.getElementById('medicine-container');
-                container.innerHTML = '';
+                // Load saved doses from localStorage or initialize
+                const savedDoses = JSON.parse(localStorage.getItem('medicineDoses')) || {};
                 medicines.forEach(medicine => {
-                    const progress = calculateProgress(medicine.doses_taken, medicine.total_doses);
-                    const card = `
+                    if (savedDoses[medicine.id]) {
+                        medicine.doses_taken = savedDoses[medicine.id];
+                    }
+                });
+
+                // Function to calculate progress percentage
+                function calculateProgress(dosesTaken, totalDoses) {
+                    return Math.min(Math.round((dosesTaken / totalDoses) * 100), 100);
+                }
+
+                // Function to render medicine cards
+                function renderMedicines() {
+                    const container = document.getElementById('medicine-container');
+                    container.innerHTML = '';
+                    medicines.forEach(medicine => {
+                        const progress = calculateProgress(medicine.doses_taken, medicine.total_doses);
+                        const card = `
                     <div class="flex items-center p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
                         <svg class="w-8 h-8 mr-4 text-gray-500 flex-shrink-0" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -400,75 +430,75 @@ if (!isset($_SESSION['has_visited'])) {
                         </div>
                     </div>
                 `;
-                    container.innerHTML += card;
-                });
-            }
-
-            // Function to mark a dose as taken
-            function markDoseTaken(medicineId) {
-                const medicine = medicines.find(m => m.id === medicineId);
-                if (medicine && medicine.doses_taken < medicine.total_doses) {
-                    medicine.doses_taken += 1;
-                    // Save to localStorage
-                    savedDoses[medicine.id] = medicine.doses_taken;
-                    localStorage.setItem('medicineDoses', JSON.stringify(savedDoses));
-                    // Re-render cards
-                    renderMedicines();
+                        container.innerHTML += card;
+                    });
                 }
-            }
 
-            // Initial render
-            renderMedicines();
+                // Function to mark a dose as taken
+                function markDoseTaken(medicineId) {
+                    const medicine = medicines.find(m => m.id === medicineId);
+                    if (medicine && medicine.doses_taken < medicine.total_doses) {
+                        medicine.doses_taken += 1;
+                        // Save to localStorage
+                        savedDoses[medicine.id] = medicine.doses_taken;
+                        localStorage.setItem('medicineDoses', JSON.stringify(savedDoses));
+                        // Re-render cards
+                        renderMedicines();
+                    }
+                }
+
+                // Initial render
+                renderMedicines();
             </script>
         </div>
     </div>
 </body>
 <script>
-const cardsContainer = document.getElementById('cards-container');
-const scrollLeftBtn = document.getElementById('scroll-left');
-const scrollRightBtn = document.getElementById('scroll-right');
+    const cardsContainer = document.getElementById('cards-container');
+    const scrollLeftBtn = document.getElementById('scroll-left');
+    const scrollRightBtn = document.getElementById('scroll-right');
 
-// Function to update button visibility based on scroll position
-function updateButtonVisibility() {
-    const scrollLeft = cardsContainer.scrollLeft;
-    const maxScrollLeft = cardsContainer.scrollWidth - cardsContainer.clientWidth;
+    // Function to update button visibility based on scroll position
+    function updateButtonVisibility() {
+        const scrollLeft = cardsContainer.scrollLeft;
+        const maxScrollLeft = cardsContainer.scrollWidth - cardsContainer.clientWidth;
 
-    // Hide left button if at the start
-    if (scrollLeft <= 0) {
-        scrollLeftBtn.classList.add('hidden');
-    } else {
-        scrollLeftBtn.classList.remove('hidden');
+        // Hide left button if at the start
+        if (scrollLeft <= 0) {
+            scrollLeftBtn.classList.add('hidden');
+        } else {
+            scrollLeftBtn.classList.remove('hidden');
+        }
+
+        // Hide right button if at the end
+        if (scrollLeft >= maxScrollLeft - 1) { // -1 to account for rounding errors
+            scrollRightBtn.classList.add('hidden');
+        } else {
+            scrollRightBtn.classList.remove('hidden');
+        }
     }
 
-    // Hide right button if at the end
-    if (scrollLeft >= maxScrollLeft - 1) { // -1 to account for rounding errors
-        scrollRightBtn.classList.add('hidden');
-    } else {
-        scrollRightBtn.classList.remove('hidden');
-    }
-}
+    // Initial check for button visibility
+    updateButtonVisibility();
 
-// Initial check for button visibility
-updateButtonVisibility();
+    // Update button visibility on scroll
+    cardsContainer.addEventListener('scroll', updateButtonVisibility);
 
-// Update button visibility on scroll
-cardsContainer.addEventListener('scroll', updateButtonVisibility);
-
-// Scroll left by the width of one card (max-w-sm = 384px + 16px gap from space-x-4)
-scrollLeftBtn.addEventListener('click', () => {
-    cardsContainer.scrollBy({
-        left: -400,
-        behavior: 'smooth'
+    // Scroll left by the width of one card (max-w-sm = 384px + 16px gap from space-x-4)
+    scrollLeftBtn.addEventListener('click', () => {
+        cardsContainer.scrollBy({
+            left: -400,
+            behavior: 'smooth'
+        });
     });
-});
 
-// Scroll right by the width of one card
-scrollRightBtn.addEventListener('click', () => {
-    cardsContainer.scrollBy({
-        left: 400,
-        behavior: 'smooth'
+    // Scroll right by the width of one card
+    scrollRightBtn.addEventListener('click', () => {
+        cardsContainer.scrollBy({
+            left: 400,
+            behavior: 'smooth'
+        });
     });
-});
 </script>
 
 </html>

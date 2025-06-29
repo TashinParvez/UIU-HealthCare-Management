@@ -114,7 +114,6 @@
 
             <!-- Illustration Side -->
             <div class="col-md-6 illustration-side">
-                <h1>Care. Heal. Thrive.</h1>
                 <!-- <img src=" " alt="Doctor and Patient Illustration"> -->
                 <img src="\Includes\Images\logo\United_International_University_Monogram.svg"
                     alt="Doctor and Patient Illustration" style="width: 350px;">

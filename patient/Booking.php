@@ -1,11 +1,6 @@
-<!-- booking.php -->
-
-
 <?php
-
 session_start();
 include "../Includes/Database_connection.php";
-
 
 // Set the time zone to Bangladesh Standard Time (BST)
 $bdTimeZone = new DateTimeZone('Asia/Dhaka');
@@ -14,7 +9,6 @@ $bdDateTime = new DateTime('now', $bdTimeZone);
 $current_time = $bdDateTime->format('H:i:s'); // Output format 10:25:45
 
 if ($current_time < '09:00:00') {
-
     $date = $bdDateTime->format('j F'); // Output format 26 June
     $day = $bdDateTime->format('l'); // Output format Thursday
 } else {
@@ -25,7 +19,6 @@ if ($current_time < '09:00:00') {
     $date = $tomorrowDateTime->format('j F');
     $day = $tomorrowDateTime->format('l');
 }
-
 
 // ............... Taking All Doctors Information ..........................
 
@@ -47,16 +40,12 @@ $result = $stmt->get_result();
 
 $doctors_info = $result->fetch_all(MYSQLI_ASSOC);
 
-// Example usage:
-// echo $doctors_info[0]['doctor_id'];
-
-
 // ................ Book an Appointment .....................
 
 if (isset($_POST['book_appointment'])) {
-
     $patient_id = $_SESSION['user_id'] ?? '1002';
     $doctor_id = mysqli_real_escape_string($conn, $_POST['doctor'] ?? '');
+    $conditions = mysqli_real_escape_string($conn, $_POST['conditions'] ?? '');
     $appointment_date = mysqli_real_escape_string($conn, $_POST['day'] ?? '');
     $appointment_time = mysqli_real_escape_string($conn, $_POST['time'] ?? '');
 
@@ -70,7 +59,6 @@ if (isset($_POST['book_appointment'])) {
     $stmt->bind_param('sd', $payment_method, $amount);
 
     if ($stmt->execute()) {
-
         $payment_id = $conn->insert_id; // Get the auto-incremented payment_id
         $stmt->close();
 
@@ -78,11 +66,9 @@ if (isset($_POST['book_appointment'])) {
 
         switch ($payment_method) {
             case 'cash':
-
                 $payment_success = true;
                 break;
             case 'mobile_banking':
-
                 $banking_type = $payment_method;
                 $transaction_id = mysqli_real_escape_string($conn, $_POST['transaction_id'] ?? '');
                 $transaction_number = mysqli_real_escape_string($conn, $_POST['transaction_number'] ?? '');
@@ -92,10 +78,8 @@ if (isset($_POST['book_appointment'])) {
 
                 $payment_success = $stmt->execute();
                 $stmt->close();
-
                 break;
             case 'card':
-
                 $card_number = mysqli_real_escape_string($conn, $_POST['card_number'] ?? '');
                 $expiry = mysqli_real_escape_string($conn, $_POST['expiry'] ?? '');
                 $cvc = mysqli_real_escape_string($conn, $_POST['cvc'] ?? '');
@@ -106,7 +90,6 @@ if (isset($_POST['book_appointment'])) {
 
                 $payment_success = $stmt->execute();
                 $stmt->close();
-
                 break;
             default:
                 echo "Invalid payment method";
@@ -114,9 +97,8 @@ if (isset($_POST['book_appointment'])) {
         }
 
         if ($payment_success) {
-
-            $stmt = $conn->prepare('INSERT INTO appointments (patient_id, doctor_id, payment_id, appointment_date, appointment_time) VALUES (?, ?, ?, ?, ?)');
-            $stmt->bind_param('iiiss', $patient_id, $doctor_id, $payment_id, $appointment_date, $appointment_time);
+            $stmt = $conn->prepare('INSERT INTO appointments (patient_id, doctor_id, payment_id, appointment_date, appointment_time, conditions) VALUES (?, ?, ?, ?, ?)');
+            $stmt->bind_param('iiisss', $patient_id, $doctor_id, $payment_id, $appointment_date, $appointment_time, $conditions);
 
             if ($stmt->execute()) {
                 $stmt->close();
@@ -137,19 +119,15 @@ if (isset($_POST['book_appointment'])) {
     }
 }
 
-
 function getAmount($doctors_info, $doctor_id)
 {
-
     foreach ($doctors_info as $doctor) {
         if ($doctor['doctor_id'] == $doctor_id) {
             return $doctor['consultation_fee'];
         }
     }
 }
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -313,17 +291,32 @@ function getAmount($doctors_info, $doctor_id)
             background-color: #eff6ff;
         }
 
+        /* Close button styles */
+        .close-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #4b5563;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .close-btn:hover {
+            color: #3b82f6;
+        }
+
         /* Sidebar and layout adjustments */
         .content {
             margin-left: 64px;
-            /* Match the collapsed sidebar width */
             padding: 20px;
             transition: margin-left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
         .sidebar:hover+.content {
             margin-left: 256px;
-            /* Match the expanded sidebar width */
         }
     </style>
 
@@ -373,18 +366,15 @@ function getAmount($doctors_info, $doctor_id)
                     ?>
 
                     <?php foreach ($specializations as $specialist) { ?>
-
                         <option value="<?php echo htmlspecialchars($specialist); ?>">
                             <?php echo htmlspecialchars($specialist); ?>
                         </option>
-
                     <?php } ?>
-
                 </select>
             </div>
             <div class="mb-6">
                 <label class="block text-red-600 font-semibold mb-2">Condition</label>
-                <input type="text" name="specialist" id="specialist"
+                <input type="text" name="conditions" id="specialist"
                     class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter condition">
             </div>
@@ -477,6 +467,7 @@ function getAmount($doctors_info, $doctor_id)
                 <!-- Payment Modal -->
                 <div id="paymentModal" class="modal">
                     <div class="modal-content">
+                        <button type="button" class="close-btn">&times;</button>
                         <div class="mb-4">
                             <div class="payment-options">
                                 <input type="radio" id="card" name="payment_method" value="card" checked>
@@ -578,8 +569,7 @@ function getAmount($doctors_info, $doctor_id)
     <script>
         const bookNowBtn = document.getElementById('bookNowBtn');
         const paymentModal = document.getElementById('paymentModal');
-        const cancelBtn = document.getElementById('cancelBtn');
-        const nextBtn = document.getElementById('nextBtn');
+        const closeBtn = document.querySelector('.close-btn');
         const bookingForm = document.getElementById('bookingForm');
 
         // Show modal when "Book Now" is clicked
@@ -597,25 +587,9 @@ function getAmount($doctors_info, $doctor_id)
             }
         });
 
-        // Close modal when "Cancel" is clicked
-        cancelBtn.addEventListener('click', () => {
+        // Close modal when close button is clicked
+        closeBtn.addEventListener('click', () => {
             paymentModal.style.display = 'none';
-        });
-
-        // Submit form when "Next" is clicked
-        nextBtn.addEventListener('click', () => {
-            // Validate modal fields
-            const cardNumber = document.querySelector('input[name="card_number"]').value;
-            const expiry = document.querySelector('input[name="expiry"]').value;
-            const cvc = document.querySelector('input[name="cvc"]').value;
-            const country = document.querySelector('select[name="country"]').value;
-            const postalCode = document.querySelector('input[name="postal_code"]').value;
-
-            if (cardNumber && expiry && cvc && country && postalCode) {
-                bookingForm.submit(); // Submit the form to submit_booking.php
-            } else {
-                alert('Please fill out all payment fields.');
-            }
         });
 
         // Close modal when clicking outside of it
@@ -814,17 +788,3 @@ function getAmount($doctors_info, $doctor_id)
 </body>
 
 </html>
-
-<!-- 
-Card number: 1234 1234 1234 1234
-Expiry: 12/25
-CVC: 123
-Country: United States
-Postal code: 90210
--->
-
-<!-- 
-To fill up doctor infromation,
-'available_days' column formate will be Saturda,Sunday, Monday
-'available_hours' column formate will be 10:00-12:00,3:00-5:00
--->

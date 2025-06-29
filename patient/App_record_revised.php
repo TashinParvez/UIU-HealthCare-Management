@@ -241,17 +241,17 @@ $appointments = mysqli_fetch_all($appointments, MYSQLI_ASSOC);
                             </div>
                             <div class="mt-4 sm:mt-0 sm:ml-6 flex flex-col space-y-2">
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium 
-                                            <?php
-                                            $date = $row['appointment_date'];
-                                            $today = date('Y-m-d');
-                                            if ($date < $today) {
-                                                echo 'status-ended';
-                                            } elseif ($date === $today) {
-                                                echo 'status-today';
-                                            } else {
-                                                echo 'status-upcoming';
-                                            }
-                                            ?>">
+                                    <?php
+                                    $date = $row['appointment_date'];
+                                    $today = date('Y-m-d');
+                                    if ($date < $today) {
+                                        echo 'status-ended';
+                                    } elseif ($date === $today) {
+                                        echo 'status-today';
+                                    } else {
+                                        echo 'status-upcoming';
+                                    }
+                                    ?>">
                                     <?php
                                             if ($date < $today) {
                                                 echo 'Appointment Ended';
