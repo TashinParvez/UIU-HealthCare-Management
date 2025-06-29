@@ -315,12 +315,13 @@ $cnt_nutritionist = count($nutritionist);
             <div class="doctors-section">
                 <h1>Doctors List</h1>
 
-                <!-- Search Bar -->
-                <div class="search-bar" style="display: flex; justify-content: center; width: 100%; align-items: center;">
-                    <input type="text" class="form-control" placeholder="Search available doctors...">
-                </div>
+                <!--===================================== Search Bar ==========================================================-->
 
-                <!-- Category Cards -->
+                <!-- <div class="search-bar" style="display: flex; justify-content: center; width: 100%; align-items: center;">
+                    <input type="text" class="form-control" placeholder="Search available doctors...">
+                </div> -->
+
+                <!--=========================== Category Cards ===========================-->
                 <div class="row mb-4">
                     <div class="col-md-3">
                         <div class="category-card">

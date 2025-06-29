@@ -133,7 +133,8 @@ $nutritionist = mysqli_fetch_all($nutritionist, MYSQLI_ASSOC);  // returns assoc
 //  --------------------- Our Patients’ Feedback  ---------------------
 $sql = "SELECT 
             CONCAT(u.first_name, ' ', u.last_name) AS patient_name,
-            pf.feedback_text
+            pf.feedback_text,
+            pf.img_link
         FROM 
             patient_feedback pf
         JOIN 
@@ -425,6 +426,7 @@ $pFeedback = mysqli_fetch_all($pFeedback, MYSQLI_ASSOC);  // returns associative
     <section class="py-12 bg-gradient-to-r from-blue-50 to-white">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-gray-800 mb-6">Quick Consult at UIU Medical Center</h2>
+
             <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
                 <div class="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition">
                     <img src="/Includes/Images/Quick Consult/heart.png" alt="Heart" class="h-10 mx-auto mb-2">
@@ -451,7 +453,9 @@ $pFeedback = mysqli_fetch_all($pFeedback, MYSQLI_ASSOC);  // returns associative
                     <p class="text-gray-600 text-sm">Prescribe</p>
                 </div>
             </div>
+
         </div>
+
     </section>
 
     <!-- Our Patients’ Feedback Section -->
@@ -553,13 +557,16 @@ $pFeedback = mysqli_fetch_all($pFeedback, MYSQLI_ASSOC);  // returns associative
                 card.className = "bg-white p-6 rounded-lg shadow-sm flex space-x-4 hover:shadow-md transition";
 
                 card.innerHTML = `
-                    <img src="/Includes/Images/happy-patient.jpg" alt="Patient" class="h-32 w-32 object-cover rounded-lg">
-                    <div>
-                        <p class="text-gray-600 mb-3">"${fb.feedback_text}"</p>
-                        <h5 class="text-lg font-semibold text-gray-800">${fb.patient_name}</h5>
-                        <p class="text-gray-500 text-sm">UIU Community Member</p>
-                    </div>
-                `;
+    <img src="${fb.img_link && fb.img_link.length > 2 ? fb.img_link : '/Includes/Images/happy-patient.jpg'}" 
+         alt="Patient" 
+         class="h-32 w-32 object-cover rounded-lg">
+    <div>
+        <p class="text-gray-600 mb-3">"${fb.feedback_text}"</p>
+        <h5 class="text-lg font-semibold text-gray-800">${fb.patient_name}</h5>
+        <p class="text-gray-500 text-sm">UIU Community Member</p>
+    </div>
+`;
+
 
                 container.appendChild(card);
             }
