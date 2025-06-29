@@ -24,13 +24,18 @@ if (!isset($_SESSION['has_visited'])) {
 
 // --------------- DOCTOR INFO ---------------------
 $sql = "SELECT 
-            CONCAT(u.first_name, ' ', u.last_name) AS full_name,
-            d.specialization
-        FROM 
-            users u
-        JOIN 
-            doctors d 
-        ON u.user_id = d.doctor_id;";
+    CONCAT(u.first_name, ' ', u.last_name) AS full_name,
+    d.specialization,
+    d.img_link
+FROM 
+    users u
+JOIN 
+    doctors d 
+ON 
+    u.user_id = d.doctor_id
+ORDER BY 
+    RAND()
+LIMIT 12;";
 
 $allDoctors = mysqli_query($conn, $sql);
 $allDoctors = mysqli_fetch_all($allDoctors, MYSQLI_ASSOC);  // returns associative array
@@ -38,13 +43,17 @@ $allDoctors = mysqli_fetch_all($allDoctors, MYSQLI_ASSOC);  // returns associati
 // --------------- Cardiologist ---------------------
 $sql = "SELECT 
             CONCAT(u.first_name, ' ', u.last_name) AS full_name,
-            d.specialization
+            d.specialization,
+    d.img_link
         FROM 
             users u
         JOIN 
             doctors d ON u.user_id = d.doctor_id
         WHERE 
-            LOWER(d.specialization) = 'cardiologist';";
+            LOWER(d.specialization) = 'cardiologist'
+            ORDER BY 
+    RAND()
+LIMIT 12;";
 
 $cardiologist = mysqli_query($conn, $sql);
 $cardiologist = mysqli_fetch_all($cardiologist, MYSQLI_ASSOC);  // returns associative array
@@ -52,13 +61,17 @@ $cardiologist = mysqli_fetch_all($cardiologist, MYSQLI_ASSOC);  // returns assoc
 // --------------- orthopedist ---------------------
 $sql = "SELECT 
             CONCAT(u.first_name, ' ', u.last_name) AS full_name,
-            d.specialization
+            d.specialization,
+    d.img_link
         FROM 
             users u
         JOIN 
             doctors d ON u.user_id = d.doctor_id
         WHERE 
-            LOWER(d.specialization) = 'orthopedist';";
+            LOWER(d.specialization) = 'orthopedist'
+            ORDER BY 
+    RAND()
+LIMIT 12;";
 
 $orthopedist = mysqli_query($conn, $sql);
 $orthopedist = mysqli_fetch_all($orthopedist, MYSQLI_ASSOC);  // returns associative array
@@ -66,13 +79,17 @@ $orthopedist = mysqli_fetch_all($orthopedist, MYSQLI_ASSOC);  // returns associa
 // --------------- headache ---------------------
 $sql = "SELECT 
             CONCAT(u.first_name, ' ', u.last_name) AS full_name,
-            d.specialization
+            d.specialization,
+    d.img_link
         FROM 
             users u
         JOIN 
             doctors d ON u.user_id = d.doctor_id
         WHERE 
-            LOWER(d.specialization) = 'headache';";
+            LOWER(d.specialization) = 'headache'
+            ORDER BY 
+    RAND()
+LIMIT 12;";
 
 $headache = mysqli_query($conn, $sql);
 $headache = mysqli_fetch_all($headache, MYSQLI_ASSOC);  // returns associative array
@@ -80,13 +97,17 @@ $headache = mysqli_fetch_all($headache, MYSQLI_ASSOC);  // returns associative a
 // --------------- eyecare ---------------------
 $sql = "SELECT 
             CONCAT(u.first_name, ' ', u.last_name) AS full_name,
-            d.specialization
+            d.specialization,
+    d.img_link
         FROM 
             users u
         JOIN 
             doctors d ON u.user_id = d.doctor_id
         WHERE 
-            LOWER(d.specialization) = 'eyecare';";
+            LOWER(d.specialization) = 'eyecare'
+            ORDER BY 
+    RAND()
+LIMIT 12;";
 
 $eyecare = mysqli_query($conn, $sql);
 $eyecare = mysqli_fetch_all($eyecare, MYSQLI_ASSOC);  // returns associative array
@@ -94,13 +115,17 @@ $eyecare = mysqli_fetch_all($eyecare, MYSQLI_ASSOC);  // returns associative arr
 // --------------- nutritionist ---------------------
 $sql = "SELECT 
             CONCAT(u.first_name, ' ', u.last_name) AS full_name,
-            d.specialization
+            d.specialization,
+    d.img_link
         FROM 
             users u
         JOIN 
             doctors d ON u.user_id = d.doctor_id
         WHERE 
-            LOWER(d.specialization) = 'nutritionist';";
+            LOWER(d.specialization) = 'nutritionist'
+            ORDER BY 
+    RAND()
+LIMIT 12;";
 
 $nutritionist = mysqli_query($conn, $sql);
 $nutritionist = mysqli_fetch_all($nutritionist, MYSQLI_ASSOC);  // returns associative array
@@ -130,20 +155,20 @@ $pFeedback = mysqli_fetch_all($pFeedback, MYSQLI_ASSOC);  // returns associative
     <title>UIU Medical Center</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-    /* Custom styles for UIU branding */
-    .uiu-blue {
-        background-color: #003087;
-        /* UIU primary blue color */
-    }
+        /* Custom styles for UIU branding */
+        .uiu-blue {
+            background-color: #003087;
+            /* UIU primary blue color */
+        }
 
-    .uiu-blue-text {
-        color: #003087;
-    }
+        .uiu-blue-text {
+            color: #003087;
+        }
 
-    .uiu-accent {
-        background-color: #F5A623;
-        /* UIU accent color (gold/orange) */
-    }
+        .uiu-accent {
+            background-color: #F5A623;
+            /* UIU accent color (gold/orange) */
+        }
     </style>
 </head>
 
@@ -325,7 +350,7 @@ $pFeedback = mysqli_fetch_all($pFeedback, MYSQLI_ASSOC);  // returns associative
         </div>
     </section>
 
-    <!-- Book an Appointment Section -->
+    <!-- Book an Appointment Section Doctor -->
     <section id="appointment" class="py-12 bg-gradient-to-l from-blue-50 to-white">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-gray-800 mb-6">Book an Appointment at UIU Medical Center</h2>
@@ -344,20 +369,35 @@ $pFeedback = mysqli_fetch_all($pFeedback, MYSQLI_ASSOC);  // returns associative
                 <button data-category="nutritionist"
                     class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-blue-50 hover:uiu-blue-text transition filter-btn">Nutritionist</button>
             </div>
+
             <div id="doctorsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <?php
                 foreach ($allDoctors as $row) {
                 ?>
-                <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
-                    <img src="/Includes/male-doctors-white-medical.jpg" alt="Doctor"
-                        class="w-full h-40 object-cover rounded-lg mb-3">
-                    <h5 class="text-lg font-semibold text-gray-800"><?php echo $row['full_name']; ?></h5>
-                    <p class="text-gray-600 text-sm"><?php echo $row['specialization']; ?></p>
-                </div>
+                    <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
+
+                        <!-- <img src="/Includes/male-doctors-white-medical.jpg" alt="Doctor"
+                            class="w-full h-40 object-cover rounded-lg mb-3"> -->
+
+                        <img
+                            src="<?php echo (strlen($row['img_link']) > 2) ? htmlspecialchars($row['img_link']) : '/Includes/male-doctors-white-medical.jpg'; ?>"
+                            alt="Doctor"
+                            class="w-full h-40 object-cover rounded-lg mb-3">
+
+
+                        <h5 class="text-lg font-semibold text-gray-800"><?php echo $row['full_name']; ?></h5>
+                        <p class="text-gray-600 text-sm"><?php echo $row['specialization']; ?></p>
+
+                        <p class="text-gray-600 text-sm">
+                            <?php
+                            // echo $row['img_link']; 
+                            ?></p>
+                    </div>
                 <?php
                 }
                 ?>
             </div>
+
         </div>
     </section>
 
@@ -444,66 +484,75 @@ $pFeedback = mysqli_fetch_all($pFeedback, MYSQLI_ASSOC);  // returns associative
     <?php include '../Includes/footer.php'; ?>
 
     <script>
-    function toggleMenu() {
-        const menu = document.getElementById('mobileMenu');
-        menu.classList.toggle('hidden');
-    }
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
     </script>
 
-    <!-- FOR THE DOCTOR Appointment SECTION script -->
+    <!--=================== FOR THE DOCTOR Appointment SECTION script ===================-->
     <script>
-    const doctorsData = {
-        all: <?php echo json_encode($allDoctors); ?>,
-        cardiologist: <?php echo json_encode($cardiologist); ?>,
-        orthopedist: <?php echo json_encode($orthopedist); ?>,
-        headache: <?php echo json_encode($headache); ?>,
-        eyecare: <?php echo json_encode($eyecare); ?>,
-        nutritionist: <?php echo json_encode($nutritionist); ?>
-    };
+        const doctorsData = {
+            all: <?php echo json_encode($allDoctors); ?>,
+            cardiologist: <?php echo json_encode($cardiologist); ?>,
+            orthopedist: <?php echo json_encode($orthopedist); ?>,
+            headache: <?php echo json_encode($headache); ?>,
+            eyecare: <?php echo json_encode($eyecare); ?>,
+            nutritionist: <?php echo json_encode($nutritionist); ?>
+        };
 
-    function renderDoctors(doctors) {
-        const container = document.getElementById('doctorsContainer');
-        container.innerHTML = '';
+        function renderDoctors(doctors) {
+            const container = document.getElementById('doctorsContainer');
+            container.innerHTML = '';
 
-        doctors.forEach(doc => {
-            const card = document.createElement('div');
-            card.className = "bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition";
+            doctors.forEach(doc => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition";
 
-            card.innerHTML = `
-                    <img src="/Includes/male-doctors-white-medical.jpg" alt="Doctor" class="w-full h-40 object-cover rounded-lg mb-3">
-                    <h5 class="text-lg font-semibold text-gray-800">${doc.full_name}</h5>
-                    <p class="text-gray-600 text-sm">${doc.specialization}</p>
-                `;
+                // card.innerHTML = `
+                //     <img src="/Includes/male-doctors-white-medical.jpg" alt="Doctor" class="w-full h-40 object-cover rounded-lg mb-3">
+                //     <h5 class="text-lg font-semibold text-gray-800">${doc.full_name}</h5>
+                //     <p class="text-gray-600 text-sm">${doc.specialization}</p>
+                // `;
 
-            container.appendChild(card);
+                card.innerHTML = `
+    <img src="${doc.img_link && doc.img_link.length > 2 ? doc.img_link : '/Includes/male-doctors-white-medical.jpg'}" 
+         alt="Doctor" 
+         class="w-full h-40 object-cover rounded-lg mb-3">
+    <h5 class="text-lg font-semibold text-gray-800">${doc.full_name}</h5>
+    <p class="text-gray-600 text-sm">${doc.specialization}</p>
+`;
+
+
+                container.appendChild(card);
+            });
+        }
+
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const category = button.getAttribute('data-category');
+                renderDoctors(doctorsData[category]);
+            });
         });
-    }
-
-    document.querySelectorAll('.filter-btn').forEach(button => {
-        button.addEventListener('click', () => {
-            const category = button.getAttribute('data-category');
-            renderDoctors(doctorsData[category]);
-        });
-    });
     </script>
 
     <!-- FOR Our Patients’ Feedback script -->
     <script>
-    const feedbacks = <?php echo json_encode($pFeedback); ?>;
-    let currentIndex = 0;
+        const feedbacks = <?php echo json_encode($pFeedback); ?>;
+        let currentIndex = 0;
 
-    function renderFeedbacks() {
-        const container = document.getElementById('feedbackContainer');
-        container.innerHTML = '';
+        function renderFeedbacks() {
+            const container = document.getElementById('feedbackContainer');
+            container.innerHTML = '';
 
-        for (let i = 0; i < 2; i++) {
-            const idx = (currentIndex + i) % feedbacks.length;
-            const fb = feedbacks[idx];
+            for (let i = 0; i < 2; i++) {
+                const idx = (currentIndex + i) % feedbacks.length;
+                const fb = feedbacks[idx];
 
-            const card = document.createElement('div');
-            card.className = "bg-white p-6 rounded-lg shadow-sm flex space-x-4 hover:shadow-md transition";
+                const card = document.createElement('div');
+                card.className = "bg-white p-6 rounded-lg shadow-sm flex space-x-4 hover:shadow-md transition";
 
-            card.innerHTML = `
+                card.innerHTML = `
                     <img src="/Includes/Images/happy-patient.jpg" alt="Patient" class="h-32 w-32 object-cover rounded-lg">
                     <div>
                         <p class="text-gray-600 mb-3">"${fb.feedback_text}"</p>
@@ -512,23 +561,23 @@ $pFeedback = mysqli_fetch_all($pFeedback, MYSQLI_ASSOC);  // returns associative
                     </div>
                 `;
 
-            container.appendChild(card);
+                container.appendChild(card);
+            }
         }
-    }
 
-    document.getElementById('prevBtn').addEventListener('click', () => {
-        currentIndex = (currentIndex - 2 + feedbacks.length) % feedbacks.length;
-        renderFeedbacks();
-    });
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            currentIndex = (currentIndex - 2 + feedbacks.length) % feedbacks.length;
+            renderFeedbacks();
+        });
 
-    document.getElementById('nextBtn').addEventListener('click', () => {
-        currentIndex = (currentIndex + 2) % feedbacks.length;
-        renderFeedbacks();
-    });
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            currentIndex = (currentIndex + 2) % feedbacks.length;
+            renderFeedbacks();
+        });
 
-    document.addEventListener('DOMContentLoaded', () => {
-        renderFeedbacks();
-    });
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFeedbacks();
+        });
     </script>
 </body>
 
