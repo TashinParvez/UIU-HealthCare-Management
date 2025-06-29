@@ -62,7 +62,7 @@
             <a href="/Hero/FAQ.php" class="text-gray-700 font-medium hover:text-blue-500 transition">FAQ</a>
             <a href="/Hero/contactUs.php" class="text-gray-700 font-medium hover:text-blue-500 transition">Contact Us</a>
             <div class="flex flex-col space-y-3">
-                <a href="/logIn/login.php" class="text-gray-700 font-medium hover:text-blue-500 transition">Sign In</a>
+                <a href="/logIn/login-second.php" class="text-gray-700 font-medium hover:text-blue-500 transition">Sign In</a>
                 <a href="/SignUp/signup.php"
                     class="bg-blue-500 text-white font-medium px-5 py-2 rounded-lg hover:bg-blue-600 transition text-center">Sign
                     Up</a>
