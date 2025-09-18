@@ -1,0 +1,42 @@
+name: Update Contributors in README
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # runs daily at midnight
+  push:
+    branches:
+      - main
+  workflow_dispatch: # allows manual trigger
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Fetch contributors
+        id: contributors
+        run: |
+          echo "contributors<<EOF" >> $GITHUB_ENV
+          curl -s "https://api.github.com/repos/${GITHUB_REPOSITORY}/contributors" \
+          | jq -r '.[].login' | sed 's/^/@/g' >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Update README
+        run: |
+          echo "## Contributors\n" > CONTRIBUTORS.md
+          for user in $contributors; do
+            echo "$user contributed in this project" >> CONTRIBUTORS.md
+          done
+          # Add CONTRIBUTORS.md to README
+          sed -i '/<!-- CONTRIBUTORS_START -->/,/<!-- CONTRIBUTORS_END -->/c\<!-- CONTRIBUTORS_START -->\n'"$(cat CONTRIBUTORS.md)"'\n<!-- CONTRIBUTORS_END -->' README.md
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "Update contributors list" || echo "No changes to commit"
+          git push
