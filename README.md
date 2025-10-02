@@ -6,9 +6,11 @@
 
 ### File Path Problem Solve: [LINK](https://github.com/TashinParvez/UIU-Web-Programming/blob/main/Others/FilePath.md)
 
-# UIU HealthCare Management
-
-Welcome to our project!
 
 <!-- CONTRIBUTORS_START -->
-<!-- CONTRIBUTORS_END -->
+ 
+## Contributors ✨
+
+A big thanks to all the people who contribute to this project!
+
+[![Contributors](https://contrib.rocks/image?repo=TashinParvez/UIU-HealthCare-Management)](https://github.com/TashinParvez/UIU-HealthCare-Management/graphs/contributors) 
